@@ -1,0 +1,357 @@
+/**
+ * Experimental Layout System
+ *
+ * Creative layouts that break from conventional grids.
+ * These create the "I've never seen a site like this" effect.
+ *
+ * USAGE:
+ * <section class="layout-asymmetric">
+ *   <div class="layout-asymmetric__main">Main content</div>
+ *   <div class="layout-asymmetric__sidebar">Sidebar</div>
+ * </section>
+ */
+
+/* ============================================
+   ASYMMETRIC GRID LAYOUTS
+   Break the monotony of equal columns
+   ============================================ */
+
+/* 60/40 split with offset */
+.layout-asymmetric {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: var(--space-xl);
+  position: relative;
+}
+
+@media (min-width: 768px) {
+  .layout-asymmetric {
+    grid-template-columns: 1.5fr 1fr;
+    gap: var(--space-3xl);
+  }
+
+  .layout-asymmetric__main {
+    padding-right: var(--space-2xl);
+  }
+
+  .layout-asymmetric__sidebar {
+    position: sticky;
+    top: 100px;
+    height: fit-content;
+  }
+}
+
+/* Inverted asymmetric (sidebar left) */
+.layout-asymmetric--inverted {
+  grid-template-columns: 1fr;
+}
+
+@media (min-width: 768px) {
+  .layout-asymmetric--inverted {
+    grid-template-columns: 1fr 1.5fr;
+  }
+}
+
+/* ============================================
+   DIAGONAL SECTION DIVIDERS
+   Add visual interest between sections
+   ============================================ */
+
+.section-diagonal {
+  position: relative;
+  padding: var(--space-4xl) 0;
+}
+
+.section-diagonal::before {
+  content: '';
+  position: absolute;
+  top: -50px;
+  left: 0;
+  right: 0;
+  height: 100px;
+  background: inherit;
+  transform: skewY(-2deg);
+  transform-origin: top left;
+  z-index: -1;
+}
+
+.section-diagonal--reverse::before {
+  transform: skewY(2deg);
+  transform-origin: top right;
+}
+
+/* ============================================
+   CREATIVE WHITESPACE
+   Strategic use of empty space
+   ============================================ */
+
+.space-breath {
+  padding: var(--space-4xl) var(--space-lg);
+}
+
+@media (min-width: 768px) {
+  .space-breath {
+    padding: calc(var(--space-4xl) * 1.5) calc(var(--space-4xl) * 2);
+  }
+}
+
+.space-dramatic {
+  padding: calc(var(--space-4xl) * 2) var(--space-lg);
+}
+
+@media (min-width: 768px) {
+  .space-dramatic {
+    padding: calc(var(--space-4xl) * 3) calc(var(--space-4xl) * 2);
+  }
+}
+
+/* Asymmetric padding - more on one side */
+.space-left-heavy {
+  padding-left: 10%;
+  padding-right: 5%;
+}
+
+@media (min-width: 1024px) {
+  .space-left-heavy {
+    padding-left: 20%;
+    padding-right: 10%;
+  }
+}
+
+.space-right-heavy {
+  padding-left: 5%;
+  padding-right: 10%;
+}
+
+@media (min-width: 1024px) {
+  .space-right-heavy {
+    padding-left: 10%;
+    padding-right: 20%;
+  }
+}
+
+/* ============================================
+   OFFSET ELEMENTS
+   Break alignment for visual interest
+   ============================================ */
+
+.offset-left {
+  transform: translateX(-5%);
+}
+
+.offset-right {
+  transform: translateX(5%);
+}
+
+.offset-up {
+  transform: translateY(-20px);
+}
+
+.offset-down {
+  transform: translateY(20px);
+}
+
+@media (min-width: 768px) {
+  .offset-left {
+    transform: translateX(-10%);
+  }
+
+  .offset-right {
+    transform: translateX(10%);
+  }
+
+  .offset-up {
+    transform: translateY(-40px);
+  }
+
+  .offset-down {
+    transform: translateY(40px);
+  }
+}
+
+/* ============================================
+   MASONRY-LIKE LAYOUTS
+   CSS-only masonry effect
+   ============================================ */
+
+.layout-masonry {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: var(--space-lg);
+}
+
+@media (min-width: 768px) {
+  .layout-masonry {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (min-width: 1024px) {
+  .layout-masonry {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  /* Alternate item sizes for visual interest */
+  .layout-masonry > *:nth-child(4n + 1) {
+    grid-row: span 2;
+  }
+}
+
+/* ============================================
+   BENTO BOX LAYOUTS
+   Modern dashboard-style grids
+   ============================================ */
+
+.layout-bento {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  grid-auto-rows: minmax(150px, auto);
+  gap: var(--space-lg);
+}
+
+@media (max-width: 1023px) {
+  .layout-bento {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 639px) {
+  .layout-bento {
+    grid-template-columns: 1fr;
+  }
+}
+
+.bento-wide {
+  grid-column: span 2;
+}
+
+.bento-tall {
+  grid-row: span 2;
+}
+
+.bento-large {
+  grid-column: span 2;
+  grid-row: span 2;
+}
+
+/* ============================================
+   OVERLAP LAYOUTS
+   Elements that intentionally overlap
+   ============================================ */
+
+.layout-overlap {
+  display: grid;
+  grid-template-columns: 1fr;
+  position: relative;
+}
+
+@media (min-width: 768px) {
+  .layout-overlap {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .layout-overlap__front {
+    position: relative;
+    z-index: 2;
+    margin-right: -10%;
+  }
+
+  .layout-overlap__back {
+    position: relative;
+    z-index: 1;
+    margin-left: -10%;
+    margin-top: 50px;
+  }
+}
+
+/* ============================================
+   SPLIT SCREEN LAYOUTS
+   Full-height two-column splits
+   ============================================ */
+
+.layout-split {
+  display: grid;
+  grid-template-columns: 1fr;
+  min-height: 100vh;
+}
+
+@media (min-width: 768px) {
+  .layout-split {
+    grid-template-columns: 1fr 1fr;
+  }
+
+  .layout-split--40-60 {
+    grid-template-columns: 2fr 3fr;
+  }
+
+  .layout-split--30-70 {
+    grid-template-columns: 3fr 7fr;
+  }
+}
+
+.layout-split__pane {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: var(--space-3xl);
+}
+
+.layout-split__pane--sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+}
+
+/* ============================================
+   FLOATING ELEMENTS
+   Elements that appear to float above the page
+   ============================================ */
+
+.float-card {
+  background: var(--color-bg-primary);
+  border-radius: var(--radius-xl);
+  box-shadow: var(--shadow-xl);
+  position: relative;
+  transition: transform var(--transition-base), box-shadow var(--transition-base);
+}
+
+.float-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+}
+
+.float-card--subtle:hover {
+  transform: translateY(-4px);
+}
+
+/* ============================================
+   BLEED LAYOUTS
+   Content that breaks out of container
+   ============================================ */
+
+.bleed-left {
+  margin-left: calc(-1 * var(--space-lg));
+  padding-left: var(--space-lg);
+}
+
+.bleed-right {
+  margin-right: calc(-1 * var(--space-lg));
+  padding-right: var(--space-lg);
+}
+
+.bleed-full {
+  margin-left: calc(-50vw + 50%);
+  margin-right: calc(-50vw + 50%);
+  padding-left: calc(50vw - 50%);
+  padding-right: calc(50vw - 50%);
+}
+
+/* ============================================
+   RESPONSIVE BREAKPOINTS REFERENCE
+   ============================================
+   sm: 640px
+   md: 768px
+   lg: 1024px
+   xl: 1280px
+   2xl: 1536px
+   ============================================ */

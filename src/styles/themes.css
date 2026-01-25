@@ -1,0 +1,119 @@
+/**
+ * Theme Variations for aryansingh.org
+ *
+ * Three distinct themes beyond basic light/dark:
+ * 1. Default - Clean, minimal with indigo accent
+ * 2. Warm - Earthy tones with amber accent
+ * 3. Cool - Blue-gray with cyan accent
+ *
+ * To switch themes:
+ * - Add data-theme="warm" or data-theme="cool" to <html>
+ * - The ThemeToggle component handles this
+ */
+
+/* ============================================
+   THEME 1: DEFAULT (Already in global.css)
+   Clean and minimal with indigo/purple accents
+   ============================================ */
+
+/* Light mode defaults are in global.css :root */
+/* Dark mode defaults are in global.css .dark */
+
+/* ============================================
+   THEME 2: WARM
+   Earthy, organic feel with amber/orange accents
+   ============================================ */
+
+[data-theme="warm"] {
+  --color-bg-primary: #faf9f7;
+  --color-bg-secondary: #f5f3ef;
+  --color-bg-tertiary: #eae6df;
+
+  --color-text-primary: #2d2a26;
+  --color-text-secondary: #5c564d;
+  --color-text-tertiary: #8a8279;
+
+  --color-accent-primary: #d97706; /* Amber */
+  --color-accent-secondary: #ea580c; /* Orange */
+  --color-accent-tertiary: #dc2626; /* Red */
+
+  --color-border: #e7e3dc;
+  --color-border-subtle: #f0ece5;
+}
+
+[data-theme="warm"].dark,
+.dark[data-theme="warm"] {
+  --color-bg-primary: #1a1918;
+  --color-bg-secondary: #252321;
+  --color-bg-tertiary: #302c29;
+
+  --color-text-primary: #faf9f7;
+  --color-text-secondary: #b5aea3;
+  --color-text-tertiary: #7d756a;
+
+  --color-accent-primary: #fbbf24;
+  --color-accent-secondary: #fb923c;
+  --color-accent-tertiary: #f87171;
+
+  --color-border: #3d3835;
+  --color-border-subtle: #2d2926;
+}
+
+/* ============================================
+   THEME 3: COOL
+   Modern, tech-forward with cyan/blue accents
+   ============================================ */
+
+[data-theme="cool"] {
+  --color-bg-primary: #f8fafc;
+  --color-bg-secondary: #f1f5f9;
+  --color-bg-tertiary: #e2e8f0;
+
+  --color-text-primary: #0f172a;
+  --color-text-secondary: #475569;
+  --color-text-tertiary: #94a3b8;
+
+  --color-accent-primary: #0891b2; /* Cyan */
+  --color-accent-secondary: #0284c7; /* Sky */
+  --color-accent-tertiary: #7c3aed; /* Violet */
+
+  --color-border: #e2e8f0;
+  --color-border-subtle: #f1f5f9;
+}
+
+[data-theme="cool"].dark,
+.dark[data-theme="cool"] {
+  --color-bg-primary: #020617;
+  --color-bg-secondary: #0f172a;
+  --color-bg-tertiary: #1e293b;
+
+  --color-text-primary: #f8fafc;
+  --color-text-secondary: #94a3b8;
+  --color-text-tertiary: #64748b;
+
+  --color-accent-primary: #22d3ee;
+  --color-accent-secondary: #38bdf8;
+  --color-accent-tertiary: #a78bfa;
+
+  --color-border: #334155;
+  --color-border-subtle: #1e293b;
+}
+
+/* ============================================
+   THEME TRANSITION EFFECTS
+   Smooth transitions when switching themes
+   ============================================ */
+
+html {
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+html * {
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease;
+}
+
+/* Disable transitions during theme switch to prevent flash */
+html.theme-transitioning,
+html.theme-transitioning * {
+  transition: none !important;
+}

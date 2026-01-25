@@ -13,6 +13,9 @@
  */
 
 @import "tailwindcss";
+@import "./themes.css";
+@import "./layouts.css";
+@import "./animations.css";
 
 /* ============================================
    CSS CUSTOM PROPERTIES (Design Tokens)
