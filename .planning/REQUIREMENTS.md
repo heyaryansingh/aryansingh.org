@@ -141,13 +141,51 @@ Which phases cover which requirements. Updated during roadmap creation.
 | DSGN-02 | Phase 2 | Pending |
 | DSGN-03 | Phase 2 | Pending |
 | DSGN-04 | Phase 2 | Pending |
-| (remaining to be mapped) | — | — |
+| NAVX-06 | Phase 3 | Pending |
+| HOME-04 | Phase 4 | Pending |
+| HOME-05 | Phase 4 | Pending |
+| HOME-06 | Phase 4 | Pending |
+| HOME-08 | Phase 4 | Pending |
+| HOME-01 | Phase 5 | Pending |
+| HOME-02 | Phase 5 | Pending |
+| HOME-03 | Phase 5 | Pending |
+| HOME-07 | Phase 5 | Pending |
+| PORT-01 | Phase 6 | Pending |
+| PORT-02 | Phase 6 | Pending |
+| PORT-03 | Phase 6 | Pending |
+| PORT-04 | Phase 6 | Pending |
+| PORT-05 | Phase 6 | Pending |
+| PORT-06 | Phase 6 | Pending |
+| BLOG-01 | Phase 7 | Pending |
+| BLOG-02 | Phase 7 | Pending |
+| BLOG-03 | Phase 7 | Pending |
+| BLOG-04 | Phase 8 | Pending |
+| BLOG-05 | Phase 8 | Pending |
+| BLOG-06 | Phase 8 | Pending |
+| BLOG-07 | Phase 8 | Pending |
+| BLOG-08 | Phase 8 | Pending |
+| RESM-01 | Phase 9 | Pending |
+| RESM-02 | Phase 9 | Pending |
+| RESM-03 | Phase 9 | Pending |
+| RESM-04 | Phase 9 | Pending |
+| RESM-05 | Phase 9 | Pending |
+| ABUT-01 | Phase 9 | Pending |
+| ABUT-02 | Phase 9 | Pending |
+| NAVX-01 | Phase 10 | Pending |
+| NAVX-02 | Phase 10 | Pending |
+| NAVX-03 | Phase 10 | Pending |
+| NAVX-04 | Phase 10 | Pending |
+| NAVX-05 | Phase 10 | Pending |
+| SEOX-01 | Phase 11 | Pending |
+| SEOX-02 | Phase 11 | Pending |
+| SEOX-03 | Phase 11 | Pending |
+| SEOX-04 | Phase 11 | Pending |
 
 **Coverage:**
-- v1 requirements: 39 total
-- Mapped to phases: 9
-- Unmapped: 30 (to be completed by roadmapper)
+- v1 requirements: 48 total
+- Mapped to phases: 48
+- Unmapped: 0 ✓
 
 ---
 *Requirements defined: 2026-01-24*
-*Last updated: 2026-01-24 after initial definition*
+*Last updated: 2026-01-24 - Full traceability added after roadmap creation*
