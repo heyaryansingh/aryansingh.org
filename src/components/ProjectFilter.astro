@@ -1,0 +1,205 @@
+---
+/**
+ * Project Filter Component
+ *
+ * Filter buttons for the portfolio grid.
+ * Filters projects by category with smooth transitions.
+ *
+ * USAGE:
+ * <ProjectFilter categories={['all', 'ai', 'web', 'tools']} />
+ */
+
+interface Props {
+  categories: string[];
+}
+
+const { categories } = Astro.props;
+
+const categoryLabels: Record<string, string> = {
+  all: 'All Projects',
+  ai: 'AI & ML',
+  web: 'Web Dev',
+  tools: 'Tools',
+};
+---
+
+<div class="project-filter" id="project-filter">
+  <div class="filter-buttons">
+    {categories.map((category, index) => (
+      <button
+        class:list={['filter-btn', { 'filter-btn--active': category === 'all' }]}
+        data-category={category}
+        style={`animation-delay: ${index * 50}ms`}
+      >
+        {categoryLabels[category] || category}
+        <span class="filter-btn__count" data-count={category}></span>
+      </button>
+    ))}
+  </div>
+</div>
+
+<style>
+  .project-filter {
+    display: flex;
+    justify-content: center;
+  }
+
+  .filter-buttons {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-sm);
+    justify-content: center;
+    padding: var(--space-xs);
+    background: var(--color-bg-secondary);
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--color-border);
+  }
+
+  .filter-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    padding: var(--space-sm) var(--space-lg);
+    font-size: var(--text-sm);
+    font-weight: 500;
+    color: var(--color-text-secondary);
+    background: transparent;
+    border: none;
+    border-radius: var(--radius-lg);
+    cursor: pointer;
+    transition: all 0.2s ease;
+    animation: fade-in 0.4s ease forwards;
+    opacity: 0;
+  }
+
+  @keyframes fade-in {
+    to {
+      opacity: 1;
+    }
+  }
+
+  .filter-btn:hover {
+    color: var(--color-text-primary);
+    background: var(--color-bg-tertiary);
+  }
+
+  .filter-btn--active {
+    color: white;
+    background: var(--color-accent-primary);
+  }
+
+  .filter-btn--active:hover {
+    color: white;
+    background: var(--color-accent-secondary);
+  }
+
+  .filter-btn__count {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 20px;
+    height: 20px;
+    padding: 0 var(--space-xs);
+    font-size: var(--text-xs);
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: var(--radius-full);
+  }
+
+  .filter-btn--active .filter-btn__count {
+    background: rgba(255, 255, 255, 0.2);
+  }
+
+  @media (max-width: 640px) {
+    .filter-buttons {
+      width: 100%;
+    }
+
+    .filter-btn {
+      flex: 1;
+      justify-content: center;
+      padding: var(--space-sm) var(--space-md);
+    }
+  }
+</style>
+
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+    const filterContainer = document.getElementById('project-filter');
+    const projectsGrid = document.getElementById('projects-grid');
+    const emptyState = document.getElementById('portfolio-empty');
+    const clearFilterBtn = document.getElementById('clear-filter');
+
+    if (!filterContainer || !projectsGrid) return;
+
+    const filterButtons = filterContainer.querySelectorAll('.filter-btn');
+    const projectCards = projectsGrid.querySelectorAll('.project-card');
+
+    // Calculate and display counts
+    const counts: Record<string, number> = { all: projectCards.length };
+    projectCards.forEach((card) => {
+      const category = (card as HTMLElement).dataset.category;
+      if (category) {
+        counts[category] = (counts[category] || 0) + 1;
+      }
+    });
+
+    // Update count displays
+    filterButtons.forEach((btn) => {
+      const category = (btn as HTMLElement).dataset.category;
+      const countEl = btn.querySelector('.filter-btn__count');
+      if (category && countEl) {
+        countEl.textContent = String(counts[category] || 0);
+      }
+    });
+
+    // Filter function
+    const filterProjects = (category: string) => {
+      let visibleCount = 0;
+
+      projectCards.forEach((card, index) => {
+        const cardElement = card as HTMLElement;
+        const cardCategory = cardElement.dataset.category;
+        const shouldShow = category === 'all' || cardCategory === category;
+
+        if (shouldShow) {
+          cardElement.style.display = '';
+          cardElement.style.animationDelay = `${visibleCount * 50}ms`;
+          cardElement.style.animation = 'none';
+          cardElement.offsetHeight; // Trigger reflow
+          cardElement.style.animation = '';
+          visibleCount++;
+        } else {
+          cardElement.style.display = 'none';
+        }
+      });
+
+      // Show/hide empty state
+      if (emptyState) {
+        emptyState.style.display = visibleCount === 0 ? 'block' : 'none';
+      }
+
+      // Update active button
+      filterButtons.forEach((btn) => {
+        const btnCategory = (btn as HTMLElement).dataset.category;
+        btn.classList.toggle('filter-btn--active', btnCategory === category);
+      });
+    };
+
+    // Add click listeners
+    filterButtons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const category = (btn as HTMLElement).dataset.category;
+        if (category) {
+          filterProjects(category);
+        }
+      });
+    });
+
+    // Clear filter button
+    if (clearFilterBtn) {
+      clearFilterBtn.addEventListener('click', () => {
+        filterProjects('all');
+      });
+    }
+  });
+</script>

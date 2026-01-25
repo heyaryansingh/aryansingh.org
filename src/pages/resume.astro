@@ -1,0 +1,376 @@
+---
+/**
+ * Resume Page
+ *
+ * Professional experience, education, and skills.
+ */
+
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="Resume" description="Professional resume of Aryan Singh - Software Engineer and Researcher">
+  <section class="resume-header">
+    <div class="container container--narrow">
+      <h1 class="resume-title">Aryan Singh</h1>
+      <p class="resume-subtitle">Software Engineer & Researcher</p>
+      <div class="resume-contact">
+        <a href="mailto:hello@aryansingh.org">hello@aryansingh.org</a>
+        <span class="divider">|</span>
+        <a href="https://aryansingh.org">aryansingh.org</a>
+        <span class="divider">|</span>
+        <a href="https://github.com/aryansingh">GitHub</a>
+        <span class="divider">|</span>
+        <a href="https://linkedin.com/in/aryansingh">LinkedIn</a>
+      </div>
+      <div class="resume-actions">
+        <a href="/resume.pdf" class="btn btn--primary" download>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/>
+            <polyline points="7 10 12 15 17 10"/>
+            <line x1="12" y1="15" x2="12" y2="3"/>
+          </svg>
+          Download PDF
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="resume-content">
+    <div class="container container--narrow">
+      <div class="resume-section">
+        <h2 class="resume-section__title">Experience</h2>
+
+        <div class="experience-item">
+          <div class="experience-header">
+            <h3 class="experience-title">Software Engineer</h3>
+            <span class="experience-company">Tech Company</span>
+          </div>
+          <div class="experience-meta">
+            <span class="experience-location">San Francisco, CA</span>
+            <span class="experience-date">2024 - Present</span>
+          </div>
+          <ul class="experience-bullets">
+            <li>Building scalable systems for AI-powered developer tools</li>
+            <li>Designed and implemented real-time collaboration features used by 10K+ developers</li>
+            <li>Led technical architecture for core product features</li>
+            <li>Mentored junior engineers and conducted code reviews</li>
+          </ul>
+        </div>
+
+        <div class="experience-item">
+          <div class="experience-header">
+            <h3 class="experience-title">Research Assistant</h3>
+            <span class="experience-company">University Lab</span>
+          </div>
+          <div class="experience-meta">
+            <span class="experience-location">Remote</span>
+            <span class="experience-date">2023 - 2024</span>
+          </div>
+          <ul class="experience-bullets">
+            <li>Conducted research on LLM reasoning and evaluation methods</li>
+            <li>Published papers on human-AI collaboration patterns</li>
+            <li>Developed open-source tools for AI research community</li>
+          </ul>
+        </div>
+
+        <div class="experience-item">
+          <div class="experience-header">
+            <h3 class="experience-title">Software Engineering Intern</h3>
+            <span class="experience-company">Startup Inc</span>
+          </div>
+          <div class="experience-meta">
+            <span class="experience-location">San Francisco, CA</span>
+            <span class="experience-date">Summer 2023</span>
+          </div>
+          <ul class="experience-bullets">
+            <li>Built full-stack features for the company's core product</li>
+            <li>Improved API response times by 40% through optimization</li>
+            <li>Collaborated with design team on user experience improvements</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="resume-section">
+        <h2 class="resume-section__title">Education</h2>
+
+        <div class="education-item">
+          <div class="education-header">
+            <h3 class="education-degree">B.S. Computer Science</h3>
+            <span class="education-school">University Name</span>
+          </div>
+          <div class="education-meta">
+            <span class="education-date">2020 - 2024</span>
+          </div>
+          <p class="education-details">
+            Focused on AI/ML, systems, and human-computer interaction.
+            Dean's List, Undergraduate Research Award.
+          </p>
+        </div>
+      </div>
+
+      <div class="resume-section">
+        <h2 class="resume-section__title">Skills</h2>
+
+        <div class="skills-list">
+          <div class="skill-group">
+            <h4>Languages</h4>
+            <p>TypeScript, Python, Rust, Go, SQL</p>
+          </div>
+          <div class="skill-group">
+            <h4>Frontend</h4>
+            <p>React, Next.js, Astro, Three.js, GSAP, Tailwind CSS</p>
+          </div>
+          <div class="skill-group">
+            <h4>Backend</h4>
+            <p>Node.js, FastAPI, PostgreSQL, Redis, Docker, AWS</p>
+          </div>
+          <div class="skill-group">
+            <h4>AI/ML</h4>
+            <p>PyTorch, LangChain, Hugging Face, Vector databases</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="resume-section">
+        <h2 class="resume-section__title">Projects</h2>
+
+        <div class="project-item">
+          <h3>AI Research Assistant</h3>
+          <p>Tool for exploring and summarizing academic papers using LLMs</p>
+        </div>
+
+        <div class="project-item">
+          <h3>CLI Tool Kit</h3>
+          <p>Rust-based productivity tools for terminal workflows</p>
+        </div>
+
+        <div class="project-item">
+          <h3>Personal Website</h3>
+          <p>Custom site with WebGL, animations, and content system</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .resume-header {
+    padding: var(--space-4xl) 0 var(--space-2xl);
+    text-align: center;
+    background: var(--color-bg-secondary);
+  }
+
+  .container--narrow {
+    max-width: 800px;
+  }
+
+  .resume-title {
+    font-size: var(--text-4xl);
+    font-family: var(--font-serif);
+    margin-bottom: var(--space-xs);
+  }
+
+  .resume-subtitle {
+    font-size: var(--text-xl);
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-lg);
+  }
+
+  .resume-contact {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-xl);
+  }
+
+  .resume-contact a {
+    color: var(--color-accent-primary);
+    text-decoration: none;
+  }
+
+  .resume-contact a:hover {
+    text-decoration: underline;
+  }
+
+  .resume-contact .divider {
+    color: var(--color-text-tertiary);
+  }
+
+  .resume-actions {
+    display: flex;
+    justify-content: center;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-sm);
+    padding: var(--space-md) var(--space-xl);
+    border-radius: var(--radius-lg);
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+
+  .btn--primary {
+    background: var(--color-accent-primary);
+    color: white;
+  }
+
+  .btn--primary:hover {
+    background: var(--color-accent-secondary);
+    transform: translateY(-2px);
+  }
+
+  .resume-content {
+    padding: var(--space-3xl) 0 var(--space-4xl);
+  }
+
+  .resume-section {
+    margin-bottom: var(--space-3xl);
+  }
+
+  .resume-section:last-child {
+    margin-bottom: 0;
+  }
+
+  .resume-section__title {
+    font-size: var(--text-lg);
+    color: var(--color-accent-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: var(--space-xl);
+    padding-bottom: var(--space-sm);
+    border-bottom: 2px solid var(--color-accent-primary);
+  }
+
+  .experience-item,
+  .education-item {
+    margin-bottom: var(--space-xl);
+    padding-bottom: var(--space-xl);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .experience-item:last-child,
+  .education-item:last-child {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    border-bottom: none;
+  }
+
+  .experience-header,
+  .education-header {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: var(--space-sm);
+    margin-bottom: var(--space-xs);
+  }
+
+  .experience-title,
+  .education-degree {
+    font-size: var(--text-lg);
+    font-weight: 600;
+  }
+
+  .experience-company,
+  .education-school {
+    color: var(--color-text-secondary);
+  }
+
+  .experience-meta,
+  .education-meta {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-md);
+    font-size: var(--text-sm);
+    color: var(--color-text-tertiary);
+    margin-bottom: var(--space-md);
+  }
+
+  .experience-bullets {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .experience-bullets li {
+    position: relative;
+    padding-left: var(--space-lg);
+    margin-bottom: var(--space-xs);
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+  }
+
+  .experience-bullets li::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 0.6em;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--color-accent-primary);
+  }
+
+  .education-details {
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+  }
+
+  .skills-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: var(--space-lg);
+  }
+
+  .skill-group h4 {
+    font-size: var(--text-sm);
+    font-weight: 600;
+    margin-bottom: var(--space-xs);
+  }
+
+  .skill-group p {
+    color: var(--color-text-secondary);
+    font-size: var(--text-sm);
+    line-height: 1.6;
+  }
+
+  .project-item {
+    margin-bottom: var(--space-md);
+  }
+
+  .project-item:last-child {
+    margin-bottom: 0;
+  }
+
+  .project-item h3 {
+    font-size: var(--text-base);
+    font-weight: 600;
+    margin-bottom: var(--space-xs);
+  }
+
+  .project-item p {
+    color: var(--color-text-secondary);
+    font-size: var(--text-sm);
+  }
+
+  @media print {
+    .resume-header {
+      padding: var(--space-lg) 0;
+    }
+
+    .resume-actions {
+      display: none;
+    }
+
+    .resume-content {
+      padding: var(--space-lg) 0;
+    }
+
+    .resume-section {
+      margin-bottom: var(--space-lg);
+    }
+  }
+</style>

@@ -1,0 +1,270 @@
+---
+/**
+ * Portfolio Page
+ *
+ * Displays projects with filtering and GitHub integration.
+ * Features a masonry-style grid with animated cards.
+ */
+
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ProjectCard from '../components/ProjectCard.astro';
+import ProjectFilter from '../components/ProjectFilter.astro';
+
+// Project data (will be enhanced with GitHub API in production)
+const projects = [
+  {
+    id: 1,
+    name: 'AI Research Assistant',
+    slug: 'ai-research-assistant',
+    description: 'A tool for exploring and summarizing academic papers using large language models. Features semantic search, citation tracking, and automated literature reviews.',
+    longDescription: 'Built to streamline the research process, this tool uses LLMs to help researchers quickly understand papers, find connections between works, and generate comprehensive literature reviews.',
+    tags: ['Python', 'LLMs', 'Research', 'NLP'],
+    category: 'ai',
+    github: 'https://github.com/aryansingh/ai-research-assistant',
+    demo: 'https://research.aryansingh.org',
+    image: '/images/projects/ai-research.jpg',
+    featured: true,
+    status: 'active',
+    year: 2026,
+  },
+  {
+    id: 2,
+    name: 'Personal Website',
+    slug: 'personal-website',
+    description: 'This very website, built with Astro, React, and advanced animations including WebGL particles and GSAP.',
+    longDescription: 'A custom-built personal portfolio showcasing creative web development with WebGL, smooth animations, and a unique design language.',
+    tags: ['Astro', 'React', 'Three.js', 'GSAP'],
+    category: 'web',
+    github: 'https://github.com/aryansingh/aryansingh.org',
+    demo: 'https://aryansingh.org',
+    image: '/images/projects/website.jpg',
+    featured: true,
+    status: 'active',
+    year: 2026,
+  },
+  {
+    id: 3,
+    name: 'CLI Tool Kit',
+    slug: 'cli-toolkit',
+    description: 'A collection of productivity tools for developers working in the terminal. Includes file management, git helpers, and workflow automation.',
+    longDescription: 'Built in Rust for maximum performance, these CLI tools help developers work faster in the terminal with intuitive commands and smart defaults.',
+    tags: ['Rust', 'CLI', 'Productivity', 'DevTools'],
+    category: 'tools',
+    github: 'https://github.com/aryansingh/cli-toolkit',
+    image: '/images/projects/cli-toolkit.jpg',
+    featured: true,
+    status: 'active',
+    year: 2025,
+  },
+  {
+    id: 4,
+    name: 'Data Visualization Dashboard',
+    slug: 'data-viz-dashboard',
+    description: 'Interactive visualizations for complex datasets and research findings using D3.js and custom WebGL renderers.',
+    longDescription: 'A framework for creating beautiful, interactive data visualizations that work with large datasets while maintaining smooth performance.',
+    tags: ['D3.js', 'TypeScript', 'Data', 'WebGL'],
+    category: 'web',
+    github: 'https://github.com/aryansingh/data-viz',
+    demo: 'https://viz.aryansingh.org',
+    image: '/images/projects/data-viz.jpg',
+    featured: false,
+    status: 'active',
+    year: 2025,
+  },
+  {
+    id: 5,
+    name: 'Neural Network Playground',
+    slug: 'nn-playground',
+    description: 'An interactive web app for experimenting with neural networks in the browser. Build, train, and visualize models without writing code.',
+    longDescription: 'Designed for education and experimentation, this playground lets users understand neural networks through hands-on exploration.',
+    tags: ['TensorFlow.js', 'React', 'AI', 'Education'],
+    category: 'ai',
+    github: 'https://github.com/aryansingh/nn-playground',
+    demo: 'https://nn.aryansingh.org',
+    image: '/images/projects/nn-playground.jpg',
+    featured: false,
+    status: 'active',
+    year: 2025,
+  },
+  {
+    id: 6,
+    name: 'Markdown Note System',
+    slug: 'markdown-notes',
+    description: 'A local-first note-taking app with bi-directional linking, graph visualization, and Git-based sync.',
+    longDescription: 'Built for knowledge workers who want control over their notes, featuring a clean UI, powerful search, and seamless sync.',
+    tags: ['Electron', 'TypeScript', 'SQLite', 'Local-first'],
+    category: 'tools',
+    github: 'https://github.com/aryansingh/markdown-notes',
+    image: '/images/projects/markdown-notes.jpg',
+    featured: false,
+    status: 'archived',
+    year: 2024,
+  },
+];
+
+// Extract unique categories
+const categories = ['all', ...new Set(projects.map(p => p.category))];
+---
+
+<BaseLayout title="Portfolio" description="Projects and work by Aryan Singh - Software Engineer and Researcher">
+  <section class="portfolio-hero">
+    <div class="container">
+      <header class="portfolio-hero__content">
+        <span class="portfolio-hero__label">Portfolio</span>
+        <h1 class="portfolio-hero__title">My Work</h1>
+        <p class="portfolio-hero__description">
+          A collection of projects I've built, from research tools to creative experiments.
+          Each project represents a learning journey and a problem worth solving.
+        </p>
+      </header>
+    </div>
+  </section>
+
+  <section class="portfolio-grid-section">
+    <div class="container">
+      <ProjectFilter categories={categories} />
+
+      <div class="projects-grid" id="projects-grid">
+        {projects.map((project, index) => (
+          <ProjectCard project={project} index={index} />
+        ))}
+      </div>
+
+      <div class="portfolio-empty" id="portfolio-empty" style="display: none;">
+        <p>No projects found matching your filter.</p>
+        <button class="btn btn--secondary" id="clear-filter">Clear filter</button>
+      </div>
+    </div>
+  </section>
+
+  <section class="portfolio-cta">
+    <div class="container container--narrow">
+      <h2 class="portfolio-cta__title">Want to see more?</h2>
+      <p class="portfolio-cta__description">
+        Check out my GitHub for more projects, experiments, and open source contributions.
+      </p>
+      <a href="https://github.com/aryansingh" class="btn btn--primary" target="_blank" rel="noopener noreferrer">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor">
+          <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+        </svg>
+        View GitHub Profile
+      </a>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .portfolio-hero {
+    padding: var(--space-4xl) 0 var(--space-2xl);
+    text-align: center;
+  }
+
+  .portfolio-hero__content {
+    max-width: 700px;
+    margin: 0 auto;
+  }
+
+  .portfolio-hero__label {
+    display: inline-block;
+    font-size: var(--text-sm);
+    color: var(--color-accent-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 500;
+    margin-bottom: var(--space-sm);
+  }
+
+  .portfolio-hero__title {
+    font-size: var(--text-5xl);
+    font-family: var(--font-serif);
+    margin-bottom: var(--space-lg);
+  }
+
+  .portfolio-hero__description {
+    color: var(--color-text-secondary);
+    font-size: var(--text-lg);
+    line-height: 1.7;
+  }
+
+  .portfolio-grid-section {
+    padding: var(--space-2xl) 0 var(--space-4xl);
+  }
+
+  .projects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+    gap: var(--space-xl);
+    margin-top: var(--space-2xl);
+  }
+
+  @media (max-width: 768px) {
+    .projects-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+
+  .portfolio-empty {
+    text-align: center;
+    padding: var(--space-4xl) 0;
+    color: var(--color-text-secondary);
+  }
+
+  .portfolio-empty p {
+    margin-bottom: var(--space-lg);
+  }
+
+  .portfolio-cta {
+    text-align: center;
+    padding: var(--space-4xl) 0;
+    background: var(--color-bg-secondary);
+  }
+
+  .portfolio-cta__title {
+    font-size: var(--text-3xl);
+    margin-bottom: var(--space-md);
+  }
+
+  .portfolio-cta__description {
+    color: var(--color-text-secondary);
+    margin-bottom: var(--space-xl);
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-sm);
+    padding: var(--space-md) var(--space-xl);
+    border-radius: var(--radius-lg);
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+
+  .btn--primary {
+    background: var(--color-accent-primary);
+    color: white;
+  }
+
+  .btn--primary:hover {
+    background: var(--color-accent-secondary);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+  }
+
+  .btn--secondary {
+    border: 1px solid var(--color-border);
+    color: var(--color-text-primary);
+    background: var(--color-bg-primary);
+    cursor: pointer;
+  }
+
+  .btn--secondary:hover {
+    border-color: var(--color-accent-primary);
+    color: var(--color-accent-primary);
+  }
+
+  .container--narrow {
+    max-width: 600px;
+  }
+</style>

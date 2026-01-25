@@ -1,0 +1,383 @@
+---
+/**
+ * About Page
+ *
+ * Personal bio, skills, and interests.
+ */
+
+import BaseLayout from '../layouts/BaseLayout.astro';
+---
+
+<BaseLayout title="About" description="About Aryan Singh - Software Engineer, Researcher, and Writer">
+  <section class="about-hero">
+    <div class="container">
+      <div class="about-hero__grid">
+        <div class="about-hero__image">
+          <div class="about-hero__image-placeholder">
+            <span>AS</span>
+          </div>
+        </div>
+        <div class="about-hero__content">
+          <span class="about-hero__label">About</span>
+          <h1 class="about-hero__title">Hi, I'm Aryan</h1>
+          <p class="about-hero__intro">
+            I'm a software engineer and researcher based in San Francisco, passionate about
+            building tools that help people think and create.
+          </p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="about-content">
+    <div class="container container--narrow">
+      <div class="about-section">
+        <h2 class="about-section__title">Background</h2>
+        <div class="about-section__content">
+          <p>
+            I started programming when I was 14, building simple games and websites. That
+            curiosity evolved into a deep interest in artificial intelligence and how we can
+            build systems that augment human capabilities rather than replace them.
+          </p>
+          <p>
+            Currently, I'm focused on exploring the intersection of large language models
+            and human creativity. I believe the most interesting problems in tech today
+            involve helping people do more meaningful work.
+          </p>
+          <p>
+            When I'm not coding, you'll find me reading research papers, writing about
+            technology, or exploring new coffee shops in the city.
+          </p>
+        </div>
+      </div>
+
+      <div class="about-section">
+        <h2 class="about-section__title">What I Do</h2>
+        <div class="skills-grid">
+          <div class="skill-card">
+            <div class="skill-card__icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <polyline points="16 18 22 12 16 6"/>
+                <polyline points="8 6 2 12 8 18"/>
+              </svg>
+            </div>
+            <h3 class="skill-card__title">Software Engineering</h3>
+            <p class="skill-card__description">
+              Full-stack development with a focus on TypeScript, Python, and Rust.
+              Building scalable systems and developer tools.
+            </p>
+          </div>
+
+          <div class="skill-card">
+            <div class="skill-card__icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <circle cx="12" cy="12" r="10"/>
+                <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3"/>
+                <line x1="12" y1="17" x2="12.01" y2="17"/>
+              </svg>
+            </div>
+            <h3 class="skill-card__title">AI Research</h3>
+            <p class="skill-card__description">
+              Exploring LLM reasoning, human-AI collaboration, and how to make
+              AI systems more useful and trustworthy.
+            </p>
+          </div>
+
+          <div class="skill-card">
+            <div class="skill-card__icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 19l7-7 3 3-7 7-3-3z"/>
+                <path d="M18 13l-1.5-7.5L2 2l3.5 14.5L13 18l5-5z"/>
+                <path d="M2 2l7.586 7.586"/>
+                <circle cx="11" cy="11" r="2"/>
+              </svg>
+            </div>
+            <h3 class="skill-card__title">Creative Coding</h3>
+            <p class="skill-card__description">
+              WebGL, generative art, and interactive experiences.
+              Making the web more beautiful and engaging.
+            </p>
+          </div>
+
+          <div class="skill-card">
+            <div class="skill-card__icon">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M17 3a2.828 2.828 0 1 1 4 4L7.5 20.5 2 22l1.5-5.5L17 3z"/>
+              </svg>
+            </div>
+            <h3 class="skill-card__title">Writing</h3>
+            <p class="skill-card__description">
+              Technical writing, paper summaries, and reflections on
+              technology and its impact on society.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="about-section">
+        <h2 class="about-section__title">Tech Stack</h2>
+        <div class="tech-grid">
+          <div class="tech-category">
+            <h4>Languages</h4>
+            <ul>
+              <li>TypeScript</li>
+              <li>Python</li>
+              <li>Rust</li>
+              <li>Go</li>
+            </ul>
+          </div>
+          <div class="tech-category">
+            <h4>Frontend</h4>
+            <ul>
+              <li>React / Next.js</li>
+              <li>Astro</li>
+              <li>Three.js / WebGL</li>
+              <li>GSAP</li>
+            </ul>
+          </div>
+          <div class="tech-category">
+            <h4>Backend</h4>
+            <ul>
+              <li>Node.js</li>
+              <li>FastAPI</li>
+              <li>PostgreSQL</li>
+              <li>Redis</li>
+            </ul>
+          </div>
+          <div class="tech-category">
+            <h4>AI/ML</h4>
+            <ul>
+              <li>PyTorch</li>
+              <li>LangChain</li>
+              <li>Hugging Face</li>
+              <li>OpenAI API</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="about-section">
+        <h2 class="about-section__title">Get in Touch</h2>
+        <div class="about-section__content">
+          <p>
+            I'm always interested in new opportunities, collaborations, or just a good
+            conversation about technology and ideas. Feel free to reach out!
+          </p>
+        </div>
+        <div class="about-cta">
+          <a href="mailto:hello@aryansingh.org" class="btn btn--primary">
+            Say Hello
+          </a>
+          <a href="/resume" class="btn btn--secondary">
+            View Resume
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .about-hero {
+    padding: var(--space-4xl) 0;
+    background: var(--color-bg-secondary);
+  }
+
+  .about-hero__grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-2xl);
+    align-items: center;
+  }
+
+  @media (min-width: 768px) {
+    .about-hero__grid {
+      grid-template-columns: 200px 1fr;
+    }
+  }
+
+  .about-hero__image {
+    justify-self: center;
+  }
+
+  .about-hero__image-placeholder {
+    width: 180px;
+    height: 180px;
+    border-radius: 50%;
+    background: linear-gradient(
+      135deg,
+      var(--color-accent-primary),
+      var(--color-accent-secondary)
+    );
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: var(--text-4xl);
+    font-family: var(--font-serif);
+    color: white;
+    font-weight: 600;
+  }
+
+  .about-hero__label {
+    display: inline-block;
+    font-size: var(--text-sm);
+    color: var(--color-accent-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 500;
+    margin-bottom: var(--space-sm);
+  }
+
+  .about-hero__title {
+    font-size: var(--text-4xl);
+    font-family: var(--font-serif);
+    margin-bottom: var(--space-md);
+  }
+
+  .about-hero__intro {
+    font-size: var(--text-lg);
+    color: var(--color-text-secondary);
+    line-height: 1.7;
+  }
+
+  .about-content {
+    padding: var(--space-4xl) 0;
+  }
+
+  .container--narrow {
+    max-width: 800px;
+  }
+
+  .about-section {
+    margin-bottom: var(--space-4xl);
+  }
+
+  .about-section:last-child {
+    margin-bottom: 0;
+  }
+
+  .about-section__title {
+    font-size: var(--text-2xl);
+    margin-bottom: var(--space-xl);
+    padding-bottom: var(--space-md);
+    border-bottom: 1px solid var(--color-border);
+  }
+
+  .about-section__content p {
+    color: var(--color-text-secondary);
+    line-height: 1.8;
+    margin-bottom: var(--space-md);
+  }
+
+  .about-section__content p:last-child {
+    margin-bottom: 0;
+  }
+
+  .skills-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: var(--space-lg);
+  }
+
+  .skill-card {
+    padding: var(--space-lg);
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-secondary);
+    transition: all 0.3s ease;
+  }
+
+  .skill-card:hover {
+    border-color: var(--color-accent-primary);
+    transform: translateY(-4px);
+  }
+
+  .skill-card__icon {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: var(--radius-lg);
+    background: color-mix(in srgb, var(--color-accent-primary) 10%, transparent);
+    color: var(--color-accent-primary);
+    margin-bottom: var(--space-md);
+  }
+
+  .skill-card__title {
+    font-size: var(--text-lg);
+    margin-bottom: var(--space-sm);
+  }
+
+  .skill-card__description {
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+    line-height: 1.6;
+  }
+
+  .tech-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: var(--space-xl);
+  }
+
+  .tech-category h4 {
+    font-size: var(--text-sm);
+    color: var(--color-accent-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: var(--space-md);
+  }
+
+  .tech-category ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+
+  .tech-category li {
+    padding: var(--space-xs) 0;
+    color: var(--color-text-secondary);
+    font-size: var(--text-sm);
+  }
+
+  .about-cta {
+    display: flex;
+    gap: var(--space-md);
+    margin-top: var(--space-xl);
+    flex-wrap: wrap;
+  }
+
+  .btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-sm);
+    padding: var(--space-md) var(--space-xl);
+    border-radius: var(--radius-lg);
+    font-weight: 500;
+    text-decoration: none;
+    transition: all 0.3s ease;
+  }
+
+  .btn--primary {
+    background: var(--color-accent-primary);
+    color: white;
+  }
+
+  .btn--primary:hover {
+    background: var(--color-accent-secondary);
+    transform: translateY(-2px);
+  }
+
+  .btn--secondary {
+    border: 1px solid var(--color-border);
+    color: var(--color-text-primary);
+    background: var(--color-bg-primary);
+  }
+
+  .btn--secondary:hover {
+    border-color: var(--color-accent-primary);
+    color: var(--color-accent-primary);
+  }
+</style>
