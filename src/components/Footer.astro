@@ -1,0 +1,200 @@
+---
+/**
+ * Site Footer Component
+ *
+ * Includes:
+ * - Social links
+ * - Quick navigation
+ * - Copyright
+ *
+ * USAGE:
+ * <Footer />
+ */
+
+import socialLinks from '../data/social-links.json';
+
+const currentYear = new Date().getFullYear();
+
+const footerLinks = [
+  { href: '/portfolio', label: 'Portfolio' },
+  { href: '/blog', label: 'Blog' },
+  { href: '/resume', label: 'Resume' },
+  { href: '/about', label: 'About' },
+];
+---
+
+<footer class="footer">
+  <div class="container">
+    <div class="footer__content">
+      <!-- Brand & Description -->
+      <div class="footer__brand">
+        <a href="/" class="footer__logo">
+          Aryan Singh
+        </a>
+        <p class="footer__tagline">
+          Software Engineer, Researcher, and Writer exploring the intersection of technology and creativity.
+        </p>
+      </div>
+
+      <!-- Quick Links -->
+      <div class="footer__links">
+        <h3 class="footer__heading">Pages</h3>
+        <nav class="footer__nav">
+          {footerLinks.map((link) => (
+            <a href={link.href} class="footer__link">
+              {link.label}
+            </a>
+          ))}
+        </nav>
+      </div>
+
+      <!-- Social Links -->
+      <div class="footer__social">
+        <h3 class="footer__heading">Connect</h3>
+        <div class="footer__social-links">
+          {socialLinks.links.map((social) => (
+            <a
+              href={social.url}
+              class="footer__social-link"
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label={social.name}
+            >
+              {social.name}
+            </a>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <!-- Bottom Bar -->
+    <div class="footer__bottom">
+      <p class="footer__copyright">
+        © {currentYear} Aryan Singh. All rights reserved.
+      </p>
+      <p class="footer__built">
+        Built with <a href="https://astro.build" target="_blank" rel="noopener">Astro</a>
+      </p>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    border-top: 1px solid var(--color-border);
+    background: var(--color-bg-secondary);
+    padding: var(--space-4xl) 0 var(--space-xl);
+    margin-top: auto;
+  }
+
+  .footer__content {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-2xl);
+    margin-bottom: var(--space-3xl);
+  }
+
+  @media (min-width: 640px) {
+    .footer__content {
+      grid-template-columns: 2fr 1fr 1fr;
+    }
+  }
+
+  .footer__brand {
+    max-width: 300px;
+  }
+
+  .footer__logo {
+    font-family: var(--font-serif);
+    font-size: var(--text-xl);
+    font-weight: 600;
+    color: var(--color-text-primary);
+    text-decoration: none;
+    display: inline-block;
+    margin-bottom: var(--space-md);
+  }
+
+  .footer__tagline {
+    font-size: var(--text-sm);
+    color: var(--color-text-tertiary);
+    line-height: 1.6;
+    margin: 0;
+  }
+
+  .footer__heading {
+    font-family: var(--font-sans);
+    font-size: var(--text-sm);
+    font-weight: 600;
+    color: var(--color-text-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: var(--space-md);
+  }
+
+  .footer__nav {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+
+  .footer__link {
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+  }
+
+  .footer__link:hover {
+    color: var(--color-text-primary);
+  }
+
+  .footer__social-links {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+
+  .footer__social-link {
+    font-size: var(--text-sm);
+    color: var(--color-text-secondary);
+    text-decoration: none;
+    transition: color var(--transition-fast);
+  }
+
+  .footer__social-link:hover {
+    color: var(--color-accent-primary);
+  }
+
+  .footer__bottom {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+    padding-top: var(--space-xl);
+    border-top: 1px solid var(--color-border);
+    text-align: center;
+  }
+
+  @media (min-width: 640px) {
+    .footer__bottom {
+      flex-direction: row;
+      justify-content: space-between;
+      text-align: left;
+    }
+  }
+
+  .footer__copyright,
+  .footer__built {
+    font-size: var(--text-sm);
+    color: var(--color-text-tertiary);
+    margin: 0;
+  }
+
+  .footer__built a {
+    color: var(--color-text-secondary);
+    text-decoration: none;
+  }
+
+  .footer__built a:hover {
+    color: var(--color-accent-primary);
+  }
+</style>

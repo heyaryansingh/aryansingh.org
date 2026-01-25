@@ -7,6 +7,7 @@
  * - Global CSS import
  * - Font loading
  * - Theme initialization
+ * - Navigation & Footer
  * - SEO meta tags slot
  *
  * USAGE:
@@ -16,6 +17,8 @@
  */
 
 import '../styles/global.css';
+import Navigation from '../components/Navigation.astro';
+import Footer from '../components/Footer.astro';
 
 interface Props {
   title: string;
@@ -23,6 +26,8 @@ interface Props {
   image?: string;
   canonicalUrl?: string;
   noIndex?: boolean;
+  hideNav?: boolean;
+  hideFooter?: boolean;
 }
 
 const {
@@ -31,6 +36,8 @@ const {
   image = '/images/og-default.png',
   canonicalUrl,
   noIndex = false,
+  hideNav = false,
+  hideFooter = false,
 } = Astro.props;
 
 const siteUrl = import.meta.env.PUBLIC_SITE_URL || 'https://aryansingh.org';
@@ -80,21 +87,32 @@ const fullImage = image.startsWith('http') ? image : new URL(image, siteUrl).hre
     <!-- Theme initialization script (runs before page render to prevent flash) -->
     <script is:inline>
       (function () {
-        const theme = localStorage.getItem('theme') || 'auto';
+        const mode = localStorage.getItem('mode') || 'auto';
+        const theme = localStorage.getItem('colorTheme') || 'default';
+
         const isDark =
-          theme === 'dark' ||
-          (theme === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+          mode === 'dark' ||
+          (mode === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+
         document.documentElement.classList.toggle('dark', isDark);
-        document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+        document.documentElement.setAttribute('data-theme', theme);
       })();
     </script>
 
     <!-- Additional head elements slot -->
     <slot name="head" />
   </head>
-  <body>
+  <body class="min-h-screen flex flex-col">
+    <!-- Navigation -->
+    {!hideNav && <Navigation />}
+
     <!-- Main content -->
-    <slot />
+    <main class="flex-1" style={hideNav ? '' : 'padding-top: 64px;'}>
+      <slot />
+    </main>
+
+    <!-- Footer -->
+    {!hideFooter && <Footer />}
 
     <!-- Global scripts slot -->
     <slot name="scripts" />
@@ -106,5 +124,16 @@ const fullImage = image.startsWith('http') ? image : new URL(image, siteUrl).hre
   html {
     visibility: visible;
     opacity: 1;
+  }
+
+  /* Flex layout for sticky footer */
+  body {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+  }
+
+  main {
+    flex: 1;
   }
 </style>
