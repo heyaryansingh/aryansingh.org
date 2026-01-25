@@ -1,0 +1,74 @@
+---
+/**
+ * Lenis Smooth Scroll Component
+ *
+ * Initializes Lenis smooth scrolling on the page.
+ * Include this component once in your layout.
+ *
+ * USAGE:
+ * <SmoothScroll />
+ *
+ * Add data-lenis-prevent to any element that should
+ * use native scrolling (like modals or overflow containers).
+ */
+---
+
+<script>
+  import Lenis from 'lenis';
+
+  // Initialize Lenis
+  const lenis = new Lenis({
+    duration: 1.2,
+    easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
+    orientation: 'vertical',
+    gestureOrientation: 'vertical',
+    smoothWheel: true,
+    wheelMultiplier: 1,
+    touchMultiplier: 2,
+    infinite: false,
+  });
+
+  // Add lenis class to html for CSS styling
+  document.documentElement.classList.add('lenis', 'lenis-smooth');
+
+  // Animation frame loop
+  function raf(time: number) {
+    lenis.raf(time);
+    requestAnimationFrame(raf);
+  }
+
+  requestAnimationFrame(raf);
+
+  // Expose lenis to window for other scripts to use
+  (window as any).lenis = lenis;
+
+  // Handle anchor links
+  document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
+    anchor.addEventListener('click', (e) => {
+      e.preventDefault();
+      const href = anchor.getAttribute('href');
+      if (href && href !== '#') {
+        const target = document.querySelector(href);
+        if (target) {
+          lenis.scrollTo(target as HTMLElement, {
+            offset: -80, // Account for fixed header
+          });
+        }
+      }
+    });
+  });
+
+  // Stop/start Lenis when mobile menu is open
+  document.addEventListener('menu-open', () => {
+    lenis.stop();
+  });
+
+  document.addEventListener('menu-close', () => {
+    lenis.start();
+  });
+
+  // Cleanup on page navigation (for View Transitions)
+  document.addEventListener('astro:before-swap', () => {
+    lenis.destroy();
+  });
+</script>

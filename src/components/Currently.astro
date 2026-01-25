@@ -1,0 +1,162 @@
+---
+/**
+ * Currently Widget Component
+ *
+ * Displays what I'm currently working on, learning, and thinking about.
+ * Data comes from src/data/now.json
+ *
+ * USAGE:
+ * <Currently />
+ */
+
+import nowData from '../data/now.json';
+
+const { workingOn, learning, thinking, lastUpdated } = nowData;
+---
+
+<div class="currently-grid">
+  <!-- Working On -->
+  <div class="currently-card float-card">
+    <h3 class="currently-card__title currently-card__title--building">
+      <span class="currently-card__icon">🔨</span>
+      Building
+    </h3>
+    <ul class="currently-card__list">
+      {workingOn.filter(item => item.status === 'active').map((item) => (
+        <li class="currently-card__item">
+          <span class="currently-card__item-title">{item.title}</span>
+          <span class="currently-card__item-desc">{item.description}</span>
+        </li>
+      ))}
+    </ul>
+  </div>
+
+  <!-- Learning -->
+  <div class="currently-card float-card">
+    <h3 class="currently-card__title currently-card__title--learning">
+      <span class="currently-card__icon">📚</span>
+      Learning
+    </h3>
+    <ul class="currently-card__list">
+      {learning.map((item) => (
+        <li class="currently-card__item">
+          <span class="currently-card__item-title">{item}</span>
+        </li>
+      ))}
+    </ul>
+  </div>
+
+  <!-- Thinking -->
+  <div class="currently-card currently-card--wide float-card">
+    <h3 class="currently-card__title currently-card__title--thinking">
+      <span class="currently-card__icon">💭</span>
+      Thinking
+    </h3>
+    <p class="currently-card__thought">{thinking}</p>
+  </div>
+</div>
+
+<p class="currently-updated">
+  Last updated: {new Date(lastUpdated).toLocaleDateString('en-US', {
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric'
+  })}
+</p>
+
+<style>
+  .currently-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: var(--space-lg);
+  }
+
+  @media (min-width: 768px) {
+    .currently-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .currently-card--wide {
+      grid-column: span 2;
+    }
+  }
+
+  .currently-card {
+    padding: var(--space-lg);
+    border-radius: var(--radius-xl);
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-primary);
+  }
+
+  .currently-card__title {
+    display: flex;
+    align-items: center;
+    gap: var(--space-sm);
+    font-size: var(--text-lg);
+    font-family: var(--font-sans);
+    font-weight: 600;
+    margin-bottom: var(--space-md);
+  }
+
+  .currently-card__icon {
+    font-size: var(--text-xl);
+  }
+
+  .currently-card__title--building {
+    color: var(--color-accent-secondary);
+  }
+
+  .currently-card__title--learning {
+    color: var(--color-accent-primary);
+  }
+
+  .currently-card__title--thinking {
+    color: var(--color-accent-tertiary);
+  }
+
+  .currently-card__list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-sm);
+  }
+
+  .currently-card__item {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-xs);
+    padding-left: var(--space-md);
+    border-left: 2px solid var(--color-border);
+    transition: border-color var(--transition-fast);
+  }
+
+  .currently-card__item:hover {
+    border-left-color: var(--color-accent-primary);
+  }
+
+  .currently-card__item-title {
+    color: var(--color-text-primary);
+    font-weight: 500;
+  }
+
+  .currently-card__item-desc {
+    font-size: var(--text-sm);
+    color: var(--color-text-tertiary);
+  }
+
+  .currently-card__thought {
+    color: var(--color-text-secondary);
+    font-style: italic;
+    line-height: 1.7;
+    margin: 0;
+  }
+
+  .currently-updated {
+    text-align: center;
+    font-size: var(--text-sm);
+    color: var(--color-text-tertiary);
+    margin-top: var(--space-xl);
+  }
+</style>

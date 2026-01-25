@@ -1,0 +1,319 @@
+---
+/**
+ * Featured Projects Carousel Component
+ *
+ * Displays featured projects in a horizontally scrollable carousel.
+ * Uses CSS scroll-snap for smooth snapping behavior.
+ *
+ * USAGE:
+ * <FeaturedProjects />
+ *
+ * Data comes from src/data/featured-projects.json
+ */
+
+import featuredData from '../data/featured-projects.json';
+
+// Placeholder projects for now (will be replaced with actual data in Phase 6)
+const projects = [
+  {
+    id: 1,
+    name: 'AI Research Assistant',
+    description: 'A tool for exploring and summarizing academic papers using large language models.',
+    tags: ['Python', 'LLMs', 'Research'],
+    url: '/portfolio/ai-research-assistant',
+    gradient: 'from-blue-500 to-purple-600',
+  },
+  {
+    id: 2,
+    name: 'Personal Website',
+    description: 'This very website, built with Astro, React, and advanced animations.',
+    tags: ['Astro', 'React', 'GSAP'],
+    url: '/portfolio/personal-website',
+    gradient: 'from-pink-500 to-orange-400',
+  },
+  {
+    id: 3,
+    name: 'CLI Tool Kit',
+    description: 'A collection of productivity tools for developers working in the terminal.',
+    tags: ['Rust', 'CLI', 'Productivity'],
+    url: '/portfolio/cli-toolkit',
+    gradient: 'from-green-400 to-cyan-500',
+  },
+  {
+    id: 4,
+    name: 'Data Visualization',
+    description: 'Interactive visualizations for complex datasets and research findings.',
+    tags: ['D3.js', 'TypeScript', 'Data'],
+    url: '/portfolio/data-viz',
+    gradient: 'from-yellow-400 to-red-500',
+  },
+];
+---
+
+<div class="carousel-container">
+  <div class="carousel" id="projects-carousel">
+    {projects.map((project, index) => (
+      <article class="carousel__item" data-index={index}>
+        <a href={project.url} class="carousel__card float-card">
+          <div class="carousel__image">
+            <div class={`carousel__gradient bg-gradient-to-br ${project.gradient}`}></div>
+          </div>
+          <div class="carousel__content">
+            <h3 class="carousel__title">{project.name}</h3>
+            <p class="carousel__description">{project.description}</p>
+            <div class="carousel__tags">
+              {project.tags.map((tag) => (
+                <span class="tag">{tag}</span>
+              ))}
+            </div>
+          </div>
+        </a>
+      </article>
+    ))}
+  </div>
+
+  <!-- Navigation -->
+  <div class="carousel__nav">
+    <button
+      class="carousel__btn carousel__btn--prev"
+      aria-label="Previous project"
+      id="carousel-prev"
+    >
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M15 18l-6-6 6-6" />
+      </svg>
+    </button>
+
+    <div class="carousel__dots" id="carousel-dots">
+      {projects.map((_, i) => (
+        <button
+          class:list={['carousel__dot', { active: i === 0 }]}
+          aria-label={`Go to project ${i + 1}`}
+          data-index={i}
+        />
+      ))}
+    </div>
+
+    <button
+      class="carousel__btn carousel__btn--next"
+      aria-label="Next project"
+      id="carousel-next"
+    >
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+        <path d="M9 18l6-6-6-6" />
+      </svg>
+    </button>
+  </div>
+</div>
+
+<style>
+  .carousel-container {
+    position: relative;
+    width: 100%;
+  }
+
+  .carousel {
+    display: flex;
+    gap: var(--space-lg);
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    scroll-behavior: smooth;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding: var(--space-md) 0;
+    margin: 0 calc(-1 * var(--space-lg));
+    padding-left: var(--space-lg);
+    padding-right: var(--space-lg);
+  }
+
+  .carousel::-webkit-scrollbar {
+    display: none;
+  }
+
+  .carousel__item {
+    flex: 0 0 auto;
+    width: 320px;
+    scroll-snap-align: center;
+  }
+
+  @media (min-width: 768px) {
+    .carousel__item {
+      width: 380px;
+    }
+  }
+
+  .carousel__card {
+    display: block;
+    height: 100%;
+    border-radius: var(--radius-xl);
+    overflow: hidden;
+    text-decoration: none;
+    color: inherit;
+    border: 1px solid var(--color-border);
+    transition: transform var(--transition-base), box-shadow var(--transition-base);
+  }
+
+  .carousel__card:hover {
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-xl);
+  }
+
+  .carousel__image {
+    height: 180px;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .carousel__gradient {
+    position: absolute;
+    inset: 0;
+    opacity: 0.85;
+  }
+
+  .carousel__content {
+    padding: var(--space-lg);
+    background: var(--color-bg-primary);
+  }
+
+  .carousel__title {
+    font-size: var(--text-xl);
+    font-weight: 600;
+    margin-bottom: var(--space-sm);
+    color: var(--color-text-primary);
+  }
+
+  .carousel__description {
+    color: var(--color-text-secondary);
+    font-size: var(--text-sm);
+    line-height: 1.6;
+    margin-bottom: var(--space-md);
+  }
+
+  .carousel__tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-xs);
+  }
+
+  .tag {
+    display: inline-block;
+    padding: var(--space-xs) var(--space-sm);
+    font-size: var(--text-xs);
+    background: var(--color-bg-tertiary);
+    border-radius: var(--radius-md);
+    color: var(--color-text-secondary);
+  }
+
+  /* Navigation */
+  .carousel__nav {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: var(--space-md);
+    margin-top: var(--space-xl);
+  }
+
+  .carousel__btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    border: 1px solid var(--color-border);
+    background: var(--color-bg-primary);
+    color: var(--color-text-primary);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .carousel__btn:hover {
+    border-color: var(--color-accent-primary);
+    color: var(--color-accent-primary);
+  }
+
+  .carousel__btn:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+  }
+
+  .carousel__dots {
+    display: flex;
+    gap: var(--space-sm);
+  }
+
+  .carousel__dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    border: none;
+    background: var(--color-bg-tertiary);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+  }
+
+  .carousel__dot:hover {
+    background: var(--color-text-tertiary);
+  }
+
+  .carousel__dot.active {
+    background: var(--color-accent-primary);
+    width: 24px;
+    border-radius: var(--radius-full);
+  }
+</style>
+
+<script>
+  const carousel = document.getElementById('projects-carousel');
+  const prevBtn = document.getElementById('carousel-prev');
+  const nextBtn = document.getElementById('carousel-next');
+  const dotsContainer = document.getElementById('carousel-dots');
+  const dots = dotsContainer?.querySelectorAll('.carousel__dot');
+  const items = carousel?.querySelectorAll('.carousel__item');
+
+  if (carousel && prevBtn && nextBtn && dots && items) {
+    let currentIndex = 0;
+    const itemWidth = items[0]?.getBoundingClientRect().width || 320;
+    const gap = 24; // var(--space-lg)
+
+    function updateDots(index: number) {
+      dots.forEach((dot, i) => {
+        dot.classList.toggle('active', i === index);
+      });
+    }
+
+    function scrollToIndex(index: number) {
+      if (index < 0) index = 0;
+      if (index >= items.length) index = items.length - 1;
+
+      currentIndex = index;
+      const scrollPosition = index * (itemWidth + gap);
+      carousel.scrollTo({ left: scrollPosition, behavior: 'smooth' });
+      updateDots(index);
+    }
+
+    prevBtn.addEventListener('click', () => {
+      scrollToIndex(currentIndex - 1);
+    });
+
+    nextBtn.addEventListener('click', () => {
+      scrollToIndex(currentIndex + 1);
+    });
+
+    dots.forEach((dot, i) => {
+      dot.addEventListener('click', () => {
+        scrollToIndex(i);
+      });
+    });
+
+    // Update dots on scroll
+    carousel.addEventListener('scroll', () => {
+      const scrollPosition = carousel.scrollLeft;
+      const newIndex = Math.round(scrollPosition / (itemWidth + gap));
+      if (newIndex !== currentIndex) {
+        currentIndex = newIndex;
+        updateDots(newIndex);
+      }
+    });
+  }
+</script>

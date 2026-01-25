@@ -12,17 +12,21 @@
  */
 
 import BaseLayout from '../layouts/BaseLayout.astro';
+import FeaturedProjects from '../components/FeaturedProjects.astro';
+import LatestPosts from '../components/LatestPosts.astro';
+import Currently from '../components/Currently.astro';
 ---
 
 <BaseLayout title="Home" description="Personal website of Aryan Singh - Software Engineer, Researcher, Writer">
-  <!-- Hero Section (placeholder for WebGL in Phase 5) -->
+  <!-- Hero Section (WebGL particles added in Phase 5) -->
   <section class="hero">
-    <!-- Placeholder background gradient -->
+    <!-- Placeholder background gradient (replaced with WebGL in Phase 5) -->
     <div class="hero__bg"></div>
 
-    <div class="container hero__content">
+    <div class="container hero__content animate-fade-in-up">
+      <p class="hero__intro">Hi, I'm</p>
       <h1 class="hero__title">
-        Aryan Singh
+        <span class="hero__name">Aryan Singh</span>
       </h1>
       <p class="hero__tagline">
         Software Engineer, Researcher, and Writer exploring the intersection of technology, AI, and human creativity.
@@ -36,96 +40,91 @@ import BaseLayout from '../layouts/BaseLayout.astro';
         </a>
       </div>
     </div>
+
+    <!-- Scroll indicator -->
+    <div class="hero__scroll">
+      <span class="hero__scroll-text">Scroll to explore</span>
+      <div class="hero__scroll-line"></div>
+    </div>
   </section>
 
-  <!-- Featured Projects Section (placeholder) -->
-  <section class="section section--alt">
+  <!-- Featured Projects Section -->
+  <section class="section section--alt" id="projects">
     <div class="container">
-      <h2 class="section__title">
-        Featured Projects
-      </h2>
-      <div class="projects-grid">
-        {[1, 2, 3].map((i) => (
-          <article class="project-card float-card hover-lift">
-            <div class="project-card__image"></div>
-            <div class="project-card__content">
-              <h3 class="project-card__title">Project {i}</h3>
-              <p class="project-card__description">
-                A brief description of this amazing project and what it does.
-              </p>
-              <div class="project-card__tags">
-                <span class="tag">TypeScript</span>
-                <span class="tag">React</span>
-              </div>
-            </div>
-          </article>
-        ))}
-      </div>
+      <header class="section__header">
+        <span class="section__label">Selected Work</span>
+        <h2 class="section__title">Featured Projects</h2>
+        <p class="section__description">
+          A selection of projects I've built, from research tools to creative experiments.
+        </p>
+      </header>
+
+      <FeaturedProjects />
+
       <div class="section__cta">
-        <a href="/portfolio" class="link-underline">
-          View all projects →
+        <a href="/portfolio" class="link-arrow">
+          View all projects
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
         </a>
       </div>
     </div>
   </section>
 
-  <!-- Latest Blog Posts Section (placeholder) -->
-  <section class="section">
+  <!-- Latest Blog Posts Section -->
+  <section class="section" id="writing">
     <div class="container">
-      <h2 class="section__title">
-        Latest Writing
-      </h2>
-      <div class="blog-grid">
-        {[1, 2, 3].map((i) => (
-          <article class="blog-card group">
-            <time class="blog-card__date">January {i}, 2026</time>
-            <h3 class="blog-card__title">
-              <a href={`/blog/post-${i}`} class="group-hover:underline">
-                Blog Post Title {i}
-              </a>
-            </h3>
-            <p class="blog-card__excerpt">
-              A short excerpt from the blog post that gives readers a preview of what to expect.
-            </p>
-            <span class="tag">Technical</span>
-          </article>
-        ))}
-      </div>
+      <header class="section__header">
+        <span class="section__label">Recent Writing</span>
+        <h2 class="section__title">Latest Posts</h2>
+        <p class="section__description">
+          Thoughts on technology, research, and building things.
+        </p>
+      </header>
+
+      <LatestPosts />
+
       <div class="section__cta">
-        <a href="/blog" class="link-underline">
-          Read all posts →
+        <a href="/blog" class="link-arrow">
+          Read all posts
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h14M12 5l7 7-7 7"/>
+          </svg>
         </a>
       </div>
     </div>
   </section>
 
-  <!-- Currently Widget Section (placeholder) -->
-  <section class="section section--alt">
+  <!-- Currently Widget Section -->
+  <section class="section section--alt" id="currently">
     <div class="container container--narrow">
-      <h2 class="section__title">
-        Currently
-      </h2>
-      <div class="currently-grid">
-        <div class="currently-card float-card">
-          <h3 class="currently-card__title currently-card__title--reading">
-            📚 Reading
-          </h3>
-          <p class="currently-card__content">The Art of Doing Science and Engineering</p>
-          <p class="currently-card__meta">by Richard Hamming</p>
-        </div>
-        <div class="currently-card float-card">
-          <h3 class="currently-card__title currently-card__title--building">
-            🔨 Building
-          </h3>
-          <p class="currently-card__content">This website</p>
-          <p class="currently-card__meta">A custom personal site with Astro</p>
-        </div>
-        <div class="currently-card float-card">
-          <h3 class="currently-card__title currently-card__title--thinking">
-            💭 Thinking
-          </h3>
-          <p class="currently-card__content">About the future of human-AI collaboration</p>
-        </div>
+      <header class="section__header">
+        <span class="section__label">Right Now</span>
+        <h2 class="section__title">Currently</h2>
+        <p class="section__description">
+          What I'm working on, learning, and thinking about.
+        </p>
+      </header>
+
+      <Currently />
+    </div>
+  </section>
+
+  <!-- Contact CTA Section -->
+  <section class="section section--cta">
+    <div class="container container--narrow">
+      <h2 class="cta__title">Let's Connect</h2>
+      <p class="cta__description">
+        I'm always interested in new opportunities, collaborations, or just a good conversation about technology and ideas.
+      </p>
+      <div class="cta__buttons">
+        <a href="mailto:hello@aryansingh.org" class="btn btn--primary">
+          Say Hello
+        </a>
+        <a href="/about" class="btn btn--secondary">
+          Learn More About Me
+        </a>
       </div>
     </div>
   </section>
@@ -146,26 +145,44 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   .hero__bg {
     position: absolute;
     inset: 0;
-    background: linear-gradient(
-      135deg,
-      var(--color-accent-primary) 0%,
-      var(--color-accent-secondary) 50%,
-      var(--color-accent-tertiary) 100%
+    background: radial-gradient(
+      ellipse at 50% 0%,
+      color-mix(in srgb, var(--color-accent-primary) 15%, transparent) 0%,
+      transparent 60%
     );
-    opacity: 0.08;
   }
 
   .hero__content {
     position: relative;
     z-index: 1;
     max-width: 800px;
+    padding: var(--space-2xl) var(--space-md);
+  }
+
+  .hero__intro {
+    font-size: var(--text-lg);
+    color: var(--color-accent-primary);
+    font-weight: 500;
+    margin-bottom: var(--space-sm);
   }
 
   .hero__title {
-    font-size: var(--text-6xl);
+    font-size: clamp(3rem, 10vw, 6rem);
     font-family: var(--font-serif);
     margin-bottom: var(--space-lg);
     line-height: 1.1;
+  }
+
+  .hero__name {
+    background: linear-gradient(
+      135deg,
+      var(--color-text-primary) 0%,
+      var(--color-accent-primary) 50%,
+      var(--color-accent-secondary) 100%
+    );
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
   }
 
   .hero__tagline {
@@ -183,6 +200,44 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     flex-wrap: wrap;
   }
 
+  .hero__scroll {
+    position: absolute;
+    bottom: var(--space-2xl);
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-sm);
+    animation: float 2s ease-in-out infinite;
+  }
+
+  .hero__scroll-text {
+    font-size: var(--text-xs);
+    color: var(--color-text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+
+  .hero__scroll-line {
+    width: 1px;
+    height: 40px;
+    background: linear-gradient(
+      to bottom,
+      var(--color-text-tertiary),
+      transparent
+    );
+  }
+
+  @keyframes float {
+    0%, 100% {
+      transform: translateX(-50%) translateY(0);
+    }
+    50% {
+      transform: translateX(-50%) translateY(8px);
+    }
+  }
+
   /* Buttons */
   .btn {
     display: inline-flex;
@@ -193,6 +248,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     font-weight: 500;
     text-decoration: none;
     transition: all var(--transition-fast);
+    gap: var(--space-sm);
   }
 
   .btn--primary {
@@ -203,6 +259,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   .btn--primary:hover {
     background: var(--color-accent-secondary);
     transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
   }
 
   .btn--secondary {
@@ -214,6 +271,7 @@ import BaseLayout from '../layouts/BaseLayout.astro';
   .btn--secondary:hover {
     border-color: var(--color-accent-primary);
     color: var(--color-accent-primary);
+    transform: translateY(-2px);
   }
 
   /* Sections */
@@ -225,10 +283,39 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     background: var(--color-bg-secondary);
   }
 
-  .section__title {
-    font-size: var(--text-4xl);
+  .section--cta {
+    text-align: center;
+    background: linear-gradient(
+      180deg,
+      var(--color-bg-primary) 0%,
+      var(--color-bg-secondary) 100%
+    );
+  }
+
+  .section__header {
     text-align: center;
     margin-bottom: var(--space-3xl);
+  }
+
+  .section__label {
+    display: inline-block;
+    font-size: var(--text-sm);
+    color: var(--color-accent-primary);
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    font-weight: 500;
+    margin-bottom: var(--space-sm);
+  }
+
+  .section__title {
+    font-size: var(--text-4xl);
+    margin-bottom: var(--space-md);
+  }
+
+  .section__description {
+    color: var(--color-text-secondary);
+    max-width: 500px;
+    margin: 0 auto;
   }
 
   .section__cta {
@@ -236,9 +323,26 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     margin-top: var(--space-3xl);
   }
 
-  .section__cta a {
+  .link-arrow {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-sm);
     color: var(--color-accent-primary);
     font-weight: 500;
+    text-decoration: none;
+    transition: gap var(--transition-fast);
+  }
+
+  .link-arrow:hover {
+    gap: var(--space-md);
+  }
+
+  .link-arrow svg {
+    transition: transform var(--transition-fast);
+  }
+
+  .link-arrow:hover svg {
+    transform: translateX(4px);
   }
 
   /* Container variations */
@@ -246,129 +350,30 @@ import BaseLayout from '../layouts/BaseLayout.astro';
     max-width: 700px;
   }
 
-  /* Projects Grid */
-  .projects-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-    gap: var(--space-xl);
-  }
-
-  .project-card {
-    border-radius: var(--radius-xl);
-    overflow: hidden;
-    border: 1px solid var(--color-border);
-  }
-
-  .project-card__image {
-    height: 180px;
-    background: linear-gradient(
-      135deg,
-      var(--color-accent-primary),
-      var(--color-accent-secondary)
-    );
-    opacity: 0.3;
-  }
-
-  .project-card__content {
-    padding: var(--space-lg);
-  }
-
-  .project-card__title {
-    font-size: var(--text-xl);
-    margin-bottom: var(--space-sm);
-  }
-
-  .project-card__description {
-    color: var(--color-text-secondary);
+  /* CTA Section */
+  .cta__title {
+    font-size: var(--text-4xl);
     margin-bottom: var(--space-md);
   }
 
-  .project-card__tags {
+  .cta__description {
+    color: var(--color-text-secondary);
+    max-width: 500px;
+    margin: 0 auto var(--space-xl);
+    line-height: 1.6;
+  }
+
+  .cta__buttons {
     display: flex;
-    gap: var(--space-sm);
+    gap: var(--space-md);
+    justify-content: center;
+    flex-wrap: wrap;
   }
 
-  /* Tags */
-  .tag {
-    display: inline-block;
-    padding: var(--space-xs) var(--space-sm);
-    font-size: var(--text-sm);
-    background: var(--color-bg-tertiary);
-    border-radius: var(--radius-md);
-    color: var(--color-text-secondary);
-  }
-
-  /* Blog Grid */
-  .blog-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-    gap: var(--space-xl);
-    max-width: 900px;
-    margin: 0 auto;
-  }
-
-  .blog-card {
-    padding: var(--space-lg);
-  }
-
-  .blog-card__date {
-    font-size: var(--text-sm);
-    color: var(--color-text-tertiary);
-  }
-
-  .blog-card__title {
-    font-size: var(--text-xl);
-    margin: var(--space-sm) 0;
-  }
-
-  .blog-card__title a {
-    color: inherit;
-    text-decoration: none;
-  }
-
-  .blog-card__excerpt {
-    color: var(--color-text-secondary);
-    margin-bottom: var(--space-md);
-  }
-
-  /* Currently Grid */
-  .currently-grid {
-    display: grid;
-    gap: var(--space-lg);
-  }
-
-  .currently-card {
-    padding: var(--space-lg);
-    border-radius: var(--radius-xl);
-    border: 1px solid var(--color-border);
-  }
-
-  .currently-card__title {
-    font-size: var(--text-lg);
-    font-family: var(--font-sans);
-    margin-bottom: var(--space-sm);
-  }
-
-  .currently-card__title--reading {
-    color: var(--color-accent-primary);
-  }
-
-  .currently-card__title--building {
-    color: var(--color-accent-secondary);
-  }
-
-  .currently-card__title--thinking {
-    color: var(--color-accent-tertiary);
-  }
-
-  .currently-card__content {
-    color: var(--color-text-primary);
-    margin: 0;
-  }
-
-  .currently-card__meta {
-    font-size: var(--text-sm);
-    color: var(--color-text-tertiary);
-    margin: var(--space-xs) 0 0;
+  /* Responsive */
+  @media (max-width: 768px) {
+    .hero__scroll {
+      display: none;
+    }
   }
 </style>
