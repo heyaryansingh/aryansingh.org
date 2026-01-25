@@ -1,0 +1,24 @@
+{
+  "featured": [
+    {
+      "name": "project-one",
+      "displayName": "Project One",
+      "description": "A sample featured project to demonstrate the portfolio system",
+      "github": "https://github.com/aryansingh/project-one",
+      "demo": "https://project-one.aryansingh.org",
+      "pinned": true
+    },
+    {
+      "name": "project-two",
+      "displayName": "Project Two",
+      "description": "Another featured project with custom write-up",
+      "github": "https://github.com/aryansingh/project-two",
+      "pinned": true
+    }
+  ],
+  "pinnedRepos": [
+    "project-one",
+    "project-two",
+    "aryansingh.org"
+  ]
+}

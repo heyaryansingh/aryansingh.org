@@ -1,0 +1,167 @@
+---
+/**
+ * Homepage
+ *
+ * The main landing page featuring:
+ * - Hero section with WebGL particles (Phase 5)
+ * - Featured projects carousel
+ * - Latest blog posts
+ * - Currently widget
+ *
+ * This is a placeholder that will be enhanced in later phases.
+ */
+
+import BaseLayout from '../layouts/BaseLayout.astro';
+import ThemeToggle from '../components/ThemeToggle';
+---
+
+<BaseLayout title="Home" description="Personal website of Aryan Singh - Software Engineer, Researcher, Writer">
+  <main class="min-h-screen">
+    <!-- Navigation placeholder -->
+    <nav class="fixed top-0 left-0 right-0 z-50 p-4 flex justify-between items-center" style="background: var(--color-bg-primary); border-bottom: 1px solid var(--color-border);">
+      <a href="/" class="text-xl font-bold" style="font-family: var(--font-serif); color: var(--color-text-primary);">
+        Aryan Singh
+      </a>
+      <div class="flex items-center gap-4">
+        <a href="/portfolio" style="color: var(--color-text-secondary);">Portfolio</a>
+        <a href="/blog" style="color: var(--color-text-secondary);">Blog</a>
+        <a href="/about" style="color: var(--color-text-secondary);">About</a>
+        <ThemeToggle client:load />
+      </div>
+    </nav>
+
+    <!-- Hero Section (placeholder for WebGL in Phase 5) -->
+    <section class="relative flex items-center justify-center" style="min-height: 100vh; padding-top: 80px;">
+      <!-- Placeholder background gradient -->
+      <div class="absolute inset-0" style="background: linear-gradient(135deg, var(--color-accent-primary) 0%, var(--color-accent-secondary) 50%, var(--color-accent-tertiary) 100%); opacity: 0.1;"></div>
+
+      <div class="container relative z-10 text-center">
+        <h1 class="mb-6" style="font-size: var(--text-6xl); font-family: var(--font-serif);">
+          Aryan Singh
+        </h1>
+        <p class="text-xl mb-8" style="color: var(--color-text-secondary); max-width: 600px; margin-left: auto; margin-right: auto;">
+          Software Engineer, Researcher, and Writer exploring the intersection of technology, AI, and human creativity.
+        </p>
+        <div class="flex gap-4 justify-center">
+          <a
+            href="/portfolio"
+            class="px-6 py-3 rounded-lg font-medium transition-all"
+            style="background: var(--color-accent-primary); color: white;"
+          >
+            View My Work
+          </a>
+          <a
+            href="/blog"
+            class="px-6 py-3 rounded-lg font-medium transition-all"
+            style="border: 1px solid var(--color-border); color: var(--color-text-primary);"
+          >
+            Read My Writing
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Featured Projects Section (placeholder) -->
+    <section class="py-24" style="background: var(--color-bg-secondary);">
+      <div class="container">
+        <h2 class="text-center mb-12" style="font-size: var(--text-4xl);">
+          Featured Projects
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {[1, 2, 3].map((i) => (
+            <div
+              class="p-6 rounded-xl transition-all hover:scale-105"
+              style="background: var(--color-bg-primary); border: 1px solid var(--color-border); box-shadow: var(--shadow-md);"
+            >
+              <div class="h-40 rounded-lg mb-4" style="background: linear-gradient(135deg, var(--color-accent-primary), var(--color-accent-secondary)); opacity: 0.3;"></div>
+              <h3 class="text-xl mb-2">Project {i}</h3>
+              <p style="color: var(--color-text-secondary);">
+                A brief description of this amazing project and what it does.
+              </p>
+              <div class="flex gap-2 mt-4">
+                <span class="px-2 py-1 text-sm rounded" style="background: var(--color-bg-tertiary);">TypeScript</span>
+                <span class="px-2 py-1 text-sm rounded" style="background: var(--color-bg-tertiary);">React</span>
+              </div>
+            </div>
+          ))}
+        </div>
+        <div class="text-center mt-12">
+          <a href="/portfolio" style="color: var(--color-accent-primary);">
+            View all projects →
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Latest Blog Posts Section (placeholder) -->
+    <section class="py-24">
+      <div class="container">
+        <h2 class="text-center mb-12" style="font-size: var(--text-4xl);">
+          Latest Writing
+        </h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+          {[1, 2, 3].map((i) => (
+            <article class="group">
+              <time class="text-sm" style="color: var(--color-text-tertiary);">January {i}, 2026</time>
+              <h3 class="text-xl mt-2 mb-2 group-hover:underline">
+                <a href={`/blog/post-${i}`}>
+                  Blog Post Title {i}
+                </a>
+              </h3>
+              <p style="color: var(--color-text-secondary);">
+                A short excerpt from the blog post that gives readers a preview of what to expect.
+              </p>
+              <span class="inline-block mt-2 text-sm px-2 py-1 rounded" style="background: var(--color-bg-tertiary);">
+                Technical
+              </span>
+            </article>
+          ))}
+        </div>
+        <div class="text-center mt-12">
+          <a href="/blog" style="color: var(--color-accent-primary);">
+            Read all posts →
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- Currently Widget Section (placeholder) -->
+    <section class="py-24" style="background: var(--color-bg-secondary);">
+      <div class="container max-w-2xl">
+        <h2 class="text-center mb-12" style="font-size: var(--text-4xl);">
+          Currently
+        </h2>
+        <div class="grid gap-6">
+          <div class="p-6 rounded-xl" style="background: var(--color-bg-primary); border: 1px solid var(--color-border);">
+            <h3 class="text-lg mb-2" style="color: var(--color-accent-primary);">📚 Reading</h3>
+            <p style="color: var(--color-text-primary);">The Art of Doing Science and Engineering</p>
+            <p class="text-sm" style="color: var(--color-text-tertiary);">by Richard Hamming</p>
+          </div>
+          <div class="p-6 rounded-xl" style="background: var(--color-bg-primary); border: 1px solid var(--color-border);">
+            <h3 class="text-lg mb-2" style="color: var(--color-accent-secondary);">🔨 Building</h3>
+            <p style="color: var(--color-text-primary);">This website</p>
+            <p class="text-sm" style="color: var(--color-text-tertiary);">A custom personal site with Astro</p>
+          </div>
+          <div class="p-6 rounded-xl" style="background: var(--color-bg-primary); border: 1px solid var(--color-border);">
+            <h3 class="text-lg mb-2" style="color: var(--color-accent-tertiary);">💭 Thinking</h3>
+            <p style="color: var(--color-text-primary);">About the future of human-AI collaboration</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12" style="border-top: 1px solid var(--color-border);">
+      <div class="container text-center">
+        <p style="color: var(--color-text-tertiary);">
+          © 2026 Aryan Singh. Built with Astro.
+        </p>
+        <div class="flex gap-4 justify-center mt-4">
+          <a href="https://github.com/aryansingh" style="color: var(--color-text-secondary);">GitHub</a>
+          <a href="https://twitter.com/aryansingh" style="color: var(--color-text-secondary);">Twitter</a>
+          <a href="https://linkedin.com/in/aryansingh" style="color: var(--color-text-secondary);">LinkedIn</a>
+        </div>
+      </div>
+    </footer>
+  </main>
+</BaseLayout>

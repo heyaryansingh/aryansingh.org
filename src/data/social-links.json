@@ -1,0 +1,28 @@
+{
+  "links": [
+    {
+      "name": "GitHub",
+      "url": "https://github.com/aryansingh",
+      "icon": "github",
+      "username": "@aryansingh"
+    },
+    {
+      "name": "Twitter",
+      "url": "https://twitter.com/aryansingh",
+      "icon": "twitter",
+      "username": "@aryansingh"
+    },
+    {
+      "name": "LinkedIn",
+      "url": "https://linkedin.com/in/aryansingh",
+      "icon": "linkedin",
+      "username": "aryansingh"
+    },
+    {
+      "name": "Email",
+      "url": "mailto:hello@aryansingh.org",
+      "icon": "email",
+      "username": "hello@aryansingh.org"
+    }
+  ]
+}

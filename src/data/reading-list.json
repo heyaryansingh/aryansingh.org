@@ -1,0 +1,37 @@
+{
+  "currentlyReading": {
+    "title": "The Art of Doing Science and Engineering",
+    "author": "Richard Hamming",
+    "progress": 45,
+    "startedDate": "2026-01-01",
+    "link": "https://www.goodreads.com/book/show/530415"
+  },
+  "upNext": [
+    {
+      "title": "Designing Data-Intensive Applications",
+      "author": "Martin Kleppmann",
+      "link": "https://dataintensive.net/"
+    },
+    {
+      "title": "The Pragmatic Programmer",
+      "author": "David Thomas, Andrew Hunt",
+      "link": "https://pragprog.com/titles/tpp20/"
+    }
+  ],
+  "completed": [
+    {
+      "title": "Clean Code",
+      "author": "Robert C. Martin",
+      "rating": 4,
+      "completedDate": "2025-12-15",
+      "notes": "Essential reading for any developer. Some examples feel dated but the principles are timeless."
+    },
+    {
+      "title": "Thinking, Fast and Slow",
+      "author": "Daniel Kahneman",
+      "rating": 5,
+      "completedDate": "2025-11-20",
+      "notes": "Changed how I think about decision-making and cognitive biases."
+    }
+  ]
+}

@@ -1,0 +1,110 @@
+---
+/**
+ * Base Layout
+ *
+ * The foundational layout for all pages. Includes:
+ * - HTML document structure
+ * - Global CSS import
+ * - Font loading
+ * - Theme initialization
+ * - SEO meta tags slot
+ *
+ * USAGE:
+ * <BaseLayout title="Page Title" description="Page description">
+ *   <YourContent />
+ * </BaseLayout>
+ */
+
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description?: string;
+  image?: string;
+  canonicalUrl?: string;
+  noIndex?: boolean;
+}
+
+const {
+  title,
+  description = 'Personal website of Aryan Singh - Software Engineer, Researcher, Writer',
+  image = '/images/og-default.png',
+  canonicalUrl,
+  noIndex = false,
+} = Astro.props;
+
+const siteUrl = import.meta.env.PUBLIC_SITE_URL || 'https://aryansingh.org';
+const fullUrl = canonicalUrl || new URL(Astro.url.pathname, siteUrl).href;
+const fullImage = image.startsWith('http') ? image : new URL(image, siteUrl).href;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="generator" content={Astro.generator} />
+
+    <!-- Primary Meta Tags -->
+    <title>{title} | Aryan Singh</title>
+    <meta name="title" content={`${title} | Aryan Singh`} />
+    <meta name="description" content={description} />
+    {noIndex && <meta name="robots" content="noindex, nofollow" />}
+    <link rel="canonical" href={fullUrl} />
+
+    <!-- Open Graph / Facebook -->
+    <meta property="og:type" content="website" />
+    <meta property="og:url" content={fullUrl} />
+    <meta property="og:title" content={`${title} | Aryan Singh`} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content={fullImage} />
+
+    <!-- Twitter -->
+    <meta property="twitter:card" content="summary_large_image" />
+    <meta property="twitter:url" content={fullUrl} />
+    <meta property="twitter:title" content={`${title} | Aryan Singh`} />
+    <meta property="twitter:description" content={description} />
+    <meta property="twitter:image" content={fullImage} />
+
+    <!-- Fonts - Using Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- Theme initialization script (runs before page render to prevent flash) -->
+    <script is:inline>
+      (function () {
+        const theme = localStorage.getItem('theme') || 'auto';
+        const isDark =
+          theme === 'dark' ||
+          (theme === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+        document.documentElement.classList.toggle('dark', isDark);
+        document.documentElement.setAttribute('data-theme', isDark ? 'dark' : 'light');
+      })();
+    </script>
+
+    <!-- Additional head elements slot -->
+    <slot name="head" />
+  </head>
+  <body>
+    <!-- Main content -->
+    <slot />
+
+    <!-- Global scripts slot -->
+    <slot name="scripts" />
+  </body>
+</html>
+
+<style is:global>
+  /* Ensure smooth page load */
+  html {
+    visibility: visible;
+    opacity: 1;
+  }
+</style>

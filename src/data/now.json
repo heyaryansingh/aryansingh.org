@@ -1,0 +1,23 @@
+{
+  "lastUpdated": "2026-01-24",
+  "location": "San Francisco, CA",
+  "timezone": "America/Los_Angeles",
+  "workingOn": [
+    {
+      "title": "Building aryansingh.org",
+      "description": "Creating a custom personal website with Astro, React, and advanced animations",
+      "status": "active"
+    },
+    {
+      "title": "Exploring AI research",
+      "description": "Reading papers on LLM reasoning and human-AI collaboration",
+      "status": "ongoing"
+    }
+  ],
+  "learning": [
+    "WebGL and Three.js for creative coding",
+    "Advanced animation techniques with GSAP",
+    "Cloudflare Workers for serverless functions"
+  ],
+  "thinking": "About the future of personal websites in the age of AI, and how to make the web more personal again."
+}
