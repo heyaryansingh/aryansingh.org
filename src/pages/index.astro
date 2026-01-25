@@ -12,41 +12,18 @@
  */
 
 import BaseLayout from '../layouts/BaseLayout.astro';
+import ParticleHero from '../components/ParticleHero.astro';
+import HeroContent from '../components/HeroContent.astro';
 import FeaturedProjects from '../components/FeaturedProjects.astro';
 import LatestPosts from '../components/LatestPosts.astro';
 import Currently from '../components/Currently.astro';
 ---
 
 <BaseLayout title="Home" description="Personal website of Aryan Singh - Software Engineer, Researcher, Writer">
-  <!-- Hero Section (WebGL particles added in Phase 5) -->
-  <section class="hero">
-    <!-- Placeholder background gradient (replaced with WebGL in Phase 5) -->
-    <div class="hero__bg"></div>
-
-    <div class="container hero__content animate-fade-in-up">
-      <p class="hero__intro">Hi, I'm</p>
-      <h1 class="hero__title">
-        <span class="hero__name">Aryan Singh</span>
-      </h1>
-      <p class="hero__tagline">
-        Software Engineer, Researcher, and Writer exploring the intersection of technology, AI, and human creativity.
-      </p>
-      <div class="hero__cta">
-        <a href="/portfolio" class="btn btn--primary">
-          View My Work
-        </a>
-        <a href="/blog" class="btn btn--secondary">
-          Read My Writing
-        </a>
-      </div>
-    </div>
-
-    <!-- Scroll indicator -->
-    <div class="hero__scroll">
-      <span class="hero__scroll-text">Scroll to explore</span>
-      <div class="hero__scroll-line"></div>
-    </div>
-  </section>
+  <!-- Hero Section with WebGL Particles -->
+  <ParticleHero>
+    <HeroContent />
+  </ParticleHero>
 
   <!-- Featured Projects Section -->
   <section class="section section--alt" id="projects">
@@ -131,149 +108,6 @@ import Currently from '../components/Currently.astro';
 </BaseLayout>
 
 <style>
-  /* Hero Section */
-  .hero {
-    position: relative;
-    min-height: calc(100vh - 64px);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    overflow: hidden;
-  }
-
-  .hero__bg {
-    position: absolute;
-    inset: 0;
-    background: radial-gradient(
-      ellipse at 50% 0%,
-      color-mix(in srgb, var(--color-accent-primary) 15%, transparent) 0%,
-      transparent 60%
-    );
-  }
-
-  .hero__content {
-    position: relative;
-    z-index: 1;
-    max-width: 800px;
-    padding: var(--space-2xl) var(--space-md);
-  }
-
-  .hero__intro {
-    font-size: var(--text-lg);
-    color: var(--color-accent-primary);
-    font-weight: 500;
-    margin-bottom: var(--space-sm);
-  }
-
-  .hero__title {
-    font-size: clamp(3rem, 10vw, 6rem);
-    font-family: var(--font-serif);
-    margin-bottom: var(--space-lg);
-    line-height: 1.1;
-  }
-
-  .hero__name {
-    background: linear-gradient(
-      135deg,
-      var(--color-text-primary) 0%,
-      var(--color-accent-primary) 50%,
-      var(--color-accent-secondary) 100%
-    );
-    background-clip: text;
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-  }
-
-  .hero__tagline {
-    font-size: var(--text-xl);
-    color: var(--color-text-secondary);
-    max-width: 600px;
-    margin: 0 auto var(--space-2xl);
-    line-height: 1.6;
-  }
-
-  .hero__cta {
-    display: flex;
-    gap: var(--space-md);
-    justify-content: center;
-    flex-wrap: wrap;
-  }
-
-  .hero__scroll {
-    position: absolute;
-    bottom: var(--space-2xl);
-    left: 50%;
-    transform: translateX(-50%);
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: var(--space-sm);
-    animation: float 2s ease-in-out infinite;
-  }
-
-  .hero__scroll-text {
-    font-size: var(--text-xs);
-    color: var(--color-text-tertiary);
-    text-transform: uppercase;
-    letter-spacing: 0.1em;
-  }
-
-  .hero__scroll-line {
-    width: 1px;
-    height: 40px;
-    background: linear-gradient(
-      to bottom,
-      var(--color-text-tertiary),
-      transparent
-    );
-  }
-
-  @keyframes float {
-    0%, 100% {
-      transform: translateX(-50%) translateY(0);
-    }
-    50% {
-      transform: translateX(-50%) translateY(8px);
-    }
-  }
-
-  /* Buttons */
-  .btn {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    padding: var(--space-md) var(--space-xl);
-    border-radius: var(--radius-lg);
-    font-weight: 500;
-    text-decoration: none;
-    transition: all var(--transition-fast);
-    gap: var(--space-sm);
-  }
-
-  .btn--primary {
-    background: var(--color-accent-primary);
-    color: white;
-  }
-
-  .btn--primary:hover {
-    background: var(--color-accent-secondary);
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-lg);
-  }
-
-  .btn--secondary {
-    border: 1px solid var(--color-border);
-    color: var(--color-text-primary);
-    background: var(--color-bg-primary);
-  }
-
-  .btn--secondary:hover {
-    border-color: var(--color-accent-primary);
-    color: var(--color-accent-primary);
-    transform: translateY(-2px);
-  }
-
   /* Sections */
   .section {
     padding: var(--space-4xl) 0;
@@ -370,10 +204,4 @@ import Currently from '../components/Currently.astro';
     flex-wrap: wrap;
   }
 
-  /* Responsive */
-  @media (max-width: 768px) {
-    .hero__scroll {
-      display: none;
-    }
-  }
 </style>
