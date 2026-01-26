@@ -12,7 +12,7 @@ import RandomQuote from "../components/RandomQuote";
 
 // Auto-discover all photos from src/assets/me/
 const photoFiles = import.meta.glob<{ default: ImageMetadata }>(
-  "../assets/me/*.{jpg,jpeg,png,webp,gif}",
+  "../assets/me/*.{jpg,jpeg,png,webp,gif,JPG,JPEG,PNG,WEBP,GIF}",
   { eager: true }
 );
 
