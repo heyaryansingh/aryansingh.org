@@ -17,6 +17,12 @@
       "url": "mailto:aryanrheasingh@gmail.com",
       "icon": "email",
       "username": "aryanrheasingh@gmail.com"
+    },
+    {
+      "name": "Email (JHU)",
+      "url": "mailto:asing168@jh.edu",
+      "icon": "email",
+      "username": "asing168@jh.edu"
     }
   ]
 }
