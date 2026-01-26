@@ -1,11 +1,25 @@
 ---
 /**
  * Homepage
+ *
+ * Photos are auto-discovered from src/assets/me/
+ * Just drop images there and they'll appear randomly!
  */
 
 import BaseLayout from "../layouts/BaseLayout.astro";
 import RandomPhoto from "../components/RandomPhoto";
 import RandomQuote from "../components/RandomQuote";
+
+// Auto-discover all photos from src/assets/me/
+const photoFiles = import.meta.glob<{ default: ImageMetadata }>(
+  "../assets/me/*.{jpg,jpeg,png,webp,gif}",
+  { eager: true }
+);
+
+// Convert to array of photo objects
+const photos = Object.values(photoFiles).map((file) => ({
+  src: file.default.src,
+}));
 ---
 
 <BaseLayout
@@ -17,7 +31,11 @@ import RandomQuote from "../components/RandomQuote";
     <div class="home__grid">
       <!-- Left: Photo -->
       <div class="home__photo">
-        <RandomPhoto client:load />
+        <RandomPhoto
+          client:load
+          photos={photos}
+          defaultCaption="random photo of me"
+        />
       </div>
 
       <!-- Right: Identity + About -->
