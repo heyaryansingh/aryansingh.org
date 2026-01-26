@@ -1,0 +1,146 @@
+{
+    "name": "Aryan Singh",
+    "contact": {
+        "phone": "+1 (713) 340-8806",
+        "email": "aryanolympiads@gmail.com",
+        "github": "github.com/heyaryansingh",
+        "linkedin": "linkedin.com/in/real-aryan-singh"
+    },
+    "education": {
+        "institution": "Johns Hopkins University",
+        "degree": "B.S. Computer Science & Biomedical Engineering",
+        "dates": "2023-2027",
+        "location": "Baltimore, MD",
+        "gpa": "4.0",
+        "minors": [
+            "Entrepreneurship and Management",
+            "Applied Math and Statistics"
+        ],
+        "coursework": [
+            "Machine Learning",
+            "Deep Learning",
+            "Algorithms",
+            "Probability Theory",
+            "Linear Algebra",
+            "Optimization",
+            "Systems Programming",
+            "Quantum Computing"
+        ]
+    },
+    "experience": [
+        {
+            "title": "Founding AI Developer",
+            "company": "NeuroVoice by Rice University",
+            "location": "Houston, TX",
+            "dates": "Mar 2024 – Aug 2025",
+            "highlights": [
+                "Cofounded and built a production-grade multimodal ML platform for neurological screening using speech and language models, trained on 3,000+ hours of clinical and public-health audio (12TB+).",
+                "Designed and deployed end-to-end ML infrastructure spanning data ingestion, feature extraction, model training, evaluation, and batch inference, delivering 25–30% accuracy gains over baseline cognitive screening tools.",
+                "Deployed pilots with state health agencies across 8 US states; enabled scalable deployment for 50,000+ screenings/year.",
+                "Raised $150K+ seed funding by communicating model performance, uncertainty, and deployment constraints to clinicians and policymakers."
+            ]
+        },
+        {
+            "title": "Machine Learning Engineer",
+            "company": "Texas Center For Superconductivity",
+            "location": "Houston, TX",
+            "dates": "Feb 2023 – Mar 2024",
+            "highlights": [
+                "Built ML-driven data pipelines for analyzing conductive polyaniline nanofibers in nerve and tissue regeneration research.",
+                "Processed and modeled 120,000+ high-resolution experimental micrographs using custom computer vision workflows, reducing material optimization cycles by 80%+ and compressing research iteration time from months to days."
+            ]
+        },
+        {
+            "title": "Computational Genomics & AI Researcher",
+            "company": "Rice University",
+            "location": "Houston, TX",
+            "dates": "Sep 2021 – Dec 2022",
+            "highlights": [
+                "Developed genome-scale ML systems for CRISPR off-target prediction using experimental Geminin-tagged Cas9 (gCas9), enabling ultra-high-specificity gene editing for neurodegenerative disease research.",
+                "Applied rigorous statistical modeling to 10+ TB of sequencing data, cutting in-silico screening time from weeks to <6 hours.",
+                "Work awarded Top Prize at Rice Neurotransmitter Research Competition Nationals."
+            ]
+        }
+    ],
+    "projects": [
+        {
+            "name": "QuSim",
+            "tagline": "Open-Source AI-Enhanced Quantum Circuit Simulator",
+            "description": "Built a full-stack, modular quantum circuit simulator with multiple execution backends (statevector, density-matrix, stabilizer, tensor-network), designed for correctness, extensibility, and high-performance experimentation.",
+            "highlights": [
+                "Integrated AI/ML-driven analysis to model noise, detect failure modes, and predict breakdowns in quantum circuits.",
+                "Dynamic visualizations for diagnosing behavior under entanglement growth and hardware constraints."
+            ]
+        },
+        {
+            "name": "Embodied AI Research",
+            "tagline": "Belief-Inference Evaluation & Agent Reasoning Systems",
+            "description": "Built a scalable ML evaluation framework for embodied AI agent reasoning, running 2,400+ large-scale simulations to stress-test model failure modes, decisions, and false-beliefs using Python workflows (NumPy, TensorFlow, pandas, joblib)."
+        }
+    ],
+    "awards": [
+        {
+            "name": "USA Computing Olympiad (USACO) Platinum Division",
+            "achievement": "Top 0.5% Nationally",
+            "date": "Mar 2025"
+        },
+        {
+            "name": "USA Physics Olympiad (USAPhO) Gold Medal",
+            "achievement": "Top 50 Nationally",
+            "date": "Apr 2023"
+        }
+    ],
+    "leadership": [
+        {
+            "role": "Global Youth Ambassador",
+            "organization": "City of Houston",
+            "dates": "Jan 2022 – Jul 2025",
+            "highlights": [
+                "Advised the Mayor's Office, Houston City Council, and Texas legislative staff on youth mental health and STEM access initiatives impacting multiple congressional districts.",
+                "Hosted 2-season podcast (100K+ views online) featuring the mayor, city officials, and educators.",
+                "Contributed to proposals influencing $7M+ in federal funding for youth mental health & STEM mentorship programs."
+            ]
+        }
+    ],
+    "skills": {
+        "languages": [
+            "Python (PyTorch, TensorFlow, NumPy, Pandas)",
+            "C++",
+            "MATLAB",
+            "JavaScript",
+            "Java",
+            "SQL",
+            "Bash"
+        ],
+        "fullstack": [
+            "React",
+            "Angular",
+            "HTML",
+            "CSS",
+            "REST APIs",
+            "microservices",
+            "server-side development",
+            "API design"
+        ],
+        "ml": [
+            "Deep learning",
+            "transformers and attention",
+            "multimodal models",
+            "computer vision",
+            "NLP",
+            "speech and audio modeling",
+            "model evaluation",
+            "Hugging Face",
+            "OpenCV"
+        ],
+        "systems": [
+            "Linux/Unix",
+            "Git",
+            "Docker",
+            "distributed data pipelines",
+            "parallel computing",
+            "relational databases",
+            "large-scale data processing"
+        ]
+    }
+}

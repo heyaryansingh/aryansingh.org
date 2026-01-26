@@ -1,0 +1,186 @@
+---
+/**
+ * Gallery Page - uses unified nav from BaseLayout
+ */
+
+import BaseLayout from "../layouts/BaseLayout.astro";
+---
+
+<BaseLayout
+    title="Gallery"
+    description="Daily diary, photos, and videos from aryan singh"
+>
+    <div class="gallery">
+        <header class="gallery__header">
+            <h1 class="gallery__title animate-slide-up">Gallery</h1>
+            <p class="gallery__subtitle animate-fade-in">
+                Moments, thoughts, and creations
+            </p>
+        </header>
+
+        <div class="gallery__content">
+            <!-- Tabs -->
+            <nav class="gallery__tabs" id="gallery-tabs">
+                <button class="tab active" data-tab="diary">Daily Diary</button>
+                <button class="tab" data-tab="photos">Photo Highlights</button>
+                <button class="tab" data-tab="videos">Video Highlights</button>
+            </nav>
+
+            <!-- Tab Panels -->
+            <div class="gallery__panels">
+                <div class="panel active" id="panel-diary">
+                    <div class="panel__empty">
+                        <p>No diary entries yet.</p>
+                    </div>
+                </div>
+
+                <div class="panel" id="panel-photos">
+                    <div class="panel__empty">
+                        <p>No photo highlights yet.</p>
+                    </div>
+                </div>
+
+                <div class="panel" id="panel-videos">
+                    <div class="panel__empty">
+                        <p>No video highlights yet.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</BaseLayout>
+
+<style>
+    .gallery {
+        min-height: calc(100vh - 64px);
+        padding: var(--space-3xl) var(--space-xl);
+        position: relative;
+    }
+
+    .gallery__header {
+        text-align: center;
+        margin-bottom: var(--space-3xl);
+    }
+
+    .gallery__title {
+        font-family: var(--font-serif);
+        font-size: var(--text-5xl);
+        font-weight: 400;
+        margin: 0 0 var(--space-sm) 0;
+    }
+
+    .gallery__subtitle {
+        color: var(--color-text-tertiary);
+        font-size: var(--text-lg);
+        margin: 0;
+    }
+
+    .gallery__content {
+        max-width: 900px;
+        margin: 0 auto;
+    }
+
+    .gallery__tabs {
+        display: flex;
+        justify-content: center;
+        gap: var(--space-sm);
+        margin-bottom: var(--space-2xl);
+        flex-wrap: wrap;
+    }
+
+    .tab {
+        padding: var(--space-sm) var(--space-lg);
+        font-size: var(--text-base);
+        color: var(--color-text-tertiary);
+        background: transparent;
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-lg);
+        cursor: pointer;
+        transition: all var(--transition-fast);
+    }
+
+    .tab:hover {
+        color: var(--color-text-primary);
+        border-color: var(--color-accent-primary);
+    }
+
+    .tab.active {
+        color: var(--color-accent-primary);
+        border-color: var(--color-accent-primary);
+        background: rgba(74, 95, 189, 0.1);
+    }
+
+    .gallery__panels {
+        min-height: 300px;
+    }
+
+    .panel {
+        display: none;
+    }
+
+    .panel.active {
+        display: block;
+    }
+
+    .panel__empty {
+        text-align: center;
+        padding: var(--space-4xl) var(--space-xl);
+        color: var(--color-text-tertiary);
+    }
+
+    .panel__empty p {
+        margin: 0;
+    }
+
+    @keyframes slideUp {
+        from {
+            opacity: 0;
+            transform: translateY(15px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+
+    .animate-slide-up {
+        animation: slideUp 0.5s ease forwards;
+        opacity: 0;
+    }
+
+    .animate-fade-in {
+        animation: fadeIn 0.5s ease forwards;
+        animation-delay: 0.1s;
+        opacity: 0;
+    }
+</style>
+
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const tabs = document.querySelectorAll(".tab");
+        const panels = document.querySelectorAll(".panel");
+
+        tabs.forEach((tab) => {
+            tab.addEventListener("click", () => {
+                const targetId = (tab as HTMLElement).dataset.tab;
+
+                tabs.forEach((t) => t.classList.remove("active"));
+                tab.classList.add("active");
+
+                panels.forEach((p) => p.classList.remove("active"));
+                document
+                    .getElementById(`panel-${targetId}`)
+                    ?.classList.add("active");
+            });
+        });
+    });
+</script>

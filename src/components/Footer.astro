@@ -2,25 +2,29 @@
 /**
  * Site Footer Component
  *
- * Includes:
- * - Social links
- * - Quick navigation
- * - Copyright
- *
- * USAGE:
- * <Footer />
+ * Uses siteConfig for resume toggle.
  */
 
-import socialLinks from '../data/social-links.json';
+import socialLinks from "../data/social-links.json";
+import { siteConfig } from "../lib/config";
 
 const currentYear = new Date().getFullYear();
 
-const footerLinks = [
-  { href: '/portfolio', label: 'Portfolio' },
-  { href: '/blog', label: 'Blog' },
-  { href: '/resume', label: 'Resume' },
-  { href: '/about', label: 'About' },
+const baseLinks = [
+  { href: "/portfolio", label: "Portfolio" },
+  { href: "/blog", label: "Blog" },
+  { href: "/reading", label: "Reading" },
+  { href: "/gallery", label: "Gallery" },
 ];
+
+// Add resume if enabled
+const footerLinks = siteConfig.showResume
+  ? [
+      ...baseLinks,
+      { href: "/resume", label: "Resume" },
+      { href: "/about", label: "About" },
+    ]
+  : [...baseLinks, { href: "/about", label: "About" }];
 ---
 
 <footer class="footer">
@@ -28,11 +32,10 @@ const footerLinks = [
     <div class="footer__content">
       <!-- Brand & Description -->
       <div class="footer__brand">
-        <a href="/" class="footer__logo">
-          Aryan Singh
-        </a>
+        <a href="/" class="footer__logo"> aryan singh </a>
         <p class="footer__tagline">
-          Software Engineer, Researcher, and Writer exploring the intersection of technology and creativity.
+          Engineer and researcher exploring the intersection of technology and
+          thought.
         </p>
       </div>
 
@@ -40,11 +43,13 @@ const footerLinks = [
       <div class="footer__links">
         <h3 class="footer__heading">Pages</h3>
         <nav class="footer__nav">
-          {footerLinks.map((link) => (
-            <a href={link.href} class="footer__link">
-              {link.label}
-            </a>
-          ))}
+          {
+            footerLinks.map((link) => (
+              <a href={link.href} class="footer__link">
+                {link.label}
+              </a>
+            ))
+          }
         </nav>
       </div>
 
@@ -52,17 +57,19 @@ const footerLinks = [
       <div class="footer__social">
         <h3 class="footer__heading">Connect</h3>
         <div class="footer__social-links">
-          {socialLinks.links.map((social) => (
-            <a
-              href={social.url}
-              class="footer__social-link"
-              target="_blank"
-              rel="noopener noreferrer"
-              aria-label={social.name}
-            >
-              {social.name}
-            </a>
-          ))}
+          {
+            socialLinks.links.map((social) => (
+              <a
+                href={social.url}
+                class="footer__social-link"
+                target="_blank"
+                rel="noopener noreferrer"
+                aria-label={social.name}
+              >
+                {social.name}
+              </a>
+            ))
+          }
         </div>
       </div>
     </div>
@@ -70,10 +77,12 @@ const footerLinks = [
     <!-- Bottom Bar -->
     <div class="footer__bottom">
       <p class="footer__copyright">
-        © {currentYear} Aryan Singh. All rights reserved.
+        © {currentYear} aryan singh
       </p>
       <p class="footer__built">
-        Built with <a href="https://astro.build" target="_blank" rel="noopener">Astro</a>
+        Built with <a href="https://astro.build" target="_blank" rel="noopener"
+          >Astro</a
+        >
       </p>
     </div>
   </div>

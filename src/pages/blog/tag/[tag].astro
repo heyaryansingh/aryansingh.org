@@ -1,0 +1,166 @@
+---
+/**
+ * Blog Posts by Tag
+ *
+ * Dynamic page that shows all posts with a specific tag.
+ */
+
+import { getCollection, type CollectionEntry } from "astro:content";
+import BaseLayout from "../../../layouts/BaseLayout.astro";
+import { formatDate } from "../../../lib/utils";
+
+export async function getStaticPaths() {
+    const posts = await getCollection("blog", ({ data }) => !data.draft);
+
+    // Get all unique tags
+    const allTags = new Set<string>();
+    posts.forEach((post) => {
+        post.data.tags.forEach((tag: string) => {
+            allTags.add(tag.toLowerCase().replace(/\s+/g, "-"));
+        });
+    });
+
+    return Array.from(allTags).map((tag) => ({
+        params: { tag },
+        props: {
+            tag,
+            posts: posts.filter((post) =>
+                post.data.tags.some(
+                    (t: string) => t.toLowerCase().replace(/\s+/g, "-") === tag,
+                ),
+            ),
+        },
+    }));
+}
+
+type Props = {
+    tag: string;
+    posts: CollectionEntry<"blog">[];
+};
+
+const { tag, posts } = Astro.props;
+
+// Format tag for display (capitalize, restore spaces)
+const displayTag = tag
+    .split("-")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+---
+
+<BaseLayout
+    title={`Posts tagged "${displayTag}"`}
+    description={`All blog posts tagged with ${displayTag}`}
+>
+    <section class="tag-page">
+        <div class="container">
+            <header class="tag-page__header">
+                <a href="/blog" class="tag-page__back">← All posts</a>
+                <h1 class="tag-page__title">
+                    <span class="tag-page__label">Tag:</span>
+                    {displayTag}
+                </h1>
+                <p class="tag-page__count">
+                    {posts.length} post{posts.length !== 1 ? "s" : ""}
+                </p>
+            </header>
+
+            <div class="posts-list">
+                {
+                    posts.map((post) => (
+                        <article class="post-item">
+                            <div class="post-item__meta">
+                                <time datetime={post.data.date.toISOString()}>
+                                    {formatDate(post.data.date)}
+                                </time>
+                            </div>
+                            <h2 class="post-item__title">
+                                <a href={`/blog/${post.slug}`}>
+                                    {post.data.title}
+                                </a>
+                            </h2>
+                            <p class="post-item__description">
+                                {post.data.description}
+                            </p>
+                        </article>
+                    ))
+                }
+            </div>
+        </div>
+    </section>
+</BaseLayout>
+
+<style>
+    .tag-page {
+        padding: var(--space-4xl) 0;
+    }
+
+    .tag-page__header {
+        margin-bottom: var(--space-3xl);
+    }
+
+    .tag-page__back {
+        display: inline-block;
+        color: var(--color-accent-primary);
+        text-decoration: none;
+        margin-bottom: var(--space-lg);
+        font-size: var(--text-sm);
+    }
+
+    .tag-page__title {
+        font-size: var(--text-4xl);
+        font-family: var(--font-serif);
+        margin-bottom: var(--space-sm);
+    }
+
+    .tag-page__label {
+        color: var(--color-text-tertiary);
+        font-weight: 400;
+    }
+
+    .tag-page__count {
+        color: var(--color-text-secondary);
+    }
+
+    .posts-list {
+        max-width: 800px;
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-xl);
+    }
+
+    .post-item {
+        padding: var(--space-xl);
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-lg);
+        transition: border-color var(--transition-fast);
+    }
+
+    .post-item:hover {
+        border-color: var(--color-accent-primary);
+    }
+
+    .post-item__meta {
+        font-size: var(--text-sm);
+        color: var(--color-text-tertiary);
+        margin-bottom: var(--space-sm);
+    }
+
+    .post-item__title {
+        font-size: var(--text-2xl);
+        margin-bottom: var(--space-sm);
+    }
+
+    .post-item__title a {
+        color: var(--color-text-primary);
+        text-decoration: none;
+    }
+
+    .post-item__title a:hover {
+        color: var(--color-accent-primary);
+    }
+
+    .post-item__description {
+        color: var(--color-text-secondary);
+        line-height: 1.6;
+    }
+</style>

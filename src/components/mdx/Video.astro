@@ -1,0 +1,107 @@
+---
+/**
+ * Video.astro
+ *
+ * MDX component for embedding videos in blog posts.
+ * Supports local videos, YouTube, and Vimeo.
+ *
+ * USAGE in MDX:
+ * <Video src="/videos/demo.mp4" />
+ * <Video src="https://youtube.com/watch?v=..." type="youtube" />
+ * <Video src="https://vimeo.com/..." type="vimeo" />
+ */
+
+interface Props {
+    src: string;
+    title?: string;
+    type?: "local" | "youtube" | "vimeo";
+    autoplay?: boolean;
+    caption?: string;
+}
+
+const {
+    src,
+    title = "Video",
+    type = "local",
+    autoplay = false,
+    caption,
+} = Astro.props;
+
+// Extract video IDs for embeds
+function getYouTubeId(url: string): string {
+    const match = url.match(/(?:youtube\.com\/watch\?v=|youtu\.be\/)([^&]+)/);
+    return match?.[1] || "";
+}
+
+function getVimeoId(url: string): string {
+    const match = url.match(/vimeo\.com\/(\d+)/);
+    return match?.[1] || "";
+}
+---
+
+<figure class="video-embed">
+    {
+        type === "local" && (
+            <video
+                controls
+                preload="metadata"
+                autoplay={autoplay}
+                muted={autoplay}
+                loop={autoplay}
+                playsinline
+            >
+                <source src={src} type="video/mp4" />
+                Your browser doesn't support video playback.
+            </video>
+        )
+    }
+
+    {
+        type === "youtube" && (
+            <iframe
+                src={`https://www.youtube.com/embed/${getYouTubeId(src)}${autoplay ? "?autoplay=1&mute=1" : ""}`}
+                title={title}
+                frameborder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowfullscreen
+            />
+        )
+    }
+
+    {
+        type === "vimeo" && (
+            <iframe
+                src={`https://player.vimeo.com/video/${getVimeoId(src)}${autoplay ? "?autoplay=1&muted=1" : ""}`}
+                title={title}
+                frameborder="0"
+                allow="autoplay; fullscreen; picture-in-picture"
+                allowfullscreen
+            />
+        )
+    }
+
+    {caption && <figcaption>{caption}</figcaption>}
+</figure>
+
+<style>
+    .video-embed {
+        margin: var(--space-xl) 0;
+        border-radius: var(--radius-lg);
+        overflow: hidden;
+    }
+
+    .video-embed video,
+    .video-embed iframe {
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        border: none;
+        background: var(--color-bg-tertiary);
+    }
+
+    .video-embed figcaption {
+        padding: var(--space-sm) 0;
+        font-size: var(--text-sm);
+        color: var(--color-text-tertiary);
+        text-align: center;
+    }
+</style>

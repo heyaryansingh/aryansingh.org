@@ -1,53 +1,77 @@
 ---
 /**
- * Lenis Smooth Scroll Component
+ * Lenis Smooth Scroll + GSAP Animations Component
  *
- * Initializes Lenis smooth scrolling on the page.
- * Include this component once in your layout.
+ * Initializes:
+ * - Lenis smooth scrolling
+ * - GSAP ScrollTrigger (synced with Lenis)
+ * - Curved reveal animations
+ * - Phase transition colors
  *
  * USAGE:
  * <SmoothScroll />
- *
- * Add data-lenis-prevent to any element that should
- * use native scrolling (like modals or overflow containers).
  */
 ---
 
 <script>
-  import Lenis from 'lenis';
+  import Lenis from "lenis";
+  import {
+    gsap,
+    ScrollTrigger,
+    initScrollAnimations,
+    initPhaseTransitions,
+  } from "../lib/gsap-setup";
 
-  // Initialize Lenis
+  // Initialize Lenis with physics-inspired easing
+  // Easing curve: exponential decay (like natural deceleration)
   const lenis = new Lenis({
-    duration: 1.2,
+    duration: 1.5,
     easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-    orientation: 'vertical',
-    gestureOrientation: 'vertical',
+    orientation: "vertical",
+    gestureOrientation: "vertical",
     smoothWheel: true,
     wheelMultiplier: 1,
     touchMultiplier: 2,
     infinite: false,
   });
 
+  // Connect GSAP ScrollTrigger to Lenis scroll
+  lenis.on("scroll", ScrollTrigger.update);
+
+  // Use Lenis requestAnimationFrame
+  gsap.ticker.add((time) => {
+    lenis.raf(time * 1000);
+  });
+
+  // Disable GSAP's built-in lag smoothing (Lenis handles this)
+  gsap.ticker.lagSmoothing(0);
+
   // Add lenis class to html for CSS styling
-  document.documentElement.classList.add('lenis', 'lenis-smooth');
+  document.documentElement.classList.add("lenis", "lenis-smooth");
 
   // Animation frame loop
   function raf(time: number) {
     lenis.raf(time);
     requestAnimationFrame(raf);
   }
-
   requestAnimationFrame(raf);
 
-  // Expose lenis to window for other scripts to use
+  // Initialize GSAP animations after DOM is ready
+  // Small delay to ensure all elements are rendered
+  setTimeout(() => {
+    initScrollAnimations();
+    initPhaseTransitions();
+  }, 100);
+
+  // Expose lenis to window for other scripts
   (window as any).lenis = lenis;
 
-  // Handle anchor links
+  // Handle anchor links with smooth scroll
   document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
-    anchor.addEventListener('click', (e) => {
+    anchor.addEventListener("click", (e) => {
       e.preventDefault();
-      const href = anchor.getAttribute('href');
-      if (href && href !== '#') {
+      const href = anchor.getAttribute("href");
+      if (href && href !== "#") {
         const target = document.querySelector(href);
         if (target) {
           lenis.scrollTo(target as HTMLElement, {
@@ -59,16 +83,12 @@
   });
 
   // Stop/start Lenis when mobile menu is open
-  document.addEventListener('menu-open', () => {
-    lenis.stop();
-  });
-
-  document.addEventListener('menu-close', () => {
-    lenis.start();
-  });
+  document.addEventListener("menu-open", () => lenis.stop());
+  document.addEventListener("menu-close", () => lenis.start());
 
   // Cleanup on page navigation (for View Transitions)
-  document.addEventListener('astro:before-swap', () => {
+  document.addEventListener("astro:before-swap", () => {
+    ScrollTrigger.getAll().forEach((trigger) => trigger.kill());
     lenis.destroy();
   });
 </script>

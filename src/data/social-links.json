@@ -2,27 +2,21 @@
   "links": [
     {
       "name": "GitHub",
-      "url": "https://github.com/aryansingh",
+      "url": "https://github.com/heyaryansingh",
       "icon": "github",
-      "username": "@aryansingh"
-    },
-    {
-      "name": "Twitter",
-      "url": "https://twitter.com/aryansingh",
-      "icon": "twitter",
-      "username": "@aryansingh"
+      "username": "@heyaryansingh"
     },
     {
       "name": "LinkedIn",
-      "url": "https://linkedin.com/in/aryansingh",
+      "url": "https://linkedin.com/in/real-aryan-singh",
       "icon": "linkedin",
-      "username": "aryansingh"
+      "username": "real-aryan-singh"
     },
     {
       "name": "Email",
-      "url": "mailto:hello@aryansingh.org",
+      "url": "mailto:aryanrheasingh@gmail.com",
       "icon": "email",
-      "username": "hello@aryansingh.org"
+      "username": "aryanrheasingh@gmail.com"
     }
   ]
 }

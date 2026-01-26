@@ -1,0 +1,60 @@
+---
+/**
+ * Drawing.astro
+ *
+ * MDX component for embedding SVG drawings or sketches.
+ * Can be used for diagrams, hand-drawn illustrations, etc.
+ *
+ * USAGE in MDX:
+ * <Drawing src="/drawings/architecture.svg" caption="System architecture" />
+ * <Drawing src="/images/sketch.png" caption="Initial concept" />
+ */
+
+interface Props {
+    src: string;
+    alt?: string;
+    caption?: string;
+    width?: string;
+}
+
+const { src, alt = "Drawing", caption, width = "100%" } = Astro.props;
+
+const isSvg = src.endsWith(".svg");
+---
+
+<figure class="drawing" style={`max-width: ${width}`}>
+    {
+        isSvg ? (
+            <object data={src} type="image/svg+xml" aria-label={alt}>
+                <img src={src} alt={alt} />
+            </object>
+        ) : (
+            <img src={src} alt={alt} loading="lazy" />
+        )
+    }
+
+    {caption && <figcaption>{caption}</figcaption>}
+</figure>
+
+<style>
+    .drawing {
+        margin: var(--space-xl) auto;
+        text-align: center;
+    }
+
+    .drawing object,
+    .drawing img {
+        max-width: 100%;
+        height: auto;
+        border-radius: var(--radius-lg);
+        background: var(--color-bg-secondary);
+        padding: var(--space-md);
+    }
+
+    .drawing figcaption {
+        padding: var(--space-sm) 0;
+        font-size: var(--text-sm);
+        color: var(--color-text-tertiary);
+        font-style: italic;
+    }
+</style>

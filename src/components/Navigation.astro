@@ -2,17 +2,11 @@
 /**
  * Site Navigation Component
  *
- * Responsive navigation with:
- * - Logo/brand on left
- * - Navigation links on right (desktop)
- * - Mobile hamburger menu with slide-out drawer
- * - Sticky header with backdrop blur
- *
- * USAGE:
- * <Navigation />
+ * Used on ALL pages - includes home, blog, gallery, portfolio, resume (toggled), about
  */
 
-import ThemeToggle from './ThemeToggle';
+import ThemeToggle from "./ThemeToggle";
+import { siteConfig } from "../lib/config";
 
 interface Props {
   class?: string;
@@ -20,36 +14,51 @@ interface Props {
 
 const { class: className } = Astro.props;
 
-const navLinks = [
-  { href: '/portfolio', label: 'Portfolio' },
-  { href: '/blog', label: 'Blog' },
-  { href: '/resume', label: 'Resume' },
-  { href: '/about', label: 'About' },
+const baseLinks = [
+  { href: "/", label: "home" },
+  { href: "/blog", label: "blog" },
+  { href: "/reading", label: "reading" },
+  { href: "/gallery", label: "gallery" },
+  { href: "/portfolio", label: "portfolio" },
 ];
+
+// Add resume if enabled
+const navLinks = siteConfig.showResume
+  ? [
+      ...baseLinks,
+      { href: "/resume", label: "resume" },
+      { href: "/about", label: "about" },
+    ]
+  : [...baseLinks, { href: "/about", label: "about" }];
 
 const currentPath = Astro.url.pathname;
 ---
 
-<nav
-  class:list={['nav', className]}
-  id="main-nav"
->
+<nav class:list={["nav", className]} id="main-nav">
   <div class="nav__container container">
     <!-- Logo / Brand -->
-    <a href="/" class="nav__brand link-underline">
-      Aryan Singh
-    </a>
+    <a href="/" class="nav__brand">aryan singh</a>
 
     <!-- Desktop Navigation -->
     <div class="nav__links">
-      {navLinks.map((link) => (
-        <a
-          href={link.href}
-          class:list={['nav__link', 'link-underline', { active: currentPath.startsWith(link.href) }]}
-        >
-          {link.label}
-        </a>
-      ))}
+      {
+        navLinks.map((link) => (
+          <a
+            href={link.href}
+            class:list={[
+              "nav__link",
+              {
+                active:
+                  link.href === "/"
+                    ? currentPath === "/"
+                    : currentPath.startsWith(link.href),
+              },
+            ]}
+          >
+            {link.label}
+          </a>
+        ))
+      }
     </div>
 
     <!-- Theme Toggle & Mobile Menu Button -->
@@ -73,14 +82,24 @@ const currentPath = Astro.url.pathname;
   <!-- Mobile Menu Drawer -->
   <div class="nav__mobile" id="mobile-menu" aria-hidden="true">
     <div class="nav__mobile-content">
-      {navLinks.map((link) => (
-        <a
-          href={link.href}
-          class:list={['nav__mobile-link', { active: currentPath.startsWith(link.href) }]}
-        >
-          {link.label}
-        </a>
-      ))}
+      {
+        navLinks.map((link) => (
+          <a
+            href={link.href}
+            class:list={[
+              "nav__mobile-link",
+              {
+                active:
+                  link.href === "/"
+                    ? currentPath === "/"
+                    : currentPath.startsWith(link.href),
+              },
+            ]}
+          >
+            {link.label}
+          </a>
+        ))
+      }
     </div>
   </div>
 
@@ -95,18 +114,19 @@ const currentPath = Astro.url.pathname;
     left: 0;
     right: 0;
     z-index: var(--z-sticky);
-    background: var(--color-bg-primary);
-    border-bottom: 1px solid var(--color-border);
+    background: color-mix(in srgb, var(--color-bg-primary) 80%, transparent);
     backdrop-filter: blur(12px);
-    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--color-border-subtle);
   }
 
   .nav__container {
     display: flex;
-    align-items: center;
     justify-content: space-between;
+    align-items: center;
     height: 64px;
-    gap: var(--space-lg);
+    padding: 0 var(--space-lg);
+    max-width: 1200px;
+    margin: 0 auto;
   }
 
   .nav__brand {
@@ -119,7 +139,7 @@ const currentPath = Astro.url.pathname;
 
   .nav__links {
     display: none;
-    gap: var(--space-xl);
+    gap: var(--space-lg);
   }
 
   @media (min-width: 768px) {
@@ -132,17 +152,12 @@ const currentPath = Astro.url.pathname;
     font-size: var(--text-sm);
     color: var(--color-text-secondary);
     text-decoration: none;
-    padding: var(--space-sm) 0;
     transition: color var(--transition-fast);
   }
 
   .nav__link:hover,
   .nav__link.active {
-    color: var(--color-text-primary);
-  }
-
-  .nav__link.active::after {
-    width: 100%;
+    color: var(--color-accent-primary);
   }
 
   .nav__actions {
@@ -151,17 +166,12 @@ const currentPath = Astro.url.pathname;
     gap: var(--space-md);
   }
 
-  /* Mobile Menu Toggle Button */
   .nav__toggle {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 5px;
-    width: 40px;
-    height: 40px;
-    padding: 0;
-    background: none;
+    gap: 4px;
+    padding: var(--space-sm);
+    background: transparent;
     border: none;
     cursor: pointer;
   }
@@ -173,144 +183,69 @@ const currentPath = Astro.url.pathname;
   }
 
   .nav__toggle-bar {
-    display: block;
-    width: 24px;
+    width: 20px;
     height: 2px;
     background: var(--color-text-primary);
-    border-radius: 2px;
-    transition: all var(--transition-base);
+    transition: all var(--transition-fast);
   }
 
-  /* Hamburger to X animation */
-  .nav.open .nav__toggle-bar:nth-child(1) {
-    transform: rotate(45deg) translate(5px, 5px);
+  .nav__toggle[aria-expanded="true"] .nav__toggle-bar:nth-child(1) {
+    transform: rotate(45deg) translate(4px, 4px);
   }
 
-  .nav.open .nav__toggle-bar:nth-child(2) {
+  .nav__toggle[aria-expanded="true"] .nav__toggle-bar:nth-child(2) {
     opacity: 0;
   }
 
-  .nav.open .nav__toggle-bar:nth-child(3) {
-    transform: rotate(-45deg) translate(5px, -5px);
+  .nav__toggle[aria-expanded="true"] .nav__toggle-bar:nth-child(3) {
+    transform: rotate(-45deg) translate(4px, -4px);
   }
 
-  /* Mobile Menu Drawer */
   .nav__mobile {
+    display: none;
     position: fixed;
     top: 64px;
+    left: 0;
     right: 0;
     bottom: 0;
-    width: 280px;
-    max-width: 80vw;
     background: var(--color-bg-primary);
-    border-left: 1px solid var(--color-border);
-    transform: translateX(100%);
-    transition: transform var(--transition-slow);
-    z-index: var(--z-modal);
-    overflow-y: auto;
+    padding: var(--space-xl);
   }
 
-  .nav.open .nav__mobile {
-    transform: translateX(0);
+  .nav__mobile[aria-hidden="false"] {
+    display: block;
   }
 
   .nav__mobile-content {
     display: flex;
     flex-direction: column;
-    padding: var(--space-xl);
-    gap: var(--space-sm);
+    gap: var(--space-lg);
   }
 
   .nav__mobile-link {
-    display: block;
-    padding: var(--space-md) var(--space-lg);
-    font-size: var(--text-lg);
+    font-size: var(--text-xl);
     color: var(--color-text-secondary);
     text-decoration: none;
-    border-radius: var(--radius-md);
-    transition: all var(--transition-fast);
-  }
-
-  .nav__mobile-link:hover,
-  .nav__mobile-link.active {
-    color: var(--color-text-primary);
-    background: var(--color-bg-secondary);
   }
 
   .nav__mobile-link.active {
     color: var(--color-accent-primary);
   }
 
-  /* Backdrop */
   .nav__backdrop {
-    position: fixed;
-    top: 64px;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background: rgba(0, 0, 0, 0.5);
-    opacity: 0;
-    visibility: hidden;
-    transition: opacity var(--transition-slow), visibility var(--transition-slow);
-    z-index: calc(var(--z-modal) - 1);
-  }
-
-  .nav.open .nav__backdrop {
-    opacity: 1;
-    visibility: visible;
-  }
-
-  @media (min-width: 768px) {
-    .nav__mobile,
-    .nav__backdrop {
-      display: none;
-    }
+    display: none;
   }
 </style>
 
 <script>
-  // Mobile menu toggle functionality
-  const nav = document.getElementById('main-nav');
-  const toggle = nav?.querySelector('.nav__toggle');
-  const backdrop = nav?.querySelector('.nav__backdrop');
-  const mobileMenu = document.getElementById('mobile-menu');
+  document.addEventListener("DOMContentLoaded", () => {
+    const toggle = document.querySelector(".nav__toggle");
+    const mobile = document.getElementById("mobile-menu");
 
-  function toggleMenu() {
-    const isOpen = nav?.classList.toggle('open');
-    toggle?.setAttribute('aria-expanded', String(isOpen));
-    mobileMenu?.setAttribute('aria-hidden', String(!isOpen));
-
-    // Prevent body scroll when menu is open
-    document.body.style.overflow = isOpen ? 'hidden' : '';
-  }
-
-  function closeMenu() {
-    nav?.classList.remove('open');
-    toggle?.setAttribute('aria-expanded', 'false');
-    mobileMenu?.setAttribute('aria-hidden', 'true');
-    document.body.style.overflow = '';
-  }
-
-  toggle?.addEventListener('click', toggleMenu);
-  backdrop?.addEventListener('click', closeMenu);
-
-  // Close menu when clicking a link
-  const mobileLinks = nav?.querySelectorAll('.nav__mobile-link');
-  mobileLinks?.forEach((link) => {
-    link.addEventListener('click', closeMenu);
-  });
-
-  // Close menu on escape key
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && nav?.classList.contains('open')) {
-      closeMenu();
-    }
-  });
-
-  // Close menu on resize to desktop
-  window.addEventListener('resize', () => {
-    if (window.innerWidth >= 768) {
-      closeMenu();
-    }
+    toggle?.addEventListener("click", () => {
+      const isExpanded = toggle.getAttribute("aria-expanded") === "true";
+      toggle.setAttribute("aria-expanded", String(!isExpanded));
+      mobile?.setAttribute("aria-hidden", String(isExpanded));
+    });
   });
 </script>

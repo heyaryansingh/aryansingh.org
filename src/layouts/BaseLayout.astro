@@ -16,11 +16,14 @@
  * </BaseLayout>
  */
 
-import '../styles/global.css';
-import Navigation from '../components/Navigation.astro';
-import Footer from '../components/Footer.astro';
-import CustomCursor from '../components/CustomCursor.astro';
-import SmoothScroll from '../components/SmoothScroll.astro';
+import "../styles/global.css";
+import Navigation from "../components/Navigation.astro";
+import Footer from "../components/Footer.astro";
+import CustomCursor from "../components/CustomCursor.astro";
+import SmoothScroll from "../components/SmoothScroll.astro";
+import CommandPalette from "../components/CommandPalette";
+import StarField from "../components/canvas/StarField";
+import SpacetimeCursor from "../components/canvas/SpacetimeCursor";
 
 interface Props {
   title: string;
@@ -34,17 +37,19 @@ interface Props {
 
 const {
   title,
-  description = 'Personal website of Aryan Singh - Software Engineer, Researcher, Writer',
-  image = '/images/og-default.png',
+  description = "Personal website of Aryan Singh - Software Engineer, Researcher, Writer",
+  image = "/images/og-default.png",
   canonicalUrl,
   noIndex = false,
   hideNav = false,
   hideFooter = false,
 } = Astro.props;
 
-const siteUrl = import.meta.env.PUBLIC_SITE_URL || 'https://aryansingh.org';
+const siteUrl = import.meta.env.PUBLIC_SITE_URL || "https://aryansingh.org";
 const fullUrl = canonicalUrl || new URL(Astro.url.pathname, siteUrl).href;
-const fullImage = image.startsWith('http') ? image : new URL(image, siteUrl).href;
+const fullImage = image.startsWith("http")
+  ? image
+  : new URL(image, siteUrl).href;
 ---
 
 <!doctype html>
@@ -75,11 +80,11 @@ const fullImage = image.startsWith('http') ? image : new URL(image, siteUrl).hre
     <meta property="twitter:description" content={description} />
     <meta property="twitter:image" content={fullImage} />
 
-    <!-- Fonts - Using Google Fonts -->
+    <!-- Fonts - EB Garamond (serif) + IBM Plex Sans/Mono -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Playfair+Display:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap"
+      href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap"
       rel="stylesheet"
     />
 
@@ -89,15 +94,18 @@ const fullImage = image.startsWith('http') ? image : new URL(image, siteUrl).hre
     <!-- Theme initialization script (runs before page render to prevent flash) -->
     <script is:inline>
       (function () {
-        const mode = localStorage.getItem('mode') || 'auto';
-        const theme = localStorage.getItem('colorTheme') || 'default';
+        const mode = localStorage.getItem("mode") || "dark";
 
         const isDark =
-          mode === 'dark' ||
-          (mode === 'auto' && window.matchMedia('(prefers-color-scheme: dark)').matches);
+          mode === "dark" ||
+          (mode === "auto" &&
+            window.matchMedia("(prefers-color-scheme: dark)").matches);
 
-        document.documentElement.classList.toggle('dark', isDark);
-        document.documentElement.setAttribute('data-theme', theme);
+        document.documentElement.classList.toggle("dark", isDark);
+        document.documentElement.setAttribute(
+          "data-theme",
+          isDark ? "dark" : "light",
+        );
       })();
     </script>
 
@@ -105,8 +113,17 @@ const fullImage = image.startsWith('http') ? image : new URL(image, siteUrl).hre
     <slot name="head" />
   </head>
   <body class="min-h-screen flex flex-col">
+    <!-- Star Field Background (site-wide) -->
+    <StarField client:load starCount={2000} />
+
+    <!-- Spacetime Cursor Effect (manifold lines bend toward cursor) -->
+    <SpacetimeCursor client:load lineCount={10} />
+
     <!-- Custom Cursor (desktop only) -->
     <CustomCursor />
+
+    <!-- Command Palette (Cmd+K navigation) -->
+    <CommandPalette client:load />
 
     <!-- Smooth Scroll -->
     <SmoothScroll />
@@ -115,7 +132,7 @@ const fullImage = image.startsWith('http') ? image : new URL(image, siteUrl).hre
     {!hideNav && <Navigation />}
 
     <!-- Main content -->
-    <main class="flex-1" style={hideNav ? '' : 'padding-top: 64px;'}>
+    <main class="flex-1" style={hideNav ? "" : "padding-top: 64px;"}>
       <slot />
     </main>
 

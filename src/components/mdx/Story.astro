@@ -1,0 +1,92 @@
+---
+/**
+ * Story.astro
+ *
+ * MDX component for expandable story/anecdote blocks.
+ * Great for tangential stories that might break flow.
+ *
+ * USAGE in MDX:
+ * <Story title="How I learned this the hard way">
+ *   Long story content here...
+ * </Story>
+ */
+
+interface Props {
+    title: string;
+    open?: boolean;
+}
+
+const { title, open = false } = Astro.props;
+---
+
+<details class="story" open={open}>
+    <summary class="story__title">
+        <span class="story__icon">📖</span>
+        {title}
+        <span class="story__toggle">+</span>
+    </summary>
+    <div class="story__content">
+        <slot />
+    </div>
+</details>
+
+<style>
+    .story {
+        margin: var(--space-xl) 0;
+        border: 1px solid var(--color-border);
+        border-radius: var(--radius-lg);
+        background: var(--color-bg-secondary);
+        overflow: hidden;
+    }
+
+    .story__title {
+        display: flex;
+        align-items: center;
+        gap: var(--space-sm);
+        padding: var(--space-md) var(--space-lg);
+        cursor: pointer;
+        font-weight: 500;
+        color: var(--color-text-primary);
+        list-style: none;
+        user-select: none;
+        transition: background var(--transition-fast);
+    }
+
+    .story__title::-webkit-details-marker {
+        display: none;
+    }
+
+    .story__title:hover {
+        background: var(--color-bg-tertiary);
+    }
+
+    .story__icon {
+        font-size: 1.2em;
+    }
+
+    .story__toggle {
+        margin-left: auto;
+        font-size: 1.5em;
+        font-weight: 300;
+        color: var(--color-text-tertiary);
+        transition: transform var(--transition-fast);
+    }
+
+    .story[open] .story__toggle {
+        transform: rotate(45deg);
+    }
+
+    .story__content {
+        padding: 0 var(--space-lg) var(--space-lg);
+        color: var(--color-text-secondary);
+        line-height: 1.7;
+    }
+
+    .story__content :global(p:first-child) {
+        margin-top: 0;
+    }
+
+    .story__content :global(p:last-child) {
+        margin-bottom: 0;
+    }
+</style>
