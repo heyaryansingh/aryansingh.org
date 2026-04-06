@@ -10,6 +10,10 @@
 
 @import "tailwindcss";
 @import "./animations.css";
+@source "../**/*.{astro,html,js,jsx,md,mdx,ts,tsx}";
+@source not "../../.claude";
+@source not "../../dist";
+@source not "../../node_modules";
 
 /* ============================================
    CSS CUSTOM PROPERTIES - "Spacetime Manifold"

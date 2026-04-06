@@ -113,7 +113,11 @@ const photos = Object.values(photoFiles).map((file) => ({
   }
 
   .home__photo {
-    width: clamp(150px, 20vw, 200px);
+    /* Allow photo to define its own size within bounds */
+    min-width: 150px;
+    max-width: 280px;
+    /* Smooth transitions when photo size changes */
+    transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
   }
 
   .home__content {
