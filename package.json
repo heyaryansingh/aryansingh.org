@@ -1,7 +1,8 @@
 {
-  "name": "temp-astro",
+  "name": "aryansingh-org",
   "type": "module",
   "version": "0.0.1",
+  "description": "Personal website and portfolio for Aryan Singh, built with Astro and deployed to Cloudflare.",
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",

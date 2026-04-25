@@ -1,0 +1,66 @@
+---
+title: "RepoGym"
+description: "A reinforcement learning environment for training AI agents to write and debug code through iterative feedback."
+github: "https://github.com/heyaryansingh/RepoGym"
+problem: "Current code generation models are trained on static datasets without the iterative feedback loop that characterizes real programming."
+solution: "Created an OpenAI Gym-compatible environment where agents learn to write code through trial and error, receiving rewards based on test passage and code quality."
+techStack: ["Python", "PyTorch", "OpenAI Gym", "Tree-sitter", "Docker"]
+learnings:
+  - "Reward shaping is critical for RL in sparse-reward domains"
+  - "Structured action spaces (AST transformations) dramatically improve learning"
+  - "Test feedback provides rich signal but requires careful curriculum design"
+  - "Sandboxed execution is essential for safe training"
+featured: true
+pinned: true
+order: 2
+startDate: 2024-09-01
+---
+
+# RepoGym: Reinforcement Learning for Code
+
+RepoGym is an RL environment that frames code generation as a sequential decision-making problem. Agents learn to write and debug code by receiving feedback from test execution.
+
+## Core Concept
+
+Traditional code generation treats programming as next-token prediction. RepoGym instead models it as an interactive process:
+
+1. Agent observes the current code and test results
+2. Agent proposes an edit (insertion, deletion, modification)
+3. Environment runs tests and provides feedback
+4. Agent iterates until all tests pass
+
+This mirrors how human programmers actually work.
+
+## Environment Design
+
+```python
+import repogym
+
+env = repogym.make("BugFix-v1")
+obs = env.reset()
+
+while not done:
+    action = agent.predict(obs)  # Propose code edit
+    obs, reward, done, info = env.step(action)
+    # reward: based on test passage, syntax validity
+    # info: test results, error messages, coverage
+```
+
+## Key Features
+
+- **Structured Actions**: Edits are AST-level transformations, not arbitrary strings
+- **Rich Observations**: Code, test output, error messages, and coverage information
+- **Curriculum Support**: Built-in task difficulty progression
+- **Sandboxed Execution**: Safe training with containerized code execution
+
+## Research Applications
+
+RepoGym enables research on:
+- Learning to debug from error messages
+- Code repair and refactoring
+- Interactive code generation
+- Transfer learning across programming tasks
+
+## Current Status
+
+The environment supports Python with plans to extend to JavaScript and Rust. Benchmark results show that RL-trained agents outperform static models on iterative coding tasks.

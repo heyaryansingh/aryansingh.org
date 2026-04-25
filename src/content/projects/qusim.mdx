@@ -1,0 +1,51 @@
+---
+title: "QuSim"
+description: "A quantum circuit simulator for education and experimentation, featuring intuitive visualization and support for common quantum algorithms."
+github: "https://github.com/heyaryansingh/QuSim"
+problem: "Understanding quantum computing concepts is difficult without hands-on experimentation, but access to real quantum hardware is limited and expensive."
+solution: "Built a Python-based quantum simulator with Bloch sphere visualization, circuit diagrams, and implementations of common algorithms like Grover's and Shor's."
+techStack: ["Python", "NumPy", "Numba", "Matplotlib", "Qiskit"]
+learnings:
+  - "Sparse matrix techniques for efficient simulation of up to 25 qubits"
+  - "Just-in-time compilation provides 10-50x speedup for gate operations"
+  - "Visualization transforms abstract concepts into intuitive understanding"
+  - "The gap between mathematical formulation and numerical implementation reveals deep insights"
+featured: true
+pinned: true
+order: 1
+startDate: 2024-06-01
+---
+
+# QuSim: Quantum Circuit Simulator
+
+QuSim is a quantum computing simulator designed to make quantum concepts accessible to students and researchers who don't have access to real quantum hardware.
+
+## Features
+
+- **Circuit Builder**: Drag-and-drop interface for constructing quantum circuits
+- **State Visualization**: Real-time Bloch sphere representation of qubit states
+- **Algorithm Library**: Pre-built implementations of Grover's, Shor's, VQE, and more
+- **Educational Mode**: Step-by-step execution with explanations at each gate
+- **Export**: Compatible with Qiskit and Cirq for running on actual quantum hardware
+
+## Technical Approach
+
+The simulator represents quantum states as complex vectors in a 2^n dimensional Hilbert space. Gates are implemented as unitary matrices, with careful attention to numerical stability.
+
+```python
+# Example: Creating a Bell state
+circuit = Circuit(2)
+circuit.h(0)        # Hadamard on qubit 0
+circuit.cx(0, 1)    # CNOT from qubit 0 to qubit 1
+
+result = simulator.run(circuit)
+# State: (|00⟩ + |11⟩) / √2
+```
+
+## Performance
+
+Through sparse matrix representations and JIT compilation, QuSim can efficiently simulate circuits with up to 25 qubits on consumer hardware - enough for exploring most educational and many research scenarios.
+
+## Why I Built This
+
+I wanted to understand quantum computing at a deeper level than textbooks provided. Building a simulator forced me to grapple with every detail: phase conventions, measurement collapse, entanglement. The tool I built for myself became useful for others.

@@ -1,0 +1,90 @@
+---
+title: "type-it-up"
+description: "OCR system that converts handwritten mathematical equations to LaTeX, making it easy to digitize notes and problem sets."
+github: "https://github.com/heyaryansingh/type-it-up"
+demo: "https://type-it-up.vercel.app"
+problem: "Transcribing handwritten math into LaTeX is tedious and time-consuming, creating friction for students and researchers."
+solution: "Built an OCR pipeline that recognizes handwritten mathematical notation and generates clean LaTeX code, with a web interface for easy use."
+techStack: ["Python", "PyTorch", "Transformers", "FastAPI", "React", "Vercel"]
+learnings:
+  - "Mathematical notation has unique challenges: 2D layout, many symbol classes, context-dependent parsing"
+  - "Attention mechanisms are crucial for handling the spatial relationships in equations"
+  - "User experience matters as much as model accuracy - preview and edit features are essential"
+  - "Synthetic data generation dramatically expands effective training set size"
+featured: true
+pinned: false
+order: 4
+startDate: 2025-01-01
+---
+
+# type-it-up: Handwritten Math to LaTeX
+
+type-it-up is an OCR system specialized for mathematical notation. Take a photo of handwritten equations, get clean LaTeX code.
+
+## The Problem
+
+Every student knows this pain: you solve a problem set by hand, then spend as long again typing it into LaTeX. Or you're reading a paper and want to cite an equation - retyping it is error-prone and slow.
+
+Existing OCR tools struggle with math. General-purpose systems don't understand mathematical layout. Even specialized tools often produce incorrect or uncompilable LaTeX.
+
+## How It Works
+
+### 1. Preprocessing
+- Image normalization and binarization
+- Layout analysis to identify equation regions
+- Symbol segmentation (handling connected components)
+
+### 2. Recognition
+```python
+class MathOCR(nn.Module):
+    """
+    Encoder-decoder architecture with spatial attention
+    for 2D mathematical expression recognition.
+    """
+    def __init__(self):
+        self.encoder = ResNetEncoder()  # Visual features
+        self.decoder = TransformerDecoder(
+            vocab_size=500,  # LaTeX tokens
+            attention_type="2d_spatial"
+        )
+
+    def forward(self, image):
+        features = self.encoder(image)
+        latex_tokens = self.decoder(features)
+        return latex_tokens
+```
+
+### 3. Post-processing
+- LaTeX validation and auto-correction
+- Bracket balancing
+- Style normalization
+
+## Training Data
+
+Mathematical OCR requires diverse training data. I combined:
+- Public datasets (CROHME, IM2LATEX)
+- Synthetic generation (rendering random LaTeX with varied styles)
+- Data augmentation (rotation, noise, different pens)
+
+This yielded 2M+ training samples covering most notation seen in practice.
+
+## Web Interface
+
+The demo at [type-it-up.vercel.app](https://type-it-up.vercel.app) provides:
+- Drag-and-drop image upload
+- Real-time LaTeX preview
+- Edit-in-place for corrections
+- One-click copy to clipboard
+
+## Performance
+
+On the CROHME test set:
+- 91.2% exact match accuracy
+- 96.8% structure accuracy (ignoring minor symbol errors)
+- Average inference time: 200ms per equation
+
+## Future Plans
+
+- Support for multi-line derivations
+- Handwriting style adaptation
+- Mobile app with camera capture

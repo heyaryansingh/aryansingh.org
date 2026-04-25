@@ -1,0 +1,75 @@
+---
+title: "Attention Mechanisms for Code Understanding"
+description: "A survey of how attention mechanisms have been adapted for understanding and generating source code, with notes on key papers and techniques."
+date: 2025-10-15
+authors: ["Aryan Singh"]
+tags: ["machine-learning", "code-generation", "transformers", "survey"]
+paperOfTheMonth: false
+draft: false
+---
+
+# Attention Mechanisms for Code Understanding
+
+This is a working document collecting notes on attention mechanisms as applied to code understanding and generation tasks. The focus is on techniques that leverage the structural properties of code beyond treating it as natural language.
+
+## Why Code is Different
+
+Source code has properties that distinguish it from natural text:
+- **Formal syntax**: Code must parse; small changes can completely alter meaning
+- **Long-range dependencies**: Variables defined hundreds of lines apart must be tracked
+- **Multiple views**: Code has both textual form and structural representations (AST, CFG, etc.)
+- **Execution semantics**: Code behavior is (in principle) deterministic and testable
+
+These properties suggest that attention mechanisms should be adapted rather than applied directly from NLP.
+
+## Key Papers
+
+### Transformer Models for Code
+
+**CodeBERT** (Feng et al., 2020)
+- Pre-trains on code-NL pairs with MLM and replaced token detection
+- Key insight: bimodal pre-training improves downstream tasks
+- Limitation: treats code as flat sequence
+
+**GraphCodeBERT** (Guo et al., 2021)
+- Extends CodeBERT with data flow graph edges
+- Attention can flow along data dependencies, not just sequential position
+- Significant improvement on code search and clone detection
+
+**CodeT5** (Wang et al., 2021)
+- Encoder-decoder architecture for code generation
+- Identifier-aware pre-training objectives
+- Strong results on generation tasks
+
+### Structural Attention
+
+**Tree Transformers** (Shiv & Quirk, 2019)
+- Encodes AST structure into positional encodings
+- Attention weights respect tree distance
+- Question: is tree structure always the right prior?
+
+**Structured Attention** (Kim et al., 2017)
+- Attention weights form valid structures (trees, sequences)
+- Enables inducing parse structure during training
+- Applicable to code but computationally expensive
+
+## Open Questions
+
+1. **How much structure is enough?** AST-based models help but add complexity. When is flat attention sufficient?
+
+2. **Cross-file attention**: Real codebases span many files. How do we attend across boundaries efficiently?
+
+3. **Execution-guided attention**: Can we use execution traces to supervise attention patterns?
+
+## My Experiments
+
+Currently exploring attention patterns in code models:
+- Visualizing attention in CodeLlama on completion tasks
+- Measuring correlation between attention and data flow edges
+- Testing whether structural priors improve sample efficiency
+
+Preliminary finding: models often rediscover structural relationships through pre-training, but explicit structure helps on small datasets.
+
+---
+
+*Last updated: October 2025. This is a living document.*

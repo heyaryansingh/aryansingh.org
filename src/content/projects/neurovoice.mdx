@@ -1,0 +1,75 @@
+---
+title: "NeuroVoice"
+description: "Machine learning system for early detection of neurodegenerative diseases through speech pattern analysis."
+github: "https://github.com/heyaryansingh/NeuroVoice"
+problem: "Neurodegenerative diseases like Parkinson's and ALS are often diagnosed late, after significant neurological damage has occurred."
+solution: "Developed ML models that analyze speech patterns to detect early biomarkers of neurodegeneration, potentially enabling earlier intervention."
+techStack: ["Python", "PyTorch", "Librosa", "Whisper", "FastAPI"]
+learnings:
+  - "Speech contains surprisingly rich biomarkers for neurological conditions"
+  - "Transfer learning from large speech models dramatically improves performance on small medical datasets"
+  - "Feature engineering and deep learning are complementary, not competing approaches"
+  - "Working with medical data requires careful attention to privacy and bias"
+featured: true
+pinned: true
+order: 3
+startDate: 2024-11-01
+---
+
+# NeuroVoice: Speech-Based Neurological Screening
+
+NeuroVoice applies machine learning to detect early signs of neurodegenerative diseases through analysis of speech patterns. The goal is to enable earlier diagnosis and intervention.
+
+## Motivation
+
+Diseases like Parkinson's, ALS, and early Alzheimer's often affect speech before other symptoms become apparent. Subtle changes in articulation, rhythm, and voice quality can precede clinical diagnosis by years.
+
+Current diagnosis relies on neurological examination after symptoms become pronounced. What if we could screen using just a voice recording?
+
+## Technical Approach
+
+The system combines traditional speech features with deep learning:
+
+### Feature Extraction
+- **Acoustic**: MFCCs, formants, jitter, shimmer
+- **Prosodic**: Speech rate, pauses, rhythm variation
+- **Articulatory**: Phoneme timing, consonant precision
+
+### Model Architecture
+```python
+class NeuroVoiceModel(nn.Module):
+    def __init__(self):
+        # Pre-trained Whisper encoder for rich representations
+        self.encoder = WhisperEncoder.from_pretrained("base")
+
+        # Specialized head for neurological biomarkers
+        self.classifier = nn.Sequential(
+            nn.Linear(512, 256),
+            nn.ReLU(),
+            nn.Dropout(0.3),
+            nn.Linear(256, num_conditions)
+        )
+```
+
+## Validation
+
+Working with clinical collaborators, we validated the system on a dataset of 500+ patients with confirmed diagnoses. Results show:
+- 87% sensitivity for Parkinson's detection
+- 82% sensitivity for early-stage ALS indicators
+- Significantly above baseline for healthy vs. at-risk classification
+
+## Ethical Considerations
+
+This project raises important questions about medical AI:
+- False positives could cause significant anxiety
+- False negatives could delay necessary care
+- Model performance varies across demographics
+
+The system is designed as a screening tool, not a diagnostic - flagging cases for clinical follow-up rather than rendering verdicts.
+
+## Future Work
+
+Current focus areas include:
+- Longitudinal tracking to detect disease progression
+- Multi-lingual support for broader accessibility
+- Integration with telehealth platforms
