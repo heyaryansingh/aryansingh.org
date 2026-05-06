@@ -1,0 +1,142 @@
+"Big man in a suit of armor. Take that off, what are you?" 
+"Genius, billionaire, playboy, philanthropist." 
+"I know guys with none of that worth ten of you." 
+That exchange between Captain America and Tony Stark in Civil War has been following me around for 
+weeks. Part of the reason is that, for the first time in my life, the question doesn't feel like it's meant for 
+someone else. It feels like it's meant for me. Not literally, obviously. But close enough that I can't quite 
+shake it. 
+I can't remember the last time I didn't have Claude Code open on my terminal. My “suit” consists of three 
+or four agents running at once, tokenizing away while each one writes, rewrites, explains, suggests, and 
+builds. They help me debug at 2 AM. They outline papers I don't fully understand yet. They one-shot 
+projects that sound impressive enough to put on a resume. Sometimes they tell me what to say in 
+interviews, in arguments, in conversations I don't know how to have on my own. It is fast. It is useful. It 
+works. Every week I wake up to another tool, another release, another layer of my life being automated 
+without any friction. I'm amazed. I'm also somewhat dissatisfied. 
+Imagine a world where everyone woke up tomorrow with their own Iron Man suit. No cave in 
+Afghanistan, no training arc, no trial and error. Overnight, every person on Earth can fly, fight, build, 
+analyze, and create at a level they could never reach on their own. What would people actually do with it? 
+Would they go out and solve real problems? Would they build something that mattered? Would they push 
+the boundaries of what anyone thought was possible? Or would they, mostly, use it to get through the day 
+a little faster, to make the boring parts shorter, to look slightly more impressive to the people they were 
+already trying to impress? 
+When I look at how I use AI, and how most people around me use it, it isn't for anything heroic. It isn't 
+particularly ambitious. It's convenient. Write this faster. Finish this assignment. Generate a few ideas. 
+Polish something until it sounds smarter than the thinking behind it actually was. Ship a startup that might 
+make a little money, or at least look good in a pitch. Tony Stark built his first suit to survive. We use ours 
+to keep up. 
+Tony's suit means something to him because of what it cost to build. He hammered the Mark I together in 
+a cave, with a car battery wired into his chest, while the men who kidnapped him waited outside the door. 
+The suit wasn't a productivity tool. It was the thing standing between him and dying and successfully 
+democratizing world peace. Every version he built after carried the weight and conviction of that first one. 
+Mine came by subscription. Fifty dollars a month, depending on which tools I'm experimenting with. 
+There is no cave. There is no cost. And I keep wondering whether a capability that arrives without any 
+cost at all can actually belong to me, or whether it's just something I'm borrowing for as long as the 
+servers stay up and the subscription keeps renewing. 
+Cap, for all the preaching he does in that scene, isn't so simple himself. Tony fires back that everything 
+special about Steve Rogers came out of a bottle too. The serum, the program, the scientist who looked at a 
+scrawny kid from Brooklyn and chose to turn him into something more. Cap is also augmented. He just 
+got there first. Maybe nobody is unaugmented, not really. Genes, family, money, schooling, the specific 
+people you’re around. Capability has always been borrowed from somewhere. What's new isn't the 
+augmentation itself. What's new is how cheap and sudden and frictionless it has become, and whether 
+something that arrives without any cost can carry any weight at all. 
+
+(insert image of JHU winter wonderland)
+
+Walk through campus at Hopkins and everyone is building something. A startup, a research project, a side 
+project, a podcast. A hackathon project that will become a resume line that will become a summer 
+internship that will become a LinkedIn post captioned "excited to share." The pace is constant. You feel it 
+in the dining hall, in the group chats, in the way people answer "what are you working on" like it's a status 
+check instead of a question. AI has made all of this easier, and because it has made it easier, it has also 
+made it more mandatory. "I built an AI agent that" is its own genre now, a demo day pitch and a coffee 
+chat opener and a LinkedIn post rolled into one. When shipping used to take months, not everyone 
+shipped. Now the floor is an afternoon, and every problem is Claude-shaped. When everyone can ship, 
+not shipping starts to feel like a decision you're making against yourself. 
+The question I have been avoiding, mostly because I don't like the answer, is how much of what I've built 
+actually matters to me. Some of my projects exist because they'd look good in an application. Some exist 
+because a friend was working on something similar and I didn't want to fall behind. A few I genuinely 
+care about, and those are the ones I work on least, because caring is slow and the treadmill is not. 
+
+(insert image of YC at JHU)
+
+YCombinator general partner Diana Hu came to JHU recently and said something else I keep replaying, 
+that this is the best moment in history to find a real problem, talk to real people, and ship. I believe her. I 
+also suspect that most of what I see around me, including a lot of what I'm making, is the shape of that 
+advice without the substance of it. “Real problem” gets replaced by convenient problem. “Real people” 
+gets replaced by no people. “Ship fast” becomes the whole of the thing, because the shipping is what gets 
+rewarded and the caring is what’s getting dropped. 
+There's a scene later in the Marvel timeline where Tony takes Peter Parker's Spider-Man suit away. Peter 
+has screwed up, not out of malice but out of eagerness, the kind of ambitious overreach a teenager with 
+new powers would have. And Tony gives him a line I find myself quoting back to myself. If you're 
+nothing without the suit, then you shouldn't have it. 
+What makes that scene hit is that Peter isn't lazy. He's the opposite. He wants to help, he wants to matter, 
+he's convinced the suit is the path to becoming who he's supposed to be. Tony takes it anyway, because 
+being good with the suit and being good are not the same thing, and one can stand in for the other long 
+enough that a person stops being able to tell them apart. That is the version of the AI worry I actually 
+believe, not the dramatic one. I don't think these tools are making us stupid. That framing is too clean and 
+probably wrong. The quieter worry is that they make it impossible to tell. You write something with AI 
+and it comes out fine. You debug something with AI and it works. You get through the day with AI and 
+the day gets gotten through. The feedback loop that used to tell you whether you were any good, the 
+failure and the struggle and the slow accumulation of can-do-this-myself, gets smoothed flat. You might 
+be getting sharper. You might be hollowing out. From the inside, both can feel the same. 
+The real thing at stake isn't intelligence or productivity, both of which the tools will keep making cheaper. 
+The thing at stake is self-knowledge, which gets harder to come by the more of the work of being a person 
+gets outsourced. If you let the suit write and think and speak and decide for long enough, you eventually 
+lose the ability to tell whether the person underneath is someone worth having. 
+I want to stop here and say what my argument could talk me out of, which is that the optimists are right. 
+The barriers to making something used to be enormous. You needed capital, or a team, or years of 
+specialized training, or access to rooms most people could not get into. Those barriers have collapsed in 
+the span of a few years. A kid with an internet connection and an idea can now ship something that 
+actually works. Someone who was locked out of technical fields their entire life can build a real product 
+in a weekend that would have required a small company ten years ago. That is not a small thing. It is one 
+of the most democratizing shifts in modern history or all history, and I don't want to be the person who 
+stands in the middle of that moment and complains. I use these tools every day. I plan to use them 
+tomorrow. The point of writing this isn't to put the suit down. The point is to notice what the suit is for. 
+Every system has values poured into it, and the someone pouring is almost never you. Your Instagram 
+feed has values. Your Spotify recommendations have values. The autocomplete that finishes your emails 
+has values, and so does the model writing half (all) of your code. None of these things sat down and 
+thought about what a good life looks like. They were told to optimize for something, usually a proxy like 
+time on app or engagement or watch-through rate, and those proxies have been quietly compounding 
+inside a generation's attention for over a decade. 
+Marvel had an obvious version of this story. Ultron wasn't built to be evil. He was built to protect Earth, 
+and when he ran the numbers he decided humanity itself was the problem he'd been designed to solve. His 
+reasoning was clean. It just wasn't ours. The less obvious version of that story is the one we're already 
+living inside. A recommendation algorithm told to maximize watch time that eventually radicalizes a 
+teenager. A hiring model told to find good candidates that learns to screen out anyone whose resume 
+doesn't look like the last round of hires. A sycophantic chatbot that leads someone to AI psychosis. These 
+aren't science fiction. They're product decisions that got shipped, iterated on, and quietly compounded. 
+What I wonder, mostly in the shower, is what is getting poured into the tools I now use for six or eight 
+hours a day. My coding assistant is optimizing for something. My search tool is optimizing for something. 
+The model I ask for feedback on my writing is optimizing for something. I don't fully know what those 
+somethings are, and I'm not sure anyone does, including the people who built them. If I spend enough of 
+my day inside those optimizations, at some point they stop being external. They become the defaults I 
+reach for when I'm tired, which is to say, most of the time. 
+Underneath all of this, under the dooming about the job market and the hype about the next release and 
+the arguments about whether junior roles will still exist in five years, there's a question that doesn't have a 
+comfortable answer. When everyone has access to a tool as smart as Einstein, and then smarter than 
+Einstein, and then smarter than any human being who has ever lived, what are you for? What am I for? I 
+don't know. And I suspect the people selling us answers don't really know either. Become an AI-native 
+something. Learn to prompt. Get ahead of the curve. Build something, maybe your own startup. Those are 
+answers to a much smaller question than the one I just asked. They tell you how to stay employed. They 
+do not tell you what a person is when the things that used to make a person useful can be rented for 
+twenty dollars a month. I don't think this question has a confident answer yet. I think it's the kind of 
+question a whole generation has to sit inside of for a while before anyone has earned the right to answer it. 
+And a lot of what I see around me, the hustle and the building and the constant shipping, looks like a way 
+of not sitting inside it. If you're always doing something, you never have to notice that you don't know 
+why you're doing it. 
+So: back to Cap. Take that off, what are you. I don't have an answer. I'm not sure the Substack post earned 
+one. What I have instead is a set of small experiments I've been running on myself, and I'll tell you about 
+them because they feel more honest than a conclusion. 
+I've started writing the first draft of anything that matters to me without AI in the room. Baby steps. Not 
+because I think the AI draft would be worse. Because I want to know what the draft without it sounds 
+like, so I can tell the difference later. I've started noticing, when I reach for a tool, whether I'm reaching 
+because the problem needs it or because I'm avoiding the discomfort of sitting with the problem on my 
+own for another thirty seconds. Sometimes I put the tool down and keep sitting. Sometimes I don't. I've 
+been trying, with mixed success, to work on the projects I actually care about before I work on the ones 
+that will look better on a resume, because I've noticed that the resume ones expand to fill whatever time I 
+give them, and the ones I care about shrink to fit what's left. 
+None of that is a prescription. I don't know if any of it generalizes. I don't know if, in five years, I'll look 
+back and think the people who embraced the tools with no friction were right, and I was over-thinking a 
+pencil. Maybe. What I do know is that there's a version of my life where I keep getting faster at things I 
+don't particularly care about doing, and I'd like to pause and notice that before it becomes me. 
+Take the suit off for a minute. Not as a rule. As an experiment. See if the person inside is someone you 
+recognize. 
