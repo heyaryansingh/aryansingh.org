@@ -206,42 +206,91 @@ const typeColors: Record<string, string> = {
         margin: 0 auto;
         line-height: 1.8;
         color: var(--color-text-secondary);
+        background: rgba(255, 255, 255, 0.02);
+        padding: var(--space-3xl) var(--space-2xl);
+        border-radius: 8px;
+        backdrop-filter: blur(20px);
+        border: 1px solid rgba(255, 255, 255, 0.05);
     }
 
     .prose :global(h2) {
-        font-size: var(--text-3xl);
-        font-family: var(--font-serif);
-        color: var(--color-text-primary);
-        margin-top: var(--space-3xl);
-        margin-bottom: var(--space-lg);
-    }
-
-    .prose :global(h3) {
-        font-size: var(--text-2xl);
-        font-family: var(--font-serif);
+        font-size: var(--text-lg);
+        font-family: var(--font-mono);
+        font-weight: 500;
         color: var(--color-text-primary);
         margin-top: var(--space-2xl);
         margin-bottom: var(--space-md);
+        letter-spacing: 0.05em;
+        text-transform: lowercase;
+    }
+
+    .prose :global(h3) {
+        font-size: var(--text-base);
+        font-family: var(--font-mono);
+        font-weight: 500;
+        color: var(--color-text-primary);
+        margin-top: var(--space-xl);
+        margin-bottom: var(--space-sm);
     }
 
     .prose :global(p) {
-        margin-bottom: var(--space-lg);
+        margin-bottom: var(--space-md);
+        line-height: 1.7;
     }
 
     .prose :global(a) {
         color: var(--color-accent-primary);
+        text-decoration: none;
+        border-bottom: 1px solid transparent;
+        transition: border-color 0.2s;
+    }
+
+    .prose :global(a:hover) {
+        border-bottom-color: var(--color-accent-primary);
+    }
+
+    .prose :global(strong) {
+        font-weight: 400;
+        color: var(--color-text-primary);
+    }
+
+    .prose :global(em) {
+        font-style: normal;
+        color: var(--color-text-primary);
+    }
+
+    .prose :global(.blog-image) {
+        margin: var(--space-3xl) 0;
+        text-align: center;
+    }
+
+    .prose :global(.blog-image img) {
+        width: 100%;
+        max-width: 800px;
+        height: auto;
+        border-radius: 4px;
+        display: block;
+        margin: 0 auto;
+        box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    .prose :global(.blog-image figcaption) {
+        margin-top: var(--space-sm);
+        font-size: var(--text-sm);
+        color: var(--color-text-tertiary);
+        font-family: var(--font-mono);
     }
 
     .prose :global(img) {
         max-width: 100%;
-        border-radius: var(--radius-lg);
+        border-radius: 4px;
         margin: var(--space-xl) 0;
     }
 
     .prose :global(pre) {
         background: var(--color-bg-tertiary);
         padding: var(--space-lg);
-        border-radius: var(--radius-lg);
+        border-radius: 4px;
         overflow-x: auto;
         margin: var(--space-xl) 0;
     }
@@ -252,11 +301,18 @@ const typeColors: Record<string, string> = {
     }
 
     .prose :global(blockquote) {
-        border-left: 3px solid var(--color-accent-primary);
+        border-left: 2px solid rgba(255, 255, 255, 0.1);
         padding-left: var(--space-lg);
         font-style: italic;
         color: var(--color-text-tertiary);
         margin: var(--space-xl) 0;
+        font-size: var(--text-sm);
+    }
+
+    .prose :global(hr) {
+        border: none;
+        border-top: 1px solid rgba(255, 255, 255, 0.05);
+        margin: var(--space-2xl) 0;
     }
 
     .prose :global(ul),
@@ -267,5 +323,15 @@ const typeColors: Record<string, string> = {
 
     .prose :global(li) {
         margin-bottom: var(--space-sm);
+    }
+
+    @media (max-width: 768px) {
+        .prose {
+            padding: var(--space-xl) var(--space-lg);
+        }
+
+        .prose :global(.blog-image img) {
+            max-width: 100%;
+        }
     }
 </style>
