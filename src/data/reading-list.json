@@ -1,30 +1,34 @@
 {
-  "currentlyReading": {
-    "title": "A Few Useful Things to Know about Machine Learning",
-    "author": "Pedro Domingos",
-    "progress": 0,
-    "startedDate": "2026-02-01",
-    "link": "https://courses.cs.duke.edu/spring20/compsci527/papers/Domingos.pdf"
-  },
-  "upNext": [
+  "currentlyReading": [
     {
-      //"title": "Designing Data-Intensive Applications",
-      //"author": "Martin Kleppmann",
-      //"link": "https://dataintensive.net/"
+      "title": "Tomorrow, and Tomorrow, and Tomorrow",
+      "author": "Gabrielle Zevin",
+      "type": "book",
+      "status": "reading",
+      "startedDate": "2026-02-26",
+      "link": "https://www.penguinrandomhouse.com/books/isbn/9780593321201",
+      "overview": "A literary novel about Sam and Sadie, two childhood friends who become creative partners in video game design. It follows friendship, ambition, identity, disability, failure, and the strange intimacy of making things together over decades."
     },
     {
-      //"title": "The Pragmatic Programmer",
-      //"author": "David Thomas, Andrew Hunt",
-      //"link": "https://pragprog.com/titles/tpp20/"
+      "title": "The Count of Monte Cristo",
+      "author": "Alexandre Dumas",
+      "type": "book",
+      "status": "reading",
+      "startedDate": "2026-05-03",
+      "link": "https://www.gutenberg.org/ebooks/1184",
+      "overview": "A sweeping adventure about Edmond Dantes, a sailor falsely imprisoned who escapes, finds a hidden fortune, and reinvents himself to pursue justice and revenge. The novel moves through betrayal, patience, mercy, and the moral cost of vengeance."
     }
   ],
   "completed": [
     {
-      //"title": "Clean Code",
-      //"author": "Robert C. Martin",
-      //"rating": 4,
-      //"completedDate": "2025-12-15",
-      //"notes": "Essential reading for any developer. Some examples feel dated but the principles are timeless."
+      "title": "The Stranger",
+      "author": "Albert Camus",
+      "type": "book",
+      "status": "completed",
+      "startedDate": "2026-04-28",
+      "finishedDate": "2026-04-29",
+      "link": "https://www.penguinrandomhouse.com/books/23477/the-stranger-by-albert-camus-translated-by-matthew-ward-introduction-by-keith-gore/",
+      "overview": "Camus's spare existential novel follows Meursault, whose emotional detachment before and after a senseless killing exposes the absurd gap between social expectation, moral judgment, and inner reality."
     }
   ]
 }
