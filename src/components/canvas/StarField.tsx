@@ -100,8 +100,12 @@ export default function StarField({
         geometry.setAttribute('position', new THREE.BufferAttribute(positions, 3));
         geometry.setAttribute('opacity', new THREE.BufferAttribute(opacities, 1));
         geometry.setAttribute('size', new THREE.BufferAttribute(sizes, 1));
+        geometry.setAttribute('twinklePhase', new THREE.BufferAttribute(twinklePhases, 1));
+        geometry.setAttribute('twinkleSpeed', new THREE.BufferAttribute(twinkleSpeeds, 1));
 
-        // Custom shader for twinkling stars
+        // Custom shader for twinkling stars.
+        // Twinkle is computed on the GPU from uTime — no per-frame CPU work or
+        // buffer re-uploads.
         const material = new THREE.ShaderMaterial({
             uniforms: {
                 uTime: { value: 0 },
@@ -110,12 +114,15 @@ export default function StarField({
             vertexShader: `
         attribute float opacity;
         attribute float size;
+        attribute float twinklePhase;
+        attribute float twinkleSpeed;
         varying float vOpacity;
         uniform float uPixelRatio;
         uniform float uTime;
-        
+
         void main() {
-          vOpacity = opacity;
+          float twinkle = sin(uTime * twinkleSpeed + twinklePhase);
+          vOpacity = opacity * (0.7 + twinkle * 0.3);
           vec4 mvPosition = modelViewMatrix * vec4(position, 1.0);
           gl_PointSize = size * uPixelRatio * (300.0 / -mvPosition.z);
           gl_PointSize = max(gl_PointSize, 1.0);
@@ -160,16 +167,7 @@ export default function StarField({
 
             time += 0.002;
 
-            // Update twinkling
-            const opacityAttr = geometry.attributes.opacity as THREE.BufferAttribute;
-            const baseOpacities = opacities; // Original values
-
-            for (let i = 0; i < starCount; i++) {
-                const twinkle = Math.sin(time * twinkleSpeeds[i] + twinklePhases[i]);
-                const newOpacity = baseOpacities[i] * (0.7 + twinkle * 0.3);
-                (opacityAttr.array as Float32Array)[i] = newOpacity;
-            }
-            opacityAttr.needsUpdate = true;
+            // Twinkling is computed in the shader from uTime (see vertexShader).
 
             // Very slow rotation for subtle movement
             stars.rotation.y = time * 0.02;
@@ -180,6 +178,13 @@ export default function StarField({
 
             renderer.render(scene, camera);
         };
+
+        // Pause the render loop while the tab is hidden (saves CPU/GPU/battery).
+        const handleVisibility = () => {
+            cancelAnimationFrame(animationRef.current);
+            if (!document.hidden) animate();
+        };
+        document.addEventListener('visibilitychange', handleVisibility);
 
         animate();
 
@@ -197,6 +202,7 @@ export default function StarField({
         return () => {
             cancelAnimationFrame(animationRef.current);
             window.removeEventListener('resize', handleResize);
+            document.removeEventListener('visibilitychange', handleVisibility);
             renderer.dispose();
             geometry.dispose();
             material.dispose();

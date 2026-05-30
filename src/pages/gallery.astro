@@ -53,6 +53,7 @@ import BaseLayout from "../layouts/BaseLayout.astro";
 <style>
     .gallery {
         min-height: calc(100vh - 64px);
+        min-height: calc(100dvh - 64px); /* dynamic viewport: stable on mobile */
         padding: var(--space-3xl) var(--space-xl);
         position: relative;
     }

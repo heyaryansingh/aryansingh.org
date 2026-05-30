@@ -145,9 +145,44 @@ const mediaCollection = defineCollection({
   }),
 });
 
+// Reads collection — books, with optional long-form personal notes in the body.
+// Frontmatter = structured metadata; MDX body = my own thoughts/review (optional).
+const readsCollection = defineCollection({
+  type: 'content',
+  schema: z.object({
+    title: z.string(),
+    author: z.string(),
+    type: z.string().default('book'),
+    status: z.enum(['reading', 'completed']),
+
+    // Dates (ISO strings, e.g. 2026-05-27)
+    startedDate: z.coerce.date().optional(),
+    finishedDate: z.coerce.date().optional(),
+
+    // Where to find it online
+    link: z.string().url(),
+
+    // One-paragraph factual summary of the book
+    overview: z.string(),
+
+    // Factual genre/theme classification
+    tags: z.array(z.string()).default([]),
+
+    // My personal rating (0–5). Optional — left unset until I decide.
+    rating: z.number().min(0).max(5).optional(),
+
+    // Cover/spine accent colour for the (image-free) visual treatment
+    spine: z.string().default('#4A5FBD'),
+
+    // Manual sort override within a section (higher = first)
+    order: z.number().default(0),
+  }),
+});
+
 export const collections = {
   blog: blogCollection,
   projects: projectsCollection,
   research: researchCollection,
   media: mediaCollection,
+  reads: readsCollection,
 };

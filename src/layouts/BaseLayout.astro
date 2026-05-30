@@ -113,17 +113,24 @@ const fullImage = image.startsWith("http")
     <slot name="head" />
   </head>
   <body class="min-h-screen flex flex-col">
-    <!-- Star Field Background (site-wide) -->
-    <StarField client:load starCount={2000} />
+    <!--
+      Star Field Background (site-wide).
+      client:media so the ~124kB-gzip Three.js chunk is never downloaded on
+      phones / touch devices, where the faint backdrop isn't worth the cost.
+    -->
+    <StarField client:media="(min-width: 768px) and (pointer: fine)" starCount={2000} />
 
-    <!-- Spacetime Cursor Effect (manifold lines bend toward cursor) -->
-    <SpacetimeCursor client:load lineCount={10} />
+    <!--
+      Spacetime Cursor Effect (manifold lines bend toward cursor).
+      Pointer-driven, so only hydrate where there's a real cursor.
+    -->
+    <SpacetimeCursor client:media="(min-width: 768px) and (pointer: fine)" lineCount={10} />
 
     <!-- Custom Cursor (desktop only) -->
     <CustomCursor />
 
     <!-- Command Palette (Cmd+K navigation) -->
-    <CommandPalette client:load />
+    <CommandPalette client:idle />
 
     <!-- Smooth Scroll -->
     <SmoothScroll />

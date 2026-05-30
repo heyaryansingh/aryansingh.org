@@ -43,9 +43,11 @@ export default function SpacetimeCursor({
         const ctx = canvas.getContext('2d');
         if (!ctx) return;
 
-        // Check for reduced motion
+        // Skip entirely for users who prefer reduced motion, or on touch devices
+        // where there is no cursor to bend lines toward.
         const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-        if (prefersReducedMotion) return;
+        const isCoarsePointer = window.matchMedia('(pointer: coarse)').matches;
+        if (prefersReducedMotion || isCoarsePointer) return;
 
         // Resize handler
         const resize = () => {
@@ -160,6 +162,13 @@ export default function SpacetimeCursor({
             }
         };
 
+        // Pause the loop while the tab is hidden.
+        const handleVisibility = () => {
+            cancelAnimationFrame(animationRef.current);
+            if (!document.hidden) animate();
+        };
+        document.addEventListener('visibilitychange', handleVisibility);
+
         animate();
 
         return () => {
@@ -167,6 +176,7 @@ export default function SpacetimeCursor({
             window.removeEventListener('resize', resize);
             window.removeEventListener('mousemove', handleMouseMove);
             window.removeEventListener('mouseleave', handleMouseLeave);
+            document.removeEventListener('visibilitychange', handleVisibility);
         };
     }, [lineCount]);
 

@@ -74,14 +74,24 @@ const photos = Object.values(photoFiles).map((file) => ({
 
     <!-- Keyboard hint -->
     <div class="home__hint">
-      <kbd>Ctrl+K</kbd> to navigate
+      <kbd id="nav-shortcut">Ctrl+K</kbd> to navigate
     </div>
   </div>
+
+  <script is:inline>
+    // Show the correct modifier key for the visitor's OS.
+    (function () {
+      var isMac = /Mac|iPhone|iPad|iPod/i.test(navigator.platform || navigator.userAgent);
+      var el = document.getElementById("nav-shortcut");
+      if (el && isMac) el.textContent = "\u2318K";
+    })();
+  </script>
 </BaseLayout>
 
 <style>
   .home {
     min-height: calc(100vh - 64px);
+    min-height: calc(100dvh - 64px); /* dynamic viewport: no jump as mobile chrome hides */
     display: flex;
     flex-direction: column;
     justify-content: flex-start;
@@ -155,10 +165,10 @@ const photos = Object.values(photoFiles).map((file) => ({
   }
 
   .about p {
-    font-size: var(--text-sm);
+    font-size: var(--text-base);
     color: var(--color-text-secondary);
     line-height: 1.7;
-    margin: 0 0 var(--space-sm);
+    margin: 0 0 var(--space-md);
   }
 
   .about a {

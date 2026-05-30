@@ -81,7 +81,7 @@ const currentPath = Astro.url.pathname;
 
   <!-- Mobile Menu Drawer -->
   <div class="nav__mobile" id="mobile-menu" aria-hidden="true">
-    <div class="nav__mobile-content">
+    <nav class="nav__mobile-content" aria-label="Mobile">
       {
         navLinks.map((link) => (
           <a
@@ -100,11 +100,8 @@ const currentPath = Astro.url.pathname;
           </a>
         ))
       }
-    </div>
+    </nav>
   </div>
-
-  <!-- Mobile Menu Backdrop -->
-  <div class="nav__backdrop" aria-hidden="true"></div>
 </nav>
 
 <style>
@@ -202,50 +199,95 @@ const currentPath = Astro.url.pathname;
   }
 
   .nav__mobile {
-    display: none;
     position: fixed;
     top: 64px;
     left: 0;
     right: 0;
     bottom: 0;
-    background: var(--color-bg-primary);
-    padding: var(--space-xl);
+    background: color-mix(in srgb, var(--color-bg-primary) 94%, transparent);
+    backdrop-filter: blur(16px);
+    padding: var(--space-2xl) var(--space-xl);
+    z-index: var(--z-overlay);
+    /* Animatable hidden state (kept in DOM so it can transition) */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px);
+    transition:
+      opacity var(--transition-base),
+      transform var(--transition-base) var(--ease-out-expo),
+      visibility var(--transition-base);
   }
 
   .nav__mobile[aria-hidden="false"] {
-    display: block;
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+  }
+
+  @media (min-width: 768px) {
+    .nav__mobile {
+      display: none;
+    }
   }
 
   .nav__mobile-content {
     display: flex;
     flex-direction: column;
-    gap: var(--space-lg);
+    gap: var(--space-xs);
   }
 
   .nav__mobile-link {
-    font-size: var(--text-xl);
+    font-family: var(--font-serif);
+    font-size: var(--text-2xl);
     color: var(--color-text-secondary);
     text-decoration: none;
+    padding: var(--space-sm) 0;
+    border-bottom: 1px solid var(--color-border-subtle);
+    transition: color var(--transition-fast);
   }
 
+  .nav__mobile-link:hover,
   .nav__mobile-link.active {
     color: var(--color-accent-primary);
-  }
-
-  .nav__backdrop {
-    display: none;
   }
 </style>
 
 <script>
   document.addEventListener("DOMContentLoaded", () => {
-    const toggle = document.querySelector(".nav__toggle");
+    const toggle = document.querySelector<HTMLButtonElement>(".nav__toggle");
     const mobile = document.getElementById("mobile-menu");
+    if (!toggle || !mobile) return;
 
-    toggle?.addEventListener("click", () => {
-      const isExpanded = toggle.getAttribute("aria-expanded") === "true";
-      toggle.setAttribute("aria-expanded", String(!isExpanded));
-      mobile?.setAttribute("aria-hidden", String(isExpanded));
+    const setOpen = (open: boolean) => {
+      toggle.setAttribute("aria-expanded", String(open));
+      mobile.setAttribute("aria-hidden", String(!open));
+      // Lock background scroll while the drawer is open.
+      document.documentElement.style.overflow = open ? "hidden" : "";
+      document.body.style.overflow = open ? "hidden" : "";
+    };
+
+    toggle.addEventListener("click", () => {
+      setOpen(toggle.getAttribute("aria-expanded") !== "true");
+    });
+
+    // Close when a destination is chosen.
+    mobile.querySelectorAll("a").forEach((link) => {
+      link.addEventListener("click", () => setOpen(false));
+    });
+
+    // Close on Escape.
+    document.addEventListener("keydown", (e) => {
+      if (e.key === "Escape" && toggle.getAttribute("aria-expanded") === "true") {
+        setOpen(false);
+        toggle.focus();
+      }
+    });
+
+    // Reset if the viewport grows to desktop while open.
+    window.addEventListener("resize", () => {
+      if (window.innerWidth >= 768 && toggle.getAttribute("aria-expanded") === "true") {
+        setOpen(false);
+      }
     });
   });
 </script>
