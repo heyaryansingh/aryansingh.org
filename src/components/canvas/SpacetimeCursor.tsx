@@ -187,7 +187,9 @@ export default function SpacetimeCursor({
                 position: 'fixed',
                 inset: 0,
                 pointerEvents: 'none',
-                zIndex: 1,
+                // Behind page content — an ambient field, never painted over the
+                // boards/cards/text. (Was zIndex:1, which obscured everything.)
+                zIndex: -1,
             }}
         />
     );
