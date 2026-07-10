@@ -9,6 +9,8 @@
 import { getCollection, type CollectionEntry } from "astro:content";
 import BaseLayout from "../../layouts/BaseLayout.astro";
 import { formatDate } from "../../lib/utils";
+import Reactions from "../../components/interactive/Reactions";
+import Comments from "../../components/interactive/Comments";
 
 export async function getStaticPaths() {
     const posts = await getCollection("blog", ({ data }) => !data.draft);
@@ -93,6 +95,11 @@ const typeColors: Record<string, string> = {
             </div>
         </div>
 
+        <div class="blog-post__engage container container--narrow">
+            <Reactions client:visible targetType="blog" targetSlug={post.slug} />
+            <Comments client:visible targetType="blog" targetSlug={post.slug} />
+        </div>
+
         <footer class="blog-post__footer container container--narrow">
             <a href="/blog" class="back-link"> ← Back to all posts </a>
         </footer>
@@ -150,9 +157,19 @@ const typeColors: Record<string, string> = {
     .blog-post__header,
     .blog-post__cover,
     .blog-post__content,
+    .blog-post__engage,
     .blog-post__footer {
         position: relative;
         z-index: 1;
+    }
+
+    .blog-post__engage {
+        margin-top: var(--space-2xl);
+        padding-top: var(--space-xl);
+        border-top: 1px solid var(--color-border);
+        display: flex;
+        flex-direction: column;
+        gap: var(--space-lg);
     }
 
     .blog-post__header {
