@@ -20,6 +20,19 @@ export type StickerKind = (typeof STICKER_KINDS)[number];
 export const LEADERBOARD_GAMES = ["snake", "flappy"] as const;
 export type LeaderboardGame = (typeof LEADERBOARD_GAMES)[number];
 
+// What visitors can recommend. `label` is shown; the key is stored.
+export const REC_KINDS = [
+  { key: "book", label: "Book" },
+  { key: "paper", label: "Paper" },
+  { key: "film", label: "Film / TV" },
+  { key: "blog", label: "Blog / Website" },
+  { key: "journal", label: "Journal" },
+  { key: "news", label: "News / Article" },
+  { key: "podcast", label: "Podcast" },
+  { key: "other", label: "Other" },
+] as const;
+export type RecKind = (typeof REC_KINDS)[number]["key"];
+
 export const LIMITS = {
   name: 40,
   message: 500,
@@ -29,6 +42,11 @@ export const LIMITS = {
   commentsMax: 400,
   scoresMax: 20, // top-N returned by GET /api/leaderboard
   scoreCap: 10_000_000, // reject absurd submissions
+  recTitle: 200,
+  recAuthor: 120,
+  recNote: 400,
+  recUrl: 500,
+  recsMax: 200,
 } as const;
 
 // ---- shapes ----------------------------------------------------------------
@@ -60,6 +78,16 @@ export interface ScoreEntry {
   id: number;
   name: string;
   score: number;
+  createdAt: number;
+}
+export interface Recommendation {
+  id: number;
+  kind: string;
+  title: string;
+  author: string;
+  url: string;
+  note: string;
+  name: string;
   createdAt: number;
 }
 export interface ChessGame {
@@ -176,6 +204,22 @@ export const api = {
     call<{ verified: boolean }>(`/chess`, {
       method: "POST",
       body: JSON.stringify({ action: "verify", key }),
+    }),
+
+  listRecommendations: (limit = 100) =>
+    call<{ recommendations: Recommendation[] }>(`/recommendations?limit=${limit}`),
+  addRecommendation: (body: {
+    kind: string;
+    title: string;
+    author?: string;
+    url?: string;
+    note?: string;
+    name?: string;
+    website?: string;
+  }) =>
+    call<{ recommendation: Recommendation }>(`/recommendations`, {
+      method: "POST",
+      body: JSON.stringify(body),
     }),
 };
 

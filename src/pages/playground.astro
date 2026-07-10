@@ -11,6 +11,7 @@ import FlappyBird from "../components/games/FlappyBird";
 import ChessArena from "../components/games/ChessArena";
 import StickerWall from "../components/interactive/StickerWall";
 import Guestbook from "../components/interactive/Guestbook";
+import Recommendations from "../components/interactive/Recommendations";
 ---
 
 <BaseLayout
@@ -27,32 +28,14 @@ import Guestbook from "../components/interactive/Guestbook";
         something behind on the wall.
       </p>
       <nav class="pg__jump">
+        <a href="#chess">chess</a>
         <a href="#snake">snake</a>
         <a href="#flappy">flappy</a>
-        <a href="#chess">chess</a>
         <a href="#stickers">stickers</a>
+        <a href="#recommend">recommend</a>
         <a href="#guestbook">guestbook</a>
       </nav>
     </header>
-
-    <section class="pg__section" id="arcade">
-      <div class="pg__shead">
-        <h2>Arcade</h2>
-        <p>Click a board to start it — keys only steer the game you're actually playing. Scores go to the shared board; log a name and hold the top spot.</p>
-      </div>
-      <div class="pg__games">
-        <div class="pg__game" id="snake">
-          <h3 class="pg__game-title">Snake</h3>
-          <p class="pg__game-sub">Collect nodes, grow, don't collapse.</p>
-          <QuantumSnake client:load />
-        </div>
-        <div class="pg__game" id="flappy">
-          <h3 class="pg__game-title">Flappy</h3>
-          <p class="pg__game-sub">One button. Thread the gaps.</p>
-          <FlappyBird client:load />
-        </div>
-      </div>
-    </section>
 
     <section class="pg__section pg__section--chess" id="chess">
       <div class="pg__shead">
@@ -66,12 +49,39 @@ import Guestbook from "../components/interactive/Guestbook";
       <ChessArena client:load />
     </section>
 
+    <section class="pg__section" id="arcade">
+      <div class="pg__shead">
+        <h2>Arcade</h2>
+        <p>Click a board to start it — keys only steer the game you're actually playing. Scores go to the shared board; log a name and hold the top spot.</p>
+      </div>
+      <div class="pg__games">
+        <div class="pg__game" id="snake">
+          <h3 class="pg__game-title">Snake</h3>
+          <p class="pg__game-sub">Eat apples, grow, don't collapse.</p>
+          <QuantumSnake client:load />
+        </div>
+        <div class="pg__game" id="flappy">
+          <h3 class="pg__game-title">Flappy</h3>
+          <p class="pg__game-sub">One button. Thread the gaps.</p>
+          <FlappyBird client:load />
+        </div>
+      </div>
+    </section>
+
     <section class="pg__section" id="stickers">
       <div class="pg__shead">
         <h2>Sticker wall</h2>
         <p>Pick a sticker, then click anywhere to drop it. It stays for everyone.</p>
       </div>
       <StickerWall client:load />
+    </section>
+
+    <section class="pg__section" id="recommend">
+      <div class="pg__shead">
+        <h2>Recommend me something</h2>
+        <p>A book, paper, film, blog, journal, podcast — anything worth my time. Drop it here and I'll actually work through the list.</p>
+      </div>
+      <Recommendations client:load />
     </section>
 
     <section class="pg__section" id="guestbook">

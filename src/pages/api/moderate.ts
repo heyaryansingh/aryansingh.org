@@ -3,7 +3,7 @@ import { ok, fail, getEnv, readBody } from "../../lib/api";
 
 export const prerender = false;
 
-const TABLES = new Set(["guestbook", "stickers", "comments"]);
+const TABLES = new Set(["guestbook", "stickers", "comments", "recommendations"]);
 const ACTIONS = new Set(["hide", "unhide", "delete"]);
 
 /**

@@ -81,6 +81,21 @@ CREATE TABLE IF NOT EXISTS chess_games (
 CREATE INDEX IF NOT EXISTS idx_chess_updated ON chess_games (updated_at DESC);
 CREATE INDEX IF NOT EXISTS idx_chess_turn ON chess_games (status, turn);
 
+-- Visitor recommendations: books, papers, films, blogs, anything worth reading/watching.
+CREATE TABLE IF NOT EXISTS recommendations (
+  id         INTEGER PRIMARY KEY AUTOINCREMENT,
+  kind       TEXT    NOT NULL DEFAULT 'book',
+  title      TEXT    NOT NULL,
+  author     TEXT    NOT NULL DEFAULT '',
+  url        TEXT    NOT NULL DEFAULT '',
+  note       TEXT    NOT NULL DEFAULT '',
+  name       TEXT    NOT NULL DEFAULT 'anon',
+  created_at INTEGER NOT NULL,
+  ip_hash    TEXT    NOT NULL,
+  hidden     INTEGER NOT NULL DEFAULT 0
+);
+CREATE INDEX IF NOT EXISTS idx_recs_created ON recommendations (created_at DESC);
+
 -- Sliding-window rate limiter: one row per (ip_hash, action).
 CREATE TABLE IF NOT EXISTS rate_limits (
   ip_hash      TEXT    NOT NULL,
