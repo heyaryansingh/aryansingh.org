@@ -16,6 +16,10 @@ export const STICKER_KINDS = [
 ] as const;
 export type StickerKind = (typeof STICKER_KINDS)[number];
 
+// Games that report to the shared leaderboard.
+export const LEADERBOARD_GAMES = ["snake", "flappy"] as const;
+export type LeaderboardGame = (typeof LEADERBOARD_GAMES)[number];
+
 export const LIMITS = {
   name: 40,
   message: 500,
@@ -23,6 +27,8 @@ export const LIMITS = {
   stickersMax: 600, // most-recent cap returned by GET /api/stickers
   guestbookMax: 100,
   commentsMax: 400,
+  scoresMax: 20, // top-N returned by GET /api/leaderboard
+  scoreCap: 10_000_000, // reject absurd submissions
 } as const;
 
 // ---- shapes ----------------------------------------------------------------
@@ -50,6 +56,22 @@ export interface Comment {
   createdAt: number;
 }
 export type ReactionCounts = Partial<Record<string, number>>;
+export interface ScoreEntry {
+  id: number;
+  name: string;
+  score: number;
+  createdAt: number;
+}
+export interface ChessGame {
+  id: number;
+  visitorName: string;
+  fen: string;
+  moves: string;
+  turn: "w" | "b";
+  status: string;
+  createdAt: number;
+  updatedAt: number;
+}
 
 export interface ApiResult<T> {
   status: number;
@@ -119,6 +141,42 @@ export const api = {
     parentId?: number;
     website?: string;
   }) => call<{ comment: Comment }>(`/comments`, { method: "POST", body: JSON.stringify(body) }),
+
+  listScores: (game: string, limit = 10) =>
+    call<{ scores: ScoreEntry[] }>(`/leaderboard?game=${encodeURIComponent(game)}&limit=${limit}`),
+  addScore: (body: { game: string; name?: string; score: number; website?: string }) =>
+    call<{ entry: ScoreEntry; rank: number | null }>(`/leaderboard`, {
+      method: "POST",
+      body: JSON.stringify(body),
+    }),
+
+  chessList: () => call<{ games: ChessGame[] }>(`/chess`),
+  chessGet: (id: number) => call<{ game: ChessGame }>(`/chess?id=${id}`),
+  chessCreate: (name: string, website?: string) =>
+    call<{ game: ChessGame; token: string }>(`/chess`, {
+      method: "POST",
+      body: JSON.stringify({ action: "create", name, website }),
+    }),
+  chessMove: (body: { id: number; token: string; from: string; to: string; promotion?: string }) =>
+    call<{ game: ChessGame; san: string }>(`/chess`, {
+      method: "POST",
+      body: JSON.stringify({ action: "move", ...body }),
+    }),
+  chessOwnerMove: (body: { id: number; key: string; from: string; to: string; promotion?: string }) =>
+    call<{ game: ChessGame; san: string }>(`/chess`, {
+      method: "POST",
+      body: JSON.stringify({ action: "ownerMove", ...body }),
+    }),
+  chessResign: (body: { id: number; token?: string; key?: string }) =>
+    call<{ status: string }>(`/chess`, {
+      method: "POST",
+      body: JSON.stringify({ action: "resign", ...body }),
+    }),
+  chessVerifyKey: (key: string) =>
+    call<{ verified: boolean }>(`/chess`, {
+      method: "POST",
+      body: JSON.stringify({ action: "verify", key }),
+    }),
 };
 
 /** Compact relative time for feeds ("3m", "2h", "5d"). */
