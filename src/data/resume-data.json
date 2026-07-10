@@ -10,138 +10,156 @@
     "education": {
         "institution": "Johns Hopkins University",
         "degree": "B.S. Computer Science & Biomedical Engineering",
-        "dates": "2023-2027",
+        "dates": "Aug 2024 – May 2028",
         "location": "Baltimore, MD",
-        "gpa": "4.0",
+        "gpa": "4.00",
         "minors": [
-            "Entrepreneurship and Management",
-            "Applied Math and Statistics"
+            "Entrepreneurship & Management"
         ],
         "coursework": [
-            "Machine Learning",
-            "Deep Learning",
+            "Probability & Stochastic Processes",
             "Algorithms",
-            "Probability Theory",
             "Linear Algebra",
+            "Numerical Methods",
             "Optimization",
-            "Systems Programming",
-            "Quantum Computing"
+            "Statistical Inference",
+            "Systems Programming (C/C++)",
+            "Quantum Computing",
+            "Discrete Mathematics"
         ]
     },
     "experience": [
         {
-            "title": "Founding AI Developer",
-            "company": "NeuroVoice by Rice University",
+            "title": "Co-Founder & Lead Engineer",
+            "company": "LabLink — AI-Powered Research Platform",
+            "location": "Baltimore, MD",
+            "dates": "Jan 2025 – Present",
+            "highlights": [
+                "Built and shipped an AI research platform (published on npm) with LLM-integrated NLP pipelines and automated workflow tooling, using AI agents to accelerate development and drive engineering efficiency across the team."
+            ]
+        },
+        {
+            "title": "Machine Learning Engineer, Founding Team",
+            "company": "NeuroVoice — AI Diagnostics Startup",
             "location": "Houston, TX",
             "dates": "Mar 2024 – Aug 2025",
             "highlights": [
-                "Cofounded and built a production-grade multimodal ML platform for neurological screening using speech and language models, trained on 3,000+ hours of clinical and public-health audio (12TB+).",
-                "Designed and deployed end-to-end ML infrastructure spanning data ingestion, feature extraction, model training, evaluation, and batch inference, delivering 25–30% accuracy gains over baseline cognitive screening tools.",
-                "Deployed pilots with state health agencies across 8 US states; enabled scalable deployment for 50,000+ screenings/year.",
-                "Raised $150K+ seed funding by communicating model performance, uncertainty, and deployment constraints to clinicians and policymakers."
+                "Architected a multimodal inference pipeline (PyTorch) with Bayesian model selection, Optuna hyperparameter optimization, and rigorous evaluation (ROC-AUC, calibration curves, bootstrap CIs) across 12TB+ of data, delivering 25–30% accuracy gains.",
+                "Cut per-inference cost from $0.12 to $0.003 (97.5%) via model distillation, INT8 quantization, and infrastructure optimization; built a cost-performance Pareto frontier analysis to drive deployment decisions.",
+                "Designed a real-time drift-detection and A/B testing framework monitoring model degradation under distribution shift, seamlessly reconciling historical and streaming data."
             ]
         },
         {
-            "title": "Machine Learning Engineer",
-            "company": "Texas Center For Superconductivity",
+            "title": "Quantitative Research Engineer",
+            "company": "Texas Center for Superconductivity, University of Houston",
             "location": "Houston, TX",
             "dates": "Feb 2023 – Mar 2024",
             "highlights": [
-                "Built ML-driven data pipelines for analyzing conductive polyaniline nanofibers in nerve and tissue regeneration research.",
-                "Processed and modeled 120,000+ high-resolution experimental micrographs using custom computer vision workflows, reducing material optimization cycles by 80%+ and compressing research iteration time from months to days."
+                "Built quantitative pipelines (PCA, t-SNE, ResNet-50, EfficientNet) over 120,000+ samples at 94%+ accuracy, and a constrained-optimization framework for Pareto-optimal parameter search that cut experimental cycles by 80%."
             ]
         },
         {
-            "title": "Computational Genomics & AI Researcher",
+            "title": "Computational Genomics & Statistical Modeling Researcher",
             "company": "Rice University",
             "location": "Houston, TX",
             "dates": "Sep 2021 – Dec 2022",
             "highlights": [
-                "Developed genome-scale ML systems for CRISPR off-target prediction using experimental Geminin-tagged Cas9 (gCas9), enabling ultra-high-specificity gene editing for neurodegenerative disease research.",
-                "Applied rigorous statistical modeling to 10+ TB of sequencing data, cutting in-silico screening time from weeks to <6 hours.",
-                "Work awarded Top Prize at Rice Neurotransmitter Research Competition Nationals."
+                "Applied statistical modeling (logistic regression, XGBoost, CNN-LSTM) to 10+ TB of data with stratified cross-validation and calibrated probability estimation, reducing false negatives 60%.",
+                "Engineered parallelized pipelines (Snakemake, SLURM) achieving 40x throughput on terabyte-scale datasets with automated QC and reproducible environments."
             ]
         }
     ],
     "projects": [
         {
-            "name": "QuSim",
-            "tagline": "Open-Source AI-Enhanced Quantum Circuit Simulator",
-            "description": "Built a full-stack, modular quantum circuit simulator with multiple execution backends (statevector, density-matrix, stabilizer, tensor-network), designed for correctness, extensibility, and high-performance experimentation.",
+            "name": "IMST-Quant",
+            "tagline": "GNN Sentiment Trading Engine — Python, PyTorch Geometric, FinBERT, Spark",
+            "description": "End-to-end trading system with GNN author-influence scoring, FinBERT sentiment, and a 6-layer medallion architecture generating alpha from Reddit, equity, and crypto data under strict T-1 causality.",
             "highlights": [
-                "Integrated AI/ML-driven analysis to model noise, detect failure modes, and predict breakdowns in quantum circuits.",
-                "Dynamic visualizations for diagnosing behavior under entanglement growth and hardware constraints."
+                "Enforced strict T-1 causality across a 6-layer medallion data architecture to eliminate lookahead leakage.",
+                "Benchmarked LSTM, CNN, and Transformer forecasters via event-driven backtesting with transaction costs, slippage, and walk-forward optimization across 5+ years of market data.",
+                "Built risk analytics (Sharpe, max drawdown, VaR, rolling beta) with Kelly-criterion position sizing and dynamic stop-loss optimization, in unit-tested, code-reviewed modules."
             ]
         },
         {
-            "name": "Embodied AI Research",
-            "tagline": "Belief-Inference Evaluation & Agent Reasoning Systems",
-            "description": "Built a scalable ML evaluation framework for embodied AI agent reasoning, running 2,400+ large-scale simulations to stress-test model failure modes, decisions, and false-beliefs using Python workflows (NumPy, TensorFlow, pandas, joblib)."
+            "name": "IMC Prosperity 4",
+            "tagline": "Algorithmic Trading Competition (Top 500) — Python, NumPy, pandas",
+            "description": "Market-making, statistical-arbitrage, options-pricing, and cross-asset-arbitrage strategies over a live options and equities microstructure.",
+            "highlights": [
+                "Optimized strategies for sub-900ms latency with dynamic position limits and persistent state across rounds.",
+                "Implemented implied-volatility estimation, mean-reversion detection, and order-book imbalance scoring."
+            ]
+        },
+        {
+            "name": "Persona",
+            "tagline": "Autonomous research agent — Python, Claude API, SQLite",
+            "description": "A persistent synthetic researcher that reads the biomedical literature at scale with a durable async swarm, holds a bi-temporal belief-graph, and self-tests contradictions into falsifiable hypotheses against public datasets. Built for the Claude Science hackathon."
+        },
+        {
+            "name": "QuSim",
+            "tagline": "Research-grade quantum circuit simulator — Python, NumPy",
+            "description": "A from-scratch simulator with four backends (statevector, density-matrix, stabilizer, tensor-network), Kraus-operator noise modeling, entanglement-entropy tracking, and a quantum error-correction sandbox."
+        },
+        {
+            "name": "gCas9-AD Off-Target",
+            "tagline": "CRISPR off-target prediction — PyTorch, Transformers",
+            "description": "gCas9-OTNet, a hybrid CNN–Transformer predicting off-target cleavage for Gemini-tagged Cas9 in Alzheimer's gene therapy, trained on experimental GUIDE-seq and CIRCLE-seq data with attention-based interpretation."
         }
     ],
     "awards": [
-        {
-            "name": "USA Computing Olympiad (USACO) Platinum Division",
-            "achievement": "Top 0.5% Nationally",
-            "date": "Mar 2025"
-        },
-        {
-            "name": "USA Physics Olympiad (USAPhO) Gold Medal",
-            "achievement": "Top 50 Nationally",
-            "date": "Apr 2023"
-        }
+        { "name": "USACO Platinum", "achievement": "Top 0.25% nationally", "date": "" },
+        { "name": "USAMO Qualifier", "achievement": "USA Mathematical Olympiad", "date": "" },
+        { "name": "AIME — 4× Qualifier", "achievement": "Top 5% of 300K+", "date": "" },
+        { "name": "USABO", "achievement": "Top 100 nationally", "date": "" },
+        { "name": "USNCO", "achievement": "Nationals", "date": "" },
+        { "name": "USAPhO", "achievement": "Silver Medal", "date": "" },
+        { "name": "Rice Neurotransmitter Research Conference", "achievement": "Grand Prize", "date": "" }
     ],
-    "leadership": [
-        {
-            "role": "Global Youth Ambassador",
-            "organization": "City of Houston",
-            "dates": "Jan 2022 – Jul 2025",
-            "highlights": [
-                "Advised the Mayor's Office, Houston City Council, and Texas legislative staff on youth mental health and STEM access initiatives impacting multiple congressional districts.",
-                "Hosted 2-season podcast (100K+ views online) featuring the mayor, city officials, and educators.",
-                "Contributed to proposals influencing $7M+ in federal funding for youth mental health & STEM mentorship programs."
-            ]
-        }
-    ],
+    "leadership": [],
     "skills": {
         "languages": [
-            "Python (PyTorch, TensorFlow, NumPy, Pandas)",
+            "Python",
             "C++",
-            "MATLAB",
-            "JavaScript",
+            "C",
             "Java",
             "SQL",
+            "MATLAB",
+            "R",
             "Bash"
         ],
-        "fullstack": [
-            "React",
-            "Angular",
-            "HTML",
-            "CSS",
-            "REST APIs",
-            "microservices",
-            "server-side development",
-            "API design"
+        "quantitative": [
+            "Stochastic calculus",
+            "time-series analysis",
+            "Monte Carlo simulation",
+            "statistical arbitrage",
+            "portfolio optimization",
+            "risk metrics (VaR, Sharpe, drawdown)",
+            "Bayesian inference",
+            "options pricing",
+            "signal processing"
         ],
         "ml": [
-            "Deep learning",
-            "transformers and attention",
-            "multimodal models",
-            "computer vision",
-            "NLP",
-            "speech and audio modeling",
-            "model evaluation",
-            "Hugging Face",
-            "OpenCV"
+            "PyTorch",
+            "scikit-learn",
+            "XGBoost",
+            "PyTorch Geometric",
+            "pandas",
+            "NumPy",
+            "SciPy",
+            "statsmodels",
+            "Spark"
         ],
-        "systems": [
-            "Linux/Unix",
-            "Git",
+        "infrastructure": [
             "Docker",
-            "distributed data pipelines",
-            "parallel computing",
-            "relational databases",
-            "large-scale data processing"
+            "AWS",
+            "Git",
+            "Linux",
+            "CI/CD",
+            "unit testing",
+            "code review",
+            "PostgreSQL",
+            "Airflow",
+            "low-latency systems",
+            "distributed computing"
         ]
     }
 }

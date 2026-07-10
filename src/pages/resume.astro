@@ -151,15 +151,14 @@ import resumeData from "../data/resume-data.json";
       </div>
     </section>
 
-    <!-- Leadership -->
-    <section class="resume__section" data-section="leadership">
-      <button class="section__toggle" aria-expanded="true">
-        <h2 class="section__title">Leadership</h2>
-        <span class="toggle-icon">−</span>
-      </button>
-      <div class="section__content">
-        {
-          resumeData.leadership.map((lead) => (
+    {resumeData.leadership.length > 0 && (
+      <section class="resume__section" data-section="leadership">
+        <button class="section__toggle" aria-expanded="true">
+          <h2 class="section__title">Leadership</h2>
+          <span class="toggle-icon">−</span>
+        </button>
+        <div class="section__content">
+          {resumeData.leadership.map((lead) => (
             <div class="leadership-item">
               <div class="item-header">
                 <strong>{lead.organization}</strong>
@@ -174,10 +173,10 @@ import resumeData from "../data/resume-data.json";
                 ))}
               </ul>
             </div>
-          ))
-        }
-      </div>
-    </section>
+          ))}
+        </div>
+      </section>
+    )}
 
     <!-- Skills -->
     <section class="resume__section" data-section="skills">
@@ -191,16 +190,16 @@ import resumeData from "../data/resume-data.json";
           <p>{resumeData.skills.languages.join(", ")}</p>
         </div>
         <div class="skill-category">
-          <h3>Full-Stack</h3>
-          <p>{resumeData.skills.fullstack.join(", ")}</p>
+          <h3>Quantitative</h3>
+          <p>{resumeData.skills.quantitative.join(", ")}</p>
         </div>
         <div class="skill-category">
           <h3>ML & Data</h3>
           <p>{resumeData.skills.ml.join(", ")}</p>
         </div>
         <div class="skill-category">
-          <h3>Systems</h3>
-          <p>{resumeData.skills.systems.join(", ")}</p>
+          <h3>Infrastructure</h3>
+          <p>{resumeData.skills.infrastructure.join(", ")}</p>
         </div>
       </div>
     </section>

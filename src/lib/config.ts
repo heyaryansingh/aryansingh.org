@@ -9,7 +9,7 @@ export const siteConfig = {
      * Show resume in navigation and footer?
      * Set to false to hide resume link site-wide.
      */
-    showResume: true,
+    showResume: false,
 
     /**
      * Site metadata
