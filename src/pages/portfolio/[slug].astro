@@ -1,0 +1,174 @@
+---
+/**
+ * Project case study — full write-up for one project.
+ * Renders the MDX body plus reactions + comments, keyed by the project slug.
+ */
+import { getCollection } from "astro:content";
+import BaseLayout from "../../layouts/BaseLayout.astro";
+import { CATEGORY_META, STATUS_META, type ProjectEntry } from "../../lib/projects";
+import Reactions from "../../components/interactive/Reactions";
+import Comments from "../../components/interactive/Comments";
+
+export async function getStaticPaths() {
+  const projects = await getCollection("projects");
+  return projects.map((project) => ({ params: { slug: project.slug }, props: { project } }));
+}
+
+type Props = { project: ProjectEntry };
+const { project } = Astro.props;
+const d = project.data;
+const cat = CATEGORY_META[d.category];
+const status = STATUS_META[d.status];
+const { Content } = await project.render();
+---
+
+<BaseLayout title={d.title} description={d.description}>
+  <article class="cs">
+    <header class="cs__header">
+      <a href="/portfolio" class="cs__back">← all projects</a>
+      <p class="cs__cat" style={`--cat:${cat.color}`}>
+        <span>{cat.icon}</span>{cat.label}
+        {status && <span class="cs__status" style={`--sc:${status.color}`}>{status.label}</span>}
+        {d.year && <span class="cs__year">{d.year}</span>}
+      </p>
+      <h1 class="cs__title">{d.title}</h1>
+      <p class="cs__tagline">{d.tagline}</p>
+
+      <div class="cs__links">
+        {d.github && (
+          <a class="cs__btn" href={d.github} target="_blank" rel="noopener noreferrer">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.44 9.8 8.2 11.39.6.11.82-.26.82-.58v-2.03c-3.34.73-4.04-1.6-4.04-1.6-.55-1.4-1.34-1.77-1.34-1.77-1.08-.74.09-.73.09-.73 1.2.09 1.83 1.24 1.83 1.24 1.07 1.83 2.8 1.3 3.49.99.1-.78.42-1.31.76-1.61-2.67-.3-5.47-1.33-5.47-5.93 0-1.31.47-2.38 1.24-3.22-.13-.3-.54-1.52.11-3.18 0 0 1.01-.32 3.3 1.23a11.5 11.5 0 0 1 6 0c2.29-1.55 3.3-1.23 3.3-1.23.65 1.66.24 2.88.12 3.18.77.84 1.23 1.91 1.23 3.22 0 4.61-2.8 5.63-5.48 5.92.43.37.81 1.1.81 2.22v3.29c0 .32.22.7.83.58A12 12 0 0 0 24 12c0-6.63-5.37-12-12-12z"/></svg>
+            Source
+          </a>
+        )}
+        {d.demo && (
+          <a class="cs__btn cs__btn--primary" href={d.demo} target="_blank" rel="noopener noreferrer">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+            Live demo
+          </a>
+        )}
+        {d.npm && (
+          <a class="cs__btn" href={d.npm} target="_blank" rel="noopener noreferrer">📦 npm</a>
+        )}
+        {d.closedSource && !d.github && (
+          <span class="cs__closed">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="11" width="18" height="11" rx="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            Closed source
+          </span>
+        )}
+      </div>
+    </header>
+
+    {(d.problem || d.solution) && (
+      <div class="cs__pspair container">
+        {d.problem && (
+          <div class="cs__ps">
+            <h2>The problem</h2>
+            <p>{d.problem}</p>
+          </div>
+        )}
+        {d.solution && (
+          <div class="cs__ps">
+            <h2>The approach</h2>
+            <p>{d.solution}</p>
+          </div>
+        )}
+      </div>
+    )}
+
+    {d.metrics.length > 0 && (
+      <div class="cs__metrics container">
+        {d.metrics.map((m) => <span class="cs__metric">{m}</span>)}
+      </div>
+    )}
+
+    {d.techStack.length > 0 && (
+      <div class="cs__tech container">
+        {d.techStack.map((t) => <span class="cs__chip">{t}</span>)}
+      </div>
+    )}
+
+    <div class="cs__body container">
+      <div class="prose">
+        <Content />
+      </div>
+    </div>
+
+    {d.learnings.length > 0 && (
+      <div class="cs__learnings container">
+        <h2>What I took away</h2>
+        <ul>{d.learnings.map((l) => <li>{l}</li>)}</ul>
+      </div>
+    )}
+
+    <div class="cs__engage container">
+      <Reactions client:visible targetType="project" targetSlug={project.slug} />
+      <Comments client:visible targetType="project" targetSlug={project.slug} />
+    </div>
+  </article>
+</BaseLayout>
+
+<style>
+  .cs { padding-bottom: var(--space-4xl); }
+  .container { max-width: 760px; margin: 0 auto; padding-left: var(--space-lg); padding-right: var(--space-lg); }
+  .cs__header { max-width: 760px; margin: 0 auto; padding: var(--space-2xl) var(--space-lg) var(--space-xl); }
+  .cs__back { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-text-tertiary); }
+  .cs__back:hover { color: var(--color-accent-primary); }
+  .cs__cat { display: flex; align-items: center; gap: var(--space-sm); margin: var(--space-lg) 0 var(--space-sm);
+    font-size: var(--text-xs); text-transform: uppercase; letter-spacing: 0.08em; color: var(--cat); font-weight: 600; }
+  .cs__status { padding: 2px 8px; border-radius: var(--radius-full); color: var(--sc);
+    background: color-mix(in srgb, var(--sc) 16%, transparent); }
+  .cs__year { font-family: var(--font-mono); color: var(--color-text-tertiary); letter-spacing: 0; }
+  .cs__title { font-size: var(--text-5xl); margin: 0; line-height: 1.08; }
+  .cs__tagline { font-size: var(--text-xl); color: var(--color-text-secondary); font-style: italic; margin: var(--space-md) 0 0; }
+  .cs__links { display: flex; flex-wrap: wrap; gap: var(--space-sm); margin-top: var(--space-xl); }
+  .cs__btn { display: inline-flex; align-items: center; gap: 7px; padding: 9px 16px; font-size: var(--text-sm);
+    border-radius: var(--radius-md); border: 1px solid var(--color-border); color: var(--color-text-primary);
+    background: var(--color-bg-secondary); transition: all var(--transition-fast); }
+  .cs__btn:hover { border-color: var(--color-accent-primary); transform: translateY(-1px); }
+  .cs__btn--primary { border-color: var(--color-accent-primary); background: var(--color-accent-primary); color: #fff; }
+  .cs__closed { display: inline-flex; align-items: center; gap: 6px; padding: 9px 14px; font-size: var(--text-sm);
+    color: var(--color-text-tertiary); border: 1px solid var(--color-border-subtle); border-radius: var(--radius-md); }
+
+  .cs__pspair { display: grid; gap: var(--space-lg); margin-top: var(--space-xl);
+    grid-template-columns: 1fr; }
+  @media (min-width: 700px) { .cs__pspair { grid-template-columns: 1fr 1fr; } }
+  .cs__ps { padding: var(--space-lg); border: 1px solid var(--color-border-subtle); border-radius: var(--radius-lg);
+    background: var(--color-bg-secondary); }
+  .cs__ps h2 { font-family: var(--font-mono); font-size: var(--text-sm); text-transform: uppercase; letter-spacing: 0.08em;
+    color: var(--color-accent-secondary); margin: 0 0 var(--space-sm); }
+  .cs__ps p { margin: 0; font-size: var(--text-sm); color: var(--color-text-secondary); line-height: 1.7; }
+
+  .cs__metrics { display: flex; flex-wrap: wrap; gap: var(--space-sm); margin-top: var(--space-xl); }
+  .cs__metric { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-text-primary);
+    background: var(--color-bg-tertiary); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 6px 12px; }
+  .cs__tech { display: flex; flex-wrap: wrap; gap: 6px; margin-top: var(--space-md); }
+  .cs__chip { font-size: var(--text-xs); color: var(--color-text-tertiary); padding: 3px 10px;
+    border-radius: var(--radius-full); border: 1px solid var(--color-border-subtle); }
+
+  .cs__body { margin-top: var(--space-2xl); }
+  .prose { line-height: 1.8; color: var(--color-text-secondary); }
+  .prose :global(h2) { font-family: var(--font-mono); font-size: var(--text-lg); font-weight: 500; text-transform: lowercase;
+    letter-spacing: 0.04em; color: var(--color-text-primary); margin: var(--space-2xl) 0 var(--space-md); }
+  .prose :global(h3) { font-family: var(--font-mono); font-size: var(--text-base); font-weight: 500;
+    color: var(--color-text-primary); margin: var(--space-xl) 0 var(--space-sm); }
+  .prose :global(p) { margin-bottom: var(--space-md); }
+  .prose :global(a) { color: var(--color-accent-primary); border-bottom: 1px solid transparent; }
+  .prose :global(a:hover) { border-bottom-color: var(--color-accent-primary); }
+  .prose :global(ul), .prose :global(ol) { margin-bottom: var(--space-lg); padding-left: var(--space-xl); }
+  .prose :global(li) { margin-bottom: var(--space-sm); }
+  .prose :global(pre) { background: var(--color-bg-tertiary); padding: var(--space-lg); border-radius: var(--radius-lg);
+    overflow-x: auto; margin: var(--space-xl) 0; border: 1px solid var(--color-border); }
+  .prose :global(code) { font-family: var(--font-mono); font-size: 0.9em; }
+  .prose :global(strong) { color: var(--color-text-primary); }
+
+  .cs__learnings { margin-top: var(--space-2xl); }
+  .cs__learnings h2 { font-family: var(--font-mono); font-size: var(--text-lg); text-transform: lowercase;
+    color: var(--color-text-primary); margin: 0 0 var(--space-md); }
+  .cs__learnings ul { padding-left: var(--space-xl); }
+  .cs__learnings li { color: var(--color-text-secondary); margin-bottom: var(--space-sm); font-size: var(--text-sm); }
+
+  .cs__engage { margin-top: var(--space-3xl); padding-top: var(--space-2xl); border-top: 1px solid var(--color-border); }
+
+  @media (max-width: 640px) { .cs__title { font-size: var(--text-4xl); } }
+</style>

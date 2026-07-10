@@ -1,51 +1,61 @@
 ---
 title: "QuSim"
-description: "A quantum circuit simulator for education and experimentation, featuring intuitive visualization and support for common quantum algorithms."
-github: "https://github.com/heyaryansingh/QuSim"
-problem: "Understanding quantum computing concepts is difficult without hands-on experimentation, but access to real quantum hardware is limited and expensive."
-solution: "Built a Python-based quantum simulator with Bloch sphere visualization, circuit diagrams, and implementations of common algorithms like Grover's and Shor's."
-techStack: ["Python", "NumPy", "Numba", "Matplotlib", "Qiskit"]
+tagline: "Research-grade quantum circuit simulator"
+description: "A from-scratch quantum circuit simulator with four backends — statevector, density-matrix, stabilizer, and tensor-network — plus Kraus-operator noise modeling, entanglement diagnostics, and a quantum error-correction sandbox."
+category: "quantum"
+status: "complete"
+year: "2025"
+closedSource: true
+techStack: ["Python", "NumPy", "Numba", "Linear Algebra", "Quantum Mechanics", "Matplotlib"]
+metrics:
+  - "4 simulation backends"
+  - "~25 qubits on a laptop"
+  - "10–50× JIT speedup"
+problem: "Understanding quantum computing deeply is hard without hands-on experimentation, but real hardware is scarce, noisy, and expensive — and most simulators hide the physics behind an API."
+solution: "Built a modular simulator where each backend is swappable behind one interface, with first-class noise, entanglement, and error-correction tooling so the physics is visible, measurable, and debuggable."
 learnings:
-  - "Sparse matrix techniques for efficient simulation of up to 25 qubits"
-  - "Just-in-time compilation provides 10-50x speedup for gate operations"
-  - "Visualization transforms abstract concepts into intuitive understanding"
-  - "The gap between mathematical formulation and numerical implementation reveals deep insights"
+  - "Sparse representations and JIT compilation make ~25-qubit statevector simulation tractable on consumer hardware."
+  - "The gap between the math and a numerically stable implementation is where the real understanding lives — phase conventions, measurement collapse, decoherence."
+  - "A stabilizer backend turns exponential Clifford circuits into polynomial ones; picking the right backend per circuit matters more than raw speed."
 featured: true
 pinned: true
 order: 1
 startDate: 2024-06-01
 ---
 
-# QuSim: Quantum Circuit Simulator
+QuSim is a quantum circuit simulator I built from scratch to understand quantum computing at a level textbooks don't reach: every phase convention, every measurement collapse, every decoherence channel, implemented and inspectable.
 
-QuSim is a quantum computing simulator designed to make quantum concepts accessible to students and researchers who don't have access to real quantum hardware.
+## backends
 
-## Features
+Rather than one monolithic simulator, QuSim exposes four backends behind a single `Backend` interface, each with different tradeoffs:
 
-- **Circuit Builder**: Drag-and-drop interface for constructing quantum circuits
-- **State Visualization**: Real-time Bloch sphere representation of qubit states
-- **Algorithm Library**: Pre-built implementations of Grover's, Shor's, VQE, and more
-- **Educational Mode**: Step-by-step execution with explanations at each gate
-- **Export**: Compatible with Qiskit and Cirq for running on actual quantum hardware
+- **Statevector** — exact evolution of pure states in a 2ⁿ-dimensional Hilbert space.
+- **Density matrix** — mixed states and open-system dynamics, the substrate for realistic noise.
+- **Stabilizer** (Gottesman–Knill) — polynomial-time simulation of Clifford circuits, scaling to hundreds of qubits.
+- **Tensor-network** — memory-efficient simulation of large, lightly-entangled systems.
 
-## Technical Approach
+## noise and diagnostics
 
-The simulator represents quantum states as complex vectors in a 2^n dimensional Hilbert space. Gates are implemented as unitary matrices, with careful attention to numerical stability.
+Gates are unitary matrices; noise is modeled with Kraus operators applied to the density matrix, so depolarizing, amplitude-damping, and dephasing channels are first-class. The simulator tracks **von Neumann entropy** and **mutual information** in real time, and runs automatic failure diagnostics that flag when a circuit has become noise-dominated rather than silently returning garbage.
 
 ```python
-# Example: Creating a Bell state
+# A Bell state, then measure the entanglement it creates
 circuit = Circuit(2)
 circuit.h(0)        # Hadamard on qubit 0
-circuit.cx(0, 1)    # CNOT from qubit 0 to qubit 1
+circuit.cx(0, 1)    # CNOT: 0 -> 1
 
-result = simulator.run(circuit)
-# State: (|00⟩ + |11⟩) / √2
+result = simulator.run(circuit)          # (|00⟩ + |11⟩) / √2
+print(result.von_neumann_entropy())      # ~1.0 bit — maximally entangled
 ```
 
-## Performance
+## error correction
 
-Through sparse matrix representations and JIT compilation, QuSim can efficiently simulate circuits with up to 25 qubits on consumer hardware - enough for exploring most educational and many research scenarios.
+A dedicated sandbox implements syndrome extraction and decoding, so you can watch a logical qubit survive physical errors — the payoff of everything above, made visible.
 
-## Why I Built This
+## performance
 
-I wanted to understand quantum computing at a deeper level than textbooks provided. Building a simulator forced me to grapple with every detail: phase conventions, measurement collapse, entanglement. The tool I built for myself became useful for others.
+Through sparse matrix representations and Numba JIT compilation (a 10–50× speedup on gate application), the statevector backend handles circuits up to ~25 qubits on a laptop — enough for most educational and many research scenarios — while the stabilizer backend goes much further for Clifford circuits.
+
+## why I built it
+
+I wanted to understand quantum computing more deeply than reading allowed. Building a simulator forced me to confront every detail I would otherwise have hand-waved. The tool I built for myself turned into something genuinely useful for exploring quantum algorithms and noise.

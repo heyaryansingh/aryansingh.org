@@ -1,0 +1,53 @@
+---
+title: "CRISPR Biobuild Pipeline"
+tagline: "CRISPR off-target prediction with deep learning"
+description: "A CRISPR/Cas9 off-target prediction pipeline comparing transformer sequence models against classical ML baselines, with an interpretation suite for attention visualization, SHAP attribution, and motif analysis."
+category: "biotech"
+closedSource: true
+status: "research"
+year: "2025"
+techStack: ["Python", "PyTorch", "Transformers", "CRISPR/Cas9", "SHAP", "Bioinformatics"]
+problem: "Predicting where a CRISPR/Cas9 guide RNA will cut off-target is a sequence modeling problem, but a prediction without an explanation isn't useful to a wet-lab scientist deciding whether to trust it."
+solution: "Built a benchmarking pipeline that compares transformer-based sequence models (CRISPRformer-inspired) against classical ML baselines (gradient boosting, SVMs) on real and synthetic off-target datasets, paired with an interpretation suite that surfaces attention visualization, SHAP attribution, and sequence-motif analysis for every prediction."
+learnings:
+  - "Transformer sequence models beat classical baselines on off-target prediction, but the gap is largest on sequences with subtle mismatches classical features don't encode well."
+  - "Interpretability isn't optional in this domain — attention maps and SHAP attribution are what let a biologist decide whether to trust a prediction."
+  - "Synthetic benchmarks are useful for stress-testing edge cases, but real off-target datasets are what actually calibrate model confidence."
+featured: false
+pinned: false
+order: 13
+startDate: 2025-02-01
+---
+
+This project benchmarks deep learning against classical ML for CRISPR/Cas9 off-target prediction, and builds the interpretability tooling needed to make either kind of prediction actionable in a wet lab.
+
+## the prediction problem
+
+A CRISPR guide RNA can bind and cut at unintended genomic sites that resemble its target sequence closely enough. Predicting these off-target sites accurately — before running an experiment — is a sequence classification problem with real consequences for editing safety.
+
+## models compared
+
+- **Transformer sequence models** — CRISPRformer-inspired architectures that attend over the guide and target sequence to score mismatch tolerance.
+- **Classical ML baselines** — gradient boosting and SVMs over hand-engineered sequence and mismatch features, the prior standard.
+
+```python
+guide_seq, target_seq = "GACGT...", "GACGA..."
+score_transformer = crisprformer.predict(guide_seq, target_seq)
+score_baseline = gbm_baseline.predict(featurize(guide_seq, target_seq))
+```
+
+## interpretation suite
+
+Every prediction ships with tooling to explain it, not just score it:
+
+- **Attention visualization** — which positions in the guide/target pair the transformer weighted most heavily.
+- **SHAP attribution** — per-feature contribution for both transformer and classical models, on a common footing.
+- **Motif analysis** — recurring sequence patterns associated with high off-target risk.
+
+## benchmarks
+
+Models are evaluated on both real off-target datasets and synthetic benchmarks, the latter useful for probing edge cases (rare mismatch patterns, extreme GC content) that are underrepresented in real data.
+
+## status
+
+Research project: the benchmarking pipeline and interpretation suite are functional, with ongoing work comparing architectures and validating interpretability outputs against known off-target biology.

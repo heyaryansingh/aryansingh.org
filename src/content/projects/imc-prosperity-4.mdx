@@ -1,0 +1,48 @@
+---
+title: "IMC Prosperity 4"
+tagline: "Algorithmic market-making under a 900ms clock"
+description: "Trading algorithms for the IMC Prosperity 4 competition — market-making, statistical arbitrage, and location-arbitrage strategies built stateless against a sub-900ms response window, backtested against real round data before submission."
+category: "trading"
+status: "complete"
+year: "2026"
+closedSource: true
+techStack: ["Python", "pandas", "NumPy", "jsonpickle", "Backtesting"]
+metrics:
+  - "<900ms response time per trading iteration"
+  - "stateless design (state persisted only via traderData)"
+  - "5 competition rounds: market making, stat-arb, options, location arbitrage"
+problem: "IMC Prosperity 4 scores algorithms on SeaShells profit against bots on a simulated island exchange, under hard constraints: each trading decision must return in under 900ms, the trader is stateless between calls (only a serialized traderData string persists), and only pandas, numpy, statistics, math, typing, and jsonpickle are available — no external ML stack."
+solution: "Built a Trader class organized around round-specific strategy modules, using bid/ask wall midpoint (rather than raw mid price) as a more stable fair-value estimate, and validated every strategy against locally replayed round data and a backtester before upload, prioritizing robustness over maximum backtested score to avoid overfitting to one dataset."
+learnings:
+  - "Wall mid pricing (the midpoint of the largest bid/ask walls, not just best bid/ask) is a materially more stable fair-value anchor than raw mid price, since it's less distorted by bots overbidding or undercutting at the top of book."
+  - "Optimizing purely for backtest score is a trap in a competition with unseen future rounds — every strategy needed a first-principles explanation for why it should work, not just a number that looked good on historical data."
+  - "Studying a prior top finisher's public write-up (Frankfurt Hedgehogs, 2nd place in Prosperity 3) and adapting the reasoning rather than copying the numbers directly was more valuable than any single tactic."
+order: 21
+---
+
+IMC Prosperity 4 is a multi-round algorithmic trading competition where a submitted `Trader` class quotes and takes orders against simulated bots on an island exchange, scored on cumulative SeaShells profit.
+
+## the constraints shape the design
+
+Three hard constraints rule out most of the usual quant-dev toolbox: every decision has to return in under 900ms, the trader is stateless across calls (state only survives via a serialized `traderData` string passed back each round), and the only libraries available are pandas, numpy, statistics, math, typing, and jsonpickle. No sklearn, no external services, no persistent process.
+
+## strategy approach
+
+Each round introduces new tradable products, and strategies are organized into distinct categories with different risk profiles:
+
+| Type | Approach | Risk profile |
+|---|---|---|
+| Market making | Quote around a fair-value estimate, earn the spread | Low variance |
+| Statistical arbitrage | Trade spread deviations, e.g. an ETF against its constituents | Medium variance |
+| Informed trading | Detect systematic bot signal patterns | Low-medium variance |
+| Location arbitrage | Exploit local vs. external pricing gaps | Low variance |
+
+The core fair-value estimate throughout is **wall mid pricing** — the midpoint of the bid and ask walls (the largest resting order clusters) rather than the raw best-bid/best-ask mid, which is far more easily distorted by a single bot overbidding at the top of book.
+
+## discipline over overfitting
+
+The governing principle across rounds, borrowed and stated explicitly in the strategy docs: never commit to a strategy you can't explain from first principles, and never optimize purely for the backtest score, since that's the fastest way to overfit to one sample of historical bot behavior. Every strategy was tested against locally replayed round data with a backtester before being uploaded to the platform.
+
+## why this approach
+
+Market-making competitions reward robustness more than cleverness — a strategy that looks brilliant on last round's data and blows up on this round's is worse than a boring one that holds up. Building each strategy from an explicit model of "how could this market data have been generated" rather than pattern-matching a moving average or z-score was the throughline for every round.

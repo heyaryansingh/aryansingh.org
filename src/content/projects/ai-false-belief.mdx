@@ -1,0 +1,50 @@
+---
+title: "AI False-Belief Tracking"
+tagline: "Belief-sensitive embodied assistance"
+description: "A Theory-of-Mind system for embodied agents that detects when a human holds a false belief about the world and decides whether to physically help or communicate the truth."
+category: "ai"
+github: "https://github.com/heyaryansingh/AI-false-belief-tracking"
+status: "research"
+year: "2025"
+techStack: ["Python", "VirtualHome", "Theory of Mind", "Cognitive Modeling", "RL"]
+problem: "An embodied assistant that only tracks the true state of the world will happily hand someone keys from the wrong room, or stay silent when a person's plan is built on a mistaken belief — it has no model of what the human actually thinks is true."
+solution: "Built an agent with an explicit belief-inference module (what does this person think is true, and why) layered under an intervention-decision network that chooses, per situation, whether to physically act on the human's behalf or correct their belief through communication."
+learnings:
+  - "Tracking the true world state is the easy half; inferring what a human believes — and when that belief diverges from reality — is where the real modeling problem lives."
+  - "Helping isn't always the right action: sometimes the correct intervention is telling someone they're wrong, not silently fixing it for them."
+  - "VirtualHome's household simulator is a good testbed precisely because false beliefs (an object moved, a door closed) arise naturally from ordinary state changes."
+featured: false
+pinned: false
+order: 20
+startDate: 2025-02-01
+---
+
+This project studies embodied agents that model Theory of Mind — specifically, agents that can detect when a human holds a **false belief** about the state of the world, and decide what to do about it.
+
+## the classic false-belief problem, embodied
+
+The canonical example: a person believes their keys are in the kitchen, but they were actually moved to the bedroom. A purely world-state-aware agent either does nothing (not its problem) or silently "fixes" the situation by fetching the keys itself — neither of which is guaranteed to be the right call. Sometimes the right move is to say "your keys are actually in the bedroom," not to act unasked.
+
+## architecture
+
+The system is built in two layers on top of the VirtualHome simulator:
+
+- **Belief-inference network** — maintains a model of what the human believes about object locations and world state, distinct from ground truth, updated from what the human has and hasn't observed.
+- **Intervention-decision network** — given a detected belief/reality gap, decides whether the right response is to physically act (move the object, complete the task) or communicate (tell the human the truth) — or do nothing at all.
+
+```python
+belief = belief_model.infer(human_observation_history)
+gap = detect_divergence(belief, world_state)
+
+if gap:
+    action = intervention_policy.decide(gap, task_context)
+    # action in {"act", "communicate", "abstain"}
+```
+
+## why VirtualHome
+
+VirtualHome's household simulator generates false-belief situations for free — objects get moved, doors get closed, states change while an agent (or a human proxy) isn't looking. That makes it a natural testbed for training and evaluating belief-inference and intervention policies without hand-authoring every false-belief scenario.
+
+## status
+
+This is an active research project. The core belief-inference and intervention-decision components exist; ongoing work is on evaluating intervention policy quality across a broader set of household scenarios.
