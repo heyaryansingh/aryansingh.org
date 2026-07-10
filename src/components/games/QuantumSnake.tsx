@@ -4,6 +4,7 @@
  * Client-only; colors read from the site's CSS variables so it respects theme.
  */
 import { useCallback, useEffect, useRef, useState } from "react";
+import ScoreBoard from "../interactive/ScoreBoard";
 
 const GRID = 17;
 const CELL = 20; // px, canvas is GRID*CELL square (scaled by CSS)
@@ -34,6 +35,7 @@ export default function QuantumSnake() {
 
   const [score, setScore] = useState(0);
   const [best, setBest] = useState(0);
+  const [lastScore, setLastScore] = useState<number | null>(null);
   const [state, setState] = useState<"idle" | "playing" | "over">("idle");
 
   const placeFood = useCallback(() => {
@@ -66,11 +68,16 @@ export default function QuantumSnake() {
       ctx.lineTo(GRID * CELL, i * CELL);
       ctx.stroke();
     }
-    // food
-    ctx.font = `${CELL - 4}px serif`;
-    ctx.textAlign = "center";
-    ctx.textBaseline = "middle";
-    ctx.fillText("⚛", food.current.x * CELL + CELL / 2, food.current.y * CELL + CELL / 2 + 1);
+    // food — a bright diamond node (drawn, not an emoji)
+    const fx = food.current.x * CELL + CELL / 2;
+    const fy = food.current.y * CELL + CELL / 2;
+    ctx.save();
+    ctx.translate(fx, fy);
+    ctx.rotate(Math.PI / 4);
+    ctx.fillStyle = hi;
+    const r = CELL * 0.3;
+    ctx.fillRect(-r, -r, r * 2, r * 2);
+    ctx.restore();
     // snake
     snake.current.forEach((s, i) => {
       ctx.fillStyle = i === 0 ? hi : accent;
@@ -98,7 +105,9 @@ export default function QuantumSnake() {
     if (hitWall || hitSelf) {
       stop();
       setState("over");
-      setBest((b) => Math.max(b, snake.current.length - 1));
+      const final = snake.current.length - 1;
+      setBest((b) => Math.max(b, final));
+      setLastScore(final);
       return;
     }
 
@@ -126,12 +135,22 @@ export default function QuantumSnake() {
     return stop;
   }, [state, score, run, stop]);
 
+  // Pause while the tab is hidden — background setInterval keeps firing
+  // (throttled), which would march the snake into a wall while you're away.
+  useEffect(() => {
+    if (state !== "playing") return;
+    const onVis = () => (document.hidden ? stop() : run());
+    document.addEventListener("visibilitychange", onVis);
+    return () => document.removeEventListener("visibilitychange", onVis);
+  }, [state, run, stop]);
+
   const start = useCallback(() => {
     snake.current = [{ x: 8, y: 8 }];
     dir.current = "right";
     queued.current = null;
     placeFood();
     setScore(0);
+    setLastScore(null);
     setState("playing");
     draw();
   }, [draw, placeFood]);
@@ -144,8 +163,11 @@ export default function QuantumSnake() {
     [state],
   );
 
+  // Keys steer only while THIS game is playing — so arrows/WASD never hijack
+  // page scroll or a neighbouring game. Starting is click-only.
   useEffect(() => {
     draw();
+    if (state !== "playing") return;
     const onKey = (e: KeyboardEvent) => {
       const map: Record<string, Dir> = {
         ArrowUp: "up", ArrowDown: "down", ArrowLeft: "left", ArrowRight: "right",
@@ -154,13 +176,12 @@ export default function QuantumSnake() {
       const nd = map[e.key];
       if (nd) {
         e.preventDefault();
-        if (state === "idle" || state === "over") start();
         steer(nd);
       }
     };
     window.addEventListener("keydown", onKey);
     return () => window.removeEventListener("keydown", onKey);
-  }, [draw, start, steer, state]);
+  }, [draw, steer, state]);
 
   return (
     <div className="qs">
@@ -186,8 +207,12 @@ export default function QuantumSnake() {
           <button onClick={() => steer("right")} aria-label="right">▶</button>
         </div>
       </div>
+      <div className="qs__board">
+        <ScoreBoard game="snake" score={lastScore} unit="qubits" />
+      </div>
       <style>{`
         .qs { display: flex; flex-direction: column; gap: var(--space-sm); align-items: center; }
+        .qs__board { width: 100%; margin-top: var(--space-sm); }
         .qs__hud { display: flex; gap: var(--space-lg); font-family: var(--font-mono); font-size: var(--text-sm); color: var(--color-text-secondary); }
         .qs__hud strong { color: var(--color-accent-highlight); }
         .qs__stage { position: relative; width: 100%; max-width: 360px; aspect-ratio: 1; }
@@ -195,8 +220,9 @@ export default function QuantumSnake() {
         .qs__overlay { position: absolute; inset: 0; display: grid; place-content: center; gap: var(--space-sm);
           background: color-mix(in srgb, var(--color-bg-primary) 72%, transparent); border-radius: var(--radius-md); text-align: center; }
         .qs__msg { margin: 0; font-size: var(--text-sm); color: var(--color-text-secondary); }
-        .qs__btn { padding: 10px 24px; border-radius: var(--radius-md); border: 1px solid var(--color-accent-primary);
-          background: var(--color-accent-primary); color: #fff; cursor: pointer; font-size: var(--text-sm); }
+        .qs__btn { padding: 9px 22px; border: 1px solid var(--color-text-primary); background: var(--color-bg-primary);
+          color: var(--color-text-primary); cursor: pointer; font-family: var(--font-mono); font-size: var(--text-sm); }
+        .qs__btn:hover { border-color: var(--color-accent-highlight); color: var(--color-accent-highlight); }
         .qs__hint { margin: 0; font-size: var(--text-xs); color: var(--color-text-tertiary); }
         .qs__pad { display: flex; flex-direction: column; align-items: center; gap: 4px; }
         .qs__pad div { display: flex; gap: 4px; }

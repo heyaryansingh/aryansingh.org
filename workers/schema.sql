@@ -49,6 +49,38 @@ CREATE TABLE IF NOT EXISTS comments (
 );
 CREATE INDEX IF NOT EXISTS idx_comments_target ON comments (target_type, target_slug, created_at);
 
+-- Game leaderboard: one row per submitted score. Highest per game shown.
+CREATE TABLE IF NOT EXISTS leaderboard (
+  id         INTEGER PRIMARY KEY AUTOINCREMENT,
+  game       TEXT    NOT NULL,
+  name       TEXT    NOT NULL DEFAULT 'anon',
+  score      INTEGER NOT NULL,
+  created_at INTEGER NOT NULL,
+  ip_hash    TEXT    NOT NULL,
+  hidden     INTEGER NOT NULL DEFAULT 0
+);
+CREATE INDEX IF NOT EXISTS idx_leaderboard_game ON leaderboard (game, score DESC);
+
+-- Correspondence chess: visitors play White vs. the site owner (Black).
+-- token = visitor's secret for moving in their own game; owner moves are
+-- authorized by MODERATION_KEY. fen caches the current position; moves is a
+-- space-separated SAN history for replay/display.
+CREATE TABLE IF NOT EXISTS chess_games (
+  id           INTEGER PRIMARY KEY AUTOINCREMENT,
+  token        TEXT    NOT NULL UNIQUE,
+  visitor_name TEXT    NOT NULL DEFAULT 'anon',
+  fen          TEXT    NOT NULL,
+  moves        TEXT    NOT NULL DEFAULT '',
+  turn         TEXT    NOT NULL DEFAULT 'w',
+  status       TEXT    NOT NULL DEFAULT 'active',
+  created_at   INTEGER NOT NULL,
+  updated_at   INTEGER NOT NULL,
+  ip_hash      TEXT    NOT NULL,
+  hidden       INTEGER NOT NULL DEFAULT 0
+);
+CREATE INDEX IF NOT EXISTS idx_chess_updated ON chess_games (updated_at DESC);
+CREATE INDEX IF NOT EXISTS idx_chess_turn ON chess_games (status, turn);
+
 -- Sliding-window rate limiter: one row per (ip_hash, action).
 CREATE TABLE IF NOT EXISTS rate_limits (
   ip_hash      TEXT    NOT NULL,
