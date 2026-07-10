@@ -1,5 +1,5 @@
 /**
- * QuantumSnake — a compact snake game on a canvas. Collect qubits (⚛), grow,
+ * QuantumSnake — a compact snake game on a canvas. Collect apples, grow,
  * don't hit the walls or yourself. Arrow keys / WASD, or the on-screen pad.
  * Client-only; colors read from the site's CSS variables so it respects theme.
  */
@@ -68,16 +68,24 @@ export default function QuantumSnake() {
       ctx.lineTo(GRID * CELL, i * CELL);
       ctx.stroke();
     }
-    // food — a bright diamond node (drawn, not an emoji)
+    // food — an apple (drawn, not an emoji)
     const fx = food.current.x * CELL + CELL / 2;
     const fy = food.current.y * CELL + CELL / 2;
-    ctx.save();
-    ctx.translate(fx, fy);
-    ctx.rotate(Math.PI / 4);
-    ctx.fillStyle = hi;
-    const r = CELL * 0.3;
-    ctx.fillRect(-r, -r, r * 2, r * 2);
-    ctx.restore();
+    const rad = CELL * 0.34;
+    ctx.fillStyle = "#d6453f";
+    ctx.beginPath();
+    ctx.arc(fx, fy + 1, rad, 0, Math.PI * 2);
+    ctx.fill();
+    ctx.strokeStyle = "#7a5230"; // stem
+    ctx.lineWidth = 1.5;
+    ctx.beginPath();
+    ctx.moveTo(fx, fy - rad + 1);
+    ctx.lineTo(fx + 2, fy - rad - 3);
+    ctx.stroke();
+    ctx.fillStyle = "#4a9f6e"; // leaf
+    ctx.beginPath();
+    ctx.ellipse(fx + 4, fy - rad - 2, 3, 1.5, -0.6, 0, Math.PI * 2);
+    ctx.fill();
     // snake
     snake.current.forEach((s, i) => {
       ctx.fillStyle = i === 0 ? hi : accent;
@@ -186,14 +194,14 @@ export default function QuantumSnake() {
   return (
     <div className="qs">
       <div className="qs__hud">
-        <span>qubits: <strong>{score}</strong></span>
+        <span>apples: <strong>{score}</strong></span>
         <span>best: <strong>{best}</strong></span>
       </div>
       <div className="qs__stage">
         <canvas ref={canvasRef} width={GRID * CELL} height={GRID * CELL} className="qs__canvas" />
         {state !== "playing" && (
           <div className="qs__overlay">
-            {state === "over" && <p className="qs__msg">collapsed at {score} qubits</p>}
+            {state === "over" && <p className="qs__msg">collapsed at {score} apples</p>}
             <button className="qs__btn" onClick={start}>{state === "over" ? "Retry" : "Start"}</button>
             <p className="qs__hint">arrow keys / WASD</p>
           </div>
@@ -208,7 +216,7 @@ export default function QuantumSnake() {
         </div>
       </div>
       <div className="qs__board">
-        <ScoreBoard game="snake" score={lastScore} unit="qubits" />
+        <ScoreBoard game="snake" score={lastScore} unit="apples" />
       </div>
       <style>{`
         .qs { display: flex; flex-direction: column; gap: var(--space-sm); align-items: center; }

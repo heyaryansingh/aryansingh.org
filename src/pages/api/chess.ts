@@ -23,6 +23,25 @@ export const prerender = false;
 const GAME_COLS =
   "id, visitor_name AS visitorName, fen, moves, turn, status, created_at AS createdAt, updated_at AS updatedAt";
 
+/** Ping the owner's webhook (n8n/Discord/Slack) when a move lands on their turn. Fire-and-forget. */
+function notifyOwner(
+  env: CloudflareEnv,
+  waitUntil: ((p: Promise<unknown>) => void) | undefined,
+  info: { id: number; name: string; san: string; moves: string },
+): void {
+  const url = env.NOTIFY_WEBHOOK;
+  if (!url) return;
+  const line = `♟ ${info.name} played ${info.san} in chess game #${info.id} — your move: https://aryansingh.org/playground#chess`;
+  const p = fetch(url, {
+    method: "POST",
+    headers: { "content-type": "application/json" },
+    // content = Discord, text = Slack, plus structured fields for n8n.
+    body: JSON.stringify({ content: line, text: line, type: "chess_move", ...info }),
+  }).catch(() => {});
+  if (waitUntil) waitUntil(p);
+  else void p;
+}
+
 function statusOf(g: Chess): string {
   if (g.isCheckmate()) return g.turn() === "w" ? "black wins" : "white wins";
   if (g.isStalemate() || g.isDraw() || g.isThreefoldRepetition() || g.isInsufficientMaterial()) return "draw";
@@ -117,10 +136,10 @@ export const POST: APIRoute = async (ctx) => {
     const id = Number(body.id);
     if (!Number.isInteger(id)) return fail("Bad game id.", 400);
     const row = await env.DB.prepare(
-      "SELECT token, fen, moves, turn, status FROM chess_games WHERE id = ? AND hidden = 0",
+      "SELECT token, visitor_name AS visitorName, fen, moves, turn, status FROM chess_games WHERE id = ? AND hidden = 0",
     )
       .bind(id)
-      .first<{ token: string; fen: string; moves: string; turn: string; status: string }>();
+      .first<{ token: string; visitorName: string; fen: string; moves: string; turn: string; status: string }>();
     if (!row) return fail("Game not found.", 404);
     if (row.status !== "active") return fail("Game is over.", 409);
 
@@ -148,6 +167,13 @@ export const POST: APIRoute = async (ctx) => {
       .bind(applied.fen, applied.moves, applied.turn, applied.status, now, id, row.fen)
       .run();
     if (!res.meta.changes) return fail("Position changed underneath you — reload and try again.", 409);
+
+    // A visitor move that lands on Black's turn is one waiting on the owner → ping.
+    if (body.action === "move" && applied.turn === "b") {
+      const waitUntil = (ctx.locals as { runtime?: { ctx?: { waitUntil?: (p: Promise<unknown>) => void } } })
+        ?.runtime?.ctx?.waitUntil;
+      notifyOwner(env, waitUntil, { id, name: row.visitorName, san: applied.san, moves: applied.moves });
+    }
 
     return ok({
       game: { id, fen: applied.fen, moves: applied.moves, turn: applied.turn, status: applied.status, updatedAt: now },
