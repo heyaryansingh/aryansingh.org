@@ -1,16 +1,31 @@
 {
 	"main": "dist/_worker.js/index.js",
 	"name": "temp-astro",
-  "compatibility_date": "2026-01-25",
-  "compatibility_flags": [
-    "nodejs_compat",
-    "global_fetch_strictly_public"
-  ],
+	"compatibility_date": "2026-01-25",
+	"compatibility_flags": [
+		"nodejs_compat",
+		"global_fetch_strictly_public"
+	],
 	"assets": {
 		"binding": "ASSETS",
 		"directory": "./dist"
 	},
 	"observability": {
-    "enabled": true
-  }
+		"enabled": true
+	},
+	"d1_databases": [
+		{
+			"binding": "DB",
+			"database_name": "aryansingh_interactive",
+			"database_id": "c25aaf38-38e2-4405-b9e4-7310f4f3c932",
+			"remote": true
+		}
+	],
+	"routes": [
+		{ "pattern": "aryansingh.org", "custom_domain": true },
+		{ "pattern": "www.aryansingh.org", "custom_domain": true }
+	]
+	// Secrets (set with `wrangler secret put NAME`, not committed):
+	//   MODERATION_KEY — owner key for /api/moderate
+	//   IP_SALT        — salt for hashing visitor IPs
 }
