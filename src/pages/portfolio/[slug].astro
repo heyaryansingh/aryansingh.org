@@ -27,7 +27,7 @@ const { Content } = await project.render();
     <header class="cs__header">
       <a href="/portfolio" class="cs__back">← all projects</a>
       <p class="cs__cat" style={`--cat:${cat.color}`}>
-        <span>{cat.icon}</span>{cat.label}
+        {cat.label}
         {status && <span class="cs__status" style={`--sc:${status.color}`}>{status.label}</span>}
         {d.year && <span class="cs__year">{d.year}</span>}
       </p>
@@ -102,8 +102,8 @@ const { Content } = await project.render();
     )}
 
     <div class="cs__engage container">
-      <Reactions client:visible targetType="project" targetSlug={project.slug} />
-      <Comments client:visible targetType="project" targetSlug={project.slug} />
+      <Reactions client:load targetType="project" targetSlug={project.slug} />
+      <Comments client:load targetType="project" targetSlug={project.slug} />
     </div>
   </article>
 </BaseLayout>
@@ -123,9 +123,9 @@ const { Content } = await project.render();
   .cs__tagline { font-size: var(--text-xl); color: var(--color-text-secondary); font-style: italic; margin: var(--space-md) 0 0; }
   .cs__links { display: flex; flex-wrap: wrap; gap: var(--space-sm); margin-top: var(--space-xl); }
   .cs__btn { display: inline-flex; align-items: center; gap: 7px; padding: 9px 16px; font-size: var(--text-sm);
-    border-radius: var(--radius-md); border: 1px solid var(--color-border); color: var(--color-text-primary);
-    background: var(--color-bg-secondary); transition: all var(--transition-fast); }
-  .cs__btn:hover { border-color: var(--color-accent-primary); transform: translateY(-1px); }
+    border-radius: var(--radius-sm); border: 1px solid var(--color-border); color: var(--color-text-primary);
+    background: var(--color-bg-secondary); transition: border-color var(--transition-fast); }
+  .cs__btn:hover { border-color: var(--color-accent-primary); }
   .cs__btn--primary { border-color: var(--color-accent-primary); background: var(--color-accent-primary); color: #fff; }
   .cs__closed { display: inline-flex; align-items: center; gap: 6px; padding: 9px 14px; font-size: var(--text-sm);
     color: var(--color-text-tertiary); border: 1px solid var(--color-border-subtle); border-radius: var(--radius-md); }
@@ -143,8 +143,8 @@ const { Content } = await project.render();
   .cs__metric { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-text-primary);
     background: var(--color-bg-tertiary); border: 1px solid var(--color-border); border-radius: var(--radius-md); padding: 6px 12px; }
   .cs__tech { display: flex; flex-wrap: wrap; gap: 6px; margin-top: var(--space-md); }
-  .cs__chip { font-size: var(--text-xs); color: var(--color-text-tertiary); padding: 3px 10px;
-    border-radius: var(--radius-full); border: 1px solid var(--color-border-subtle); }
+  .cs__chip { font-size: var(--text-xs); color: var(--color-text-tertiary); padding: 3px 9px; font-family: var(--font-mono);
+    border-radius: var(--radius-sm); border: 1px solid var(--color-border-subtle); }
 
   .cs__body { margin-top: var(--space-2xl); }
   .prose { line-height: 1.8; color: var(--color-text-secondary); }

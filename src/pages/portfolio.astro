@@ -35,7 +35,7 @@ for (const p of projects) counts[p.data.category] = (counts[p.data.category] ?? 
       <button class="pf__chip is-active" data-category="all">All <span class="pf__count">{counts.all}</span></button>
       {cats.map((c) => (
         <button class="pf__chip" data-category={c}>
-          <span class="pf__chip-icon">{CATEGORY_META[c].icon}</span>{CATEGORY_META[c].label}
+          {CATEGORY_META[c].label}
           <span class="pf__count">{counts[c]}</span>
         </button>
       ))}
@@ -62,11 +62,12 @@ for (const p of projects) counts[p.data.category] = (counts[p.data.category] ?? 
   .dot { opacity: 0.4; }
 
   .pf__filter { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--space-sm); margin-bottom: var(--space-2xl); }
-  .pf__chip { display: inline-flex; align-items: center; gap: 7px; padding: 8px 14px; font-size: var(--text-sm);
+  .pf__chip { display: inline-flex; align-items: center; gap: 8px; padding: 7px 13px; font-size: var(--text-sm);
     color: var(--color-text-secondary); background: var(--color-bg-secondary); border: 1px solid var(--color-border);
-    border-radius: var(--radius-full); cursor: pointer; transition: all var(--transition-fast); font-family: var(--font-sans); }
-  .pf__chip:hover { color: var(--color-text-primary); border-color: var(--color-accent-primary); transform: translateY(-1px); }
-  .pf__chip.is-active { color: #fff; background: var(--color-accent-primary); border-color: var(--color-accent-primary); }
+    border-radius: var(--radius-sm); cursor: pointer; transition: border-color var(--transition-fast), color var(--transition-fast); font-family: var(--font-mono); }
+  .pf__chip:hover { color: var(--color-text-primary); border-color: var(--color-accent-primary); }
+  .pf__chip.is-active { color: var(--color-accent-primary);
+    background: color-mix(in srgb, var(--color-accent-primary) 12%, transparent); border-color: var(--color-accent-primary); }
   .pf__chip-icon { font-size: 0.95rem; }
   .pf__count { font-family: var(--font-mono); font-size: var(--text-xs); opacity: 0.7; }
 

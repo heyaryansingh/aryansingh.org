@@ -14,17 +14,19 @@ export type ProjectCategory =
 
 export interface CategoryMeta {
   label: string;
-  icon: string;
   color: string;
 }
 
+// One accent across every category — monochrome + a single celestial highlight,
+// deliberately not a per-category rainbow.
+const ACCENT = "var(--color-accent-highlight)";
 export const CATEGORY_META: Record<ProjectCategory, CategoryMeta> = {
-  ai: { label: "AI & ML", icon: "🧠", color: "var(--color-accent-primary)" },
-  quantum: { label: "Quantum", icon: "⚛️", color: "#7B8FE8" },
-  biotech: { label: "Biotech & Health", icon: "🧬", color: "#4A9F6E" },
-  trading: { label: "Trading & Quant", icon: "📈", color: "#D4A84A" },
-  devtools: { label: "Dev Tools", icon: "🛠️", color: "#6B7FD4" },
-  automation: { label: "Automation", icon: "⚡", color: "#C77DD4" },
+  ai: { label: "AI & ML", color: ACCENT },
+  quantum: { label: "Quantum", color: ACCENT },
+  biotech: { label: "Biotech & Health", color: ACCENT },
+  trading: { label: "Trading & Quant", color: ACCENT },
+  devtools: { label: "Dev Tools", color: ACCENT },
+  automation: { label: "Automation", color: ACCENT },
 };
 
 export const CATEGORY_ORDER: ProjectCategory[] = [

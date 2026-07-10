@@ -96,8 +96,8 @@ const typeColors: Record<string, string> = {
         </div>
 
         <div class="blog-post__engage container container--narrow">
-            <Reactions client:visible targetType="blog" targetSlug={post.slug} />
-            <Comments client:visible targetType="blog" targetSlug={post.slug} />
+            <Reactions client:load targetType="blog" targetSlug={post.slug} />
+            <Comments client:load targetType="blog" targetSlug={post.slug} />
         </div>
 
         <footer class="blog-post__footer container container--narrow">
