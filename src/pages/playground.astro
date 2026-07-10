@@ -1,0 +1,112 @@
+---
+/**
+ * Playground — the interactive corner of the site.
+ * Sticker wall, guestbook, and minigames. Everything here is real and shared:
+ * stickers and messages persist for every visitor (moderated + rate-limited).
+ */
+import BaseLayout from "../layouts/BaseLayout.astro";
+import { getCollection } from "astro:content";
+import StickerWall from "../components/interactive/StickerWall";
+import Guestbook from "../components/interactive/Guestbook";
+import QuantumSnake from "../components/games/QuantumSnake";
+import QubitFlip from "../components/games/QubitFlip";
+import GuessTheProject from "../components/games/GuessTheProject";
+
+const projects = await getCollection("projects");
+const quizItems = projects.map((p) => ({
+  title: p.data.title,
+  tagline: p.data.tagline,
+  category: p.data.category,
+}));
+---
+
+<BaseLayout
+  title="Playground"
+  description="Sticker wall, guestbook, and minigames — the interactive corner of aryansingh.org."
+>
+  <div class="pg">
+    <header class="pg__hero">
+      <p class="pg__eyebrow">welcome to the</p>
+      <h1 class="pg__title">Playground</h1>
+      <p class="pg__lede">
+        The corner of the site that isn't trying to impress anyone. Drop a sticker, sign the
+        wall, or lose ten minutes to a game. Everything here is real and shared — what you leave,
+        the next visitor sees.
+      </p>
+      <nav class="pg__jump">
+        <a href="#stickers">🎨 sticker wall</a>
+        <a href="#games">🎮 games</a>
+        <a href="#guestbook">✍️ guestbook</a>
+      </nav>
+    </header>
+
+    <section class="pg__section" id="stickers">
+      <div class="pg__shead">
+        <h2>Sticker wall</h2>
+        <p>Pick a sticker, then click anywhere to drop it. It stays for everyone.</p>
+      </div>
+      <StickerWall client:visible />
+    </section>
+
+    <section class="pg__section" id="games">
+      <div class="pg__shead">
+        <h2>Minigames</h2>
+        <p>All client-side, all a little quantum-flavored.</p>
+      </div>
+      <div class="pg__games">
+        <div class="pg__game">
+          <h3 class="pg__game-title">⚛ QuantumSnake</h3>
+          <p class="pg__game-sub">Collect qubits, don't collapse.</p>
+          <QuantumSnake client:visible />
+        </div>
+        <div class="pg__game">
+          <h3 class="pg__game-title">🔀 QubitFlip</h3>
+          <p class="pg__game-sub">2048, but make it superposition.</p>
+          <QubitFlip client:visible />
+        </div>
+        <div class="pg__game pg__game--wide">
+          <h3 class="pg__game-title">🧠 Guess the Project</h3>
+          <p class="pg__game-sub">Read the tagline, name the domain.</p>
+          <GuessTheProject client:visible items={quizItems} />
+        </div>
+      </div>
+    </section>
+
+    <section class="pg__section" id="guestbook">
+      <div class="pg__shead">
+        <h2>Guestbook</h2>
+        <p>Say hi, leave a note, tell me what you're building. I read all of them.</p>
+      </div>
+      <Guestbook client:visible />
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .pg { max-width: 900px; margin: 0 auto; padding: var(--space-2xl) var(--space-lg) var(--space-4xl); }
+  .pg__hero { text-align: center; max-width: 640px; margin: 0 auto var(--space-3xl); }
+  .pg__eyebrow { font-family: var(--font-mono); font-size: var(--text-xs); text-transform: uppercase;
+    letter-spacing: 0.2em; color: var(--color-accent-secondary); margin: 0; }
+  .pg__title { font-size: var(--text-6xl); margin: var(--space-xs) 0 0;
+    background: linear-gradient(120deg, var(--color-text-primary), var(--color-accent-highlight));
+    -webkit-background-clip: text; background-clip: text; -webkit-text-fill-color: transparent; }
+  .pg__lede { font-size: var(--text-base); color: var(--color-text-secondary); margin: var(--space-md) auto 0; max-width: 560px; }
+  .pg__jump { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--space-sm); margin-top: var(--space-xl); }
+  .pg__jump a { padding: 8px 16px; border-radius: var(--radius-full); border: 1px solid var(--color-border);
+    background: var(--color-bg-secondary); font-size: var(--text-sm); color: var(--color-text-secondary); }
+  .pg__jump a:hover { border-color: var(--color-accent-primary); color: var(--color-text-primary); }
+
+  .pg__section { margin-top: var(--space-4xl); scroll-margin-top: 90px; }
+  .pg__shead { margin-bottom: var(--space-xl); }
+  .pg__shead h2 { font-size: var(--text-3xl); margin: 0; }
+  .pg__shead p { font-size: var(--text-sm); color: var(--color-text-tertiary); margin: var(--space-xs) 0 0; }
+
+  .pg__games { display: grid; grid-template-columns: 1fr; gap: var(--space-xl); }
+  @media (min-width: 760px) { .pg__games { grid-template-columns: 1fr 1fr; } .pg__game--wide { grid-column: 1 / -1; } }
+  .pg__game { padding: var(--space-lg); border: 1px solid var(--color-border); border-radius: var(--radius-lg);
+    background: var(--color-bg-secondary); }
+  .pg__game-title { font-family: var(--font-sans); font-size: var(--text-lg); font-weight: 600; margin: 0; color: var(--color-text-primary); letter-spacing: 0; }
+  .pg__game-sub { font-size: var(--text-xs); color: var(--color-text-tertiary); margin: 2px 0 var(--space-lg); }
+
+  @media (max-width: 640px) { .pg__title { font-size: var(--text-5xl); } }
+</style>
