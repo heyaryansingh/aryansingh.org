@@ -6,7 +6,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { api, timeAgo, REC_KINDS, LIMITS, type Recommendation } from "../../lib/interactive";
 
-const NAME_KEY = "playground-name";
 const KIND_LABEL = Object.fromEntries(REC_KINDS.map((k) => [k.key, k.label]));
 
 export default function Recommendations() {
@@ -33,12 +32,6 @@ export default function Recommendations() {
 
   useEffect(() => {
     load();
-    try {
-      const n = localStorage.getItem(NAME_KEY);
-      if (n) setName(n);
-    } catch {
-      /* ignore */
-    }
   }, [load]);
 
   const submit = async () => {
@@ -63,11 +56,6 @@ export default function Recommendations() {
     if (!res.ok) {
       setErr(res.error || "Could not save that.");
       return;
-    }
-    try {
-      if (clean) localStorage.setItem(NAME_KEY, clean);
-    } catch {
-      /* ignore */
     }
     setTitle("");
     setAuthor("");

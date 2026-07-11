@@ -7,8 +7,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { api, type ScoreEntry, LIMITS } from "../../lib/interactive";
 
-const NAME_KEY = "playground-name";
-
 export default function ScoreBoard({
   game,
   score = null,
@@ -35,12 +33,6 @@ export default function ScoreBoard({
 
   useEffect(() => {
     load();
-    try {
-      const n = localStorage.getItem(NAME_KEY);
-      if (n) setName(n);
-    } catch {
-      /* ignore */
-    }
   }, [load]);
 
   // A new run finished: reset the submit affordance.
@@ -62,11 +54,6 @@ export default function ScoreBoard({
     if (!res.ok) {
       setErr(res.error || "Could not save your score.");
       return;
-    }
-    try {
-      if (clean) localStorage.setItem(NAME_KEY, clean);
-    } catch {
-      /* ignore */
     }
     setSent(score);
     setRank(res.data.rank ?? null);

@@ -206,8 +206,8 @@ const currentPath = Astro.url.pathname;
     left: 0;
     right: 0;
     bottom: 0;
-    background: color-mix(in srgb, var(--color-bg-primary) 94%, transparent);
-    backdrop-filter: blur(16px);
+    /* Hard, fully opaque background so page content never shows through. */
+    background: var(--color-bg-primary);
     padding: var(--space-2xl) var(--space-xl);
     z-index: var(--z-overlay);
     /* Animatable hidden state (kept in DOM so it can transition) */

@@ -23,7 +23,6 @@ const glyph = (type: string, color: "w" | "b") => (color === "w" ? WGLYPH : BGLY
 const FILES = "abcdefgh";
 const MY_GAME_KEY = "chess-my-game";
 const OWNER_KEY = "chess-owner-key";
-const NAME_KEY = "playground-name";
 const POLL_MS = 5000;
 
 type Role = "w" | "b" | null;
@@ -224,8 +223,6 @@ export default function ChessArena() {
     try {
       const raw = localStorage.getItem(MY_GAME_KEY);
       if (raw) setMy(JSON.parse(raw));
-      const n = localStorage.getItem(NAME_KEY);
-      if (n) setName(n);
       const k = localStorage.getItem(OWNER_KEY);
       if (k) { setOwnerKey(k); setOwnerOn(true); }
     } catch { /* ignore */ }
@@ -312,7 +309,6 @@ export default function ChessArena() {
     setSelectedId(res.data.game.id);
     try {
       localStorage.setItem(MY_GAME_KEY, JSON.stringify(mine));
-      if (clean) localStorage.setItem(NAME_KEY, clean);
     } catch { /* ignore */ }
     if (passphrase.trim())
       setNote(`Game #${res.data.game.id} created. Remember your passphrase to resume it from any device.`);
@@ -625,12 +621,13 @@ export default function ChessArena() {
         .cma__expand { margin-bottom: var(--space-md); border: 1px solid var(--color-border); background: transparent;
           color: var(--color-text-secondary); cursor: pointer; font-family: var(--font-mono); font-size: var(--text-xs); padding: 6px 12px; }
         .cma__expand:hover { border-color: var(--color-accent-highlight); color: var(--color-text-primary); }
-        .cma__dhead { display: flex; justify-content: space-between; align-items: flex-start; gap: var(--space-md); margin-bottom: var(--space-md); }
+        .cma__dhead { display: flex; justify-content: space-between; align-items: flex-start; gap: var(--space-md);
+          max-width: 620px; margin: 0 auto var(--space-md); }
         .cma__dtitle { margin: 0; font-family: var(--font-mono); font-size: var(--text-sm); color: var(--color-text-primary); }
         .cma__vs { color: var(--color-text-tertiary); }
         .cma__dstat { margin: 3px 0 0; font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-text-secondary); }
         .cma__dstat.you { color: var(--color-accent-highlight); }
-        .cma__note { margin: var(--space-sm) 0 0; font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-text-secondary); }
+        .cma__note { max-width: 620px; margin: var(--space-sm) auto 0; font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-text-secondary); }
 
         .cma__boardwrap { position: relative; }
         .cma__promo { display: flex; align-items: center; justify-content: center; gap: 8px; margin: 0 0 var(--space-sm);
@@ -663,7 +660,7 @@ export default function ChessArena() {
         .cma__dot.cap { width: 84%; height: 84%; border-radius: 0; background: none;
           box-shadow: inset 0 0 0 3px color-mix(in srgb, var(--color-accent-primary) 82%, transparent); }
 
-        .cma__history { list-style: none; margin: var(--space-md) 0 0; padding: var(--space-sm) 0 0;
+        .cma__history { list-style: none; max-width: 620px; margin: var(--space-md) auto 0; padding: var(--space-sm) 0 0;
           border-top: 1px solid var(--color-border-subtle); display: grid;
           grid-template-columns: repeat(auto-fill, minmax(120px, 1fr)); gap: 2px 12px;
           max-height: 160px; overflow-y: auto; font-family: var(--font-mono); font-size: var(--text-xs); }
@@ -672,6 +669,7 @@ export default function ChessArena() {
         .cma__hw { color: var(--color-text-primary); }
         .cma__hb { color: var(--color-accent-highlight); }
         .cma__empty { font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-text-tertiary); padding: var(--space-md) 0; }
+        .cma__list .cma__empty, .cma__standings .cma__empty { padding: var(--space-md) 16px; margin: 0; }
       `}</style>
     </div>
   );
