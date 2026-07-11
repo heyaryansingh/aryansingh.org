@@ -90,6 +90,12 @@ export interface Recommendation {
   name: string;
   createdAt: number;
 }
+export interface ChessStanding {
+  name: string;
+  wins: number;
+  losses: number;
+  draws: number;
+}
 export interface ChessGame {
   id: number;
   visitorName: string;
@@ -180,10 +186,15 @@ export const api = {
 
   chessList: () => call<{ games: ChessGame[] }>(`/chess`),
   chessGet: (id: number) => call<{ game: ChessGame }>(`/chess?id=${id}`),
-  chessCreate: (name: string, website?: string) =>
+  chessCreate: (name: string, passphrase?: string, website?: string) =>
     call<{ game: ChessGame; token: string }>(`/chess`, {
       method: "POST",
-      body: JSON.stringify({ action: "create", name, website }),
+      body: JSON.stringify({ action: "create", name, passphrase, website }),
+    }),
+  chessClaim: (id: number, passphrase: string) =>
+    call<{ game: ChessGame; token: string }>(`/chess`, {
+      method: "POST",
+      body: JSON.stringify({ action: "claim", id, passphrase }),
     }),
   chessMove: (body: { id: number; token: string; from: string; to: string; promotion?: string }) =>
     call<{ game: ChessGame; san: string }>(`/chess`, {
@@ -205,6 +216,7 @@ export const api = {
       method: "POST",
       body: JSON.stringify({ action: "verify", key }),
     }),
+  chessStandings: () => call<{ standings: ChessStanding[] }>(`/chess?standings=1`),
 
   listRecommendations: (limit = 100) =>
     call<{ recommendations: Recommendation[] }>(`/recommendations?limit=${limit}`),

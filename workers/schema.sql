@@ -68,6 +68,9 @@ CREATE INDEX IF NOT EXISTS idx_leaderboard_game ON leaderboard (game, score DESC
 CREATE TABLE IF NOT EXISTS chess_games (
   id           INTEGER PRIMARY KEY AUTOINCREMENT,
   token        TEXT    NOT NULL UNIQUE,
+  -- Optional salted hash of a player-chosen passphrase. Lets the creator
+  -- reclaim their game token from another device; empty = not set.
+  passphrase_hash TEXT NOT NULL DEFAULT '',
   visitor_name TEXT    NOT NULL DEFAULT 'anon',
   fen          TEXT    NOT NULL,
   moves        TEXT    NOT NULL DEFAULT '',

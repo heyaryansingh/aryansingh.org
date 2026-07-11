@@ -31,7 +31,7 @@ function notifyOwner(
 ): void {
   const url = env.NOTIFY_WEBHOOK;
   if (!url) return;
-  const line = `♟ ${info.name} played ${info.san} in chess game #${info.id} — your move: https://aryansingh.org/playground#chess`;
+  const line = `♟ ${info.name} played ${info.san} in chess game #${info.id}. Your move: https://aryansingh.org/playground#chess`;
   const p = fetch(url, {
     method: "POST",
     headers: { "content-type": "application/json" },
@@ -40,6 +40,13 @@ function notifyOwner(
   }).catch(() => {});
   if (waitUntil) waitUntil(p);
   else void p;
+}
+
+/** Salted SHA-256 of a game passphrase (never stored in plain text). */
+async function hashPassphrase(pass: string, env: CloudflareEnv): Promise<string> {
+  const salt = env.IP_SALT || "aryansingh-org-static-salt-v1";
+  const buf = await crypto.subtle.digest("SHA-256", new TextEncoder().encode(`chess|${pass}|${salt}`));
+  return [...new Uint8Array(buf)].map((b) => b.toString(16).padStart(2, "0")).join("");
 }
 
 function statusOf(g: Chess): string {
@@ -81,6 +88,18 @@ function applyMove(
 export const GET: APIRoute = async (ctx) => {
   const env = getEnv(ctx);
 
+  if (ctx.url.searchParams.get("standings")) {
+    const { results } = await env.DB.prepare(
+      "SELECT visitor_name AS name, " +
+        "SUM(CASE WHEN status = 'white wins' THEN 1 ELSE 0 END) AS wins, " +
+        "SUM(CASE WHEN status IN ('black wins', 'white resigned') THEN 1 ELSE 0 END) AS losses, " +
+        "SUM(CASE WHEN status = 'draw' THEN 1 ELSE 0 END) AS draws " +
+        "FROM chess_games WHERE hidden = 0 AND status NOT IN ('active', 'closed') " +
+        "GROUP BY visitor_name ORDER BY wins DESC, draws DESC LIMIT 100",
+    ).all();
+    return ok({ standings: results });
+  }
+
   if (ctx.url.searchParams.get("pending")) {
     const { results } = await env.DB.prepare(
       "SELECT id, visitor_name AS visitorName, updated_at AS updatedAt FROM chess_games " +
@@ -116,20 +135,48 @@ export const POST: APIRoute = async (ctx) => {
     const bad = checkClean(name);
     if (bad) return fail(bad, 400);
     if (!(await rateLimit(env.DB, ipHash, "chess-create", 3, 60 * 60 * 1000)))
-      return fail("You've started a few games already — finish one first.", 429);
+      return fail("You've started a few games already. Finish one first.", 429);
+
+    // Optional passphrase → lets the player reclaim this game on another device.
+    const pass = typeof body.passphrase === "string" ? body.passphrase.trim().slice(0, 64) : "";
+    const passHash = pass ? await hashPassphrase(pass, env) : "";
 
     const token = crypto.randomUUID();
     const fen = new Chess().fen();
     const res = await env.DB.prepare(
-      "INSERT INTO chess_games (token, visitor_name, fen, created_at, updated_at, ip_hash) " +
-        "VALUES (?, ?, ?, ?, ?, ?) RETURNING id",
+      "INSERT INTO chess_games (token, passphrase_hash, visitor_name, fen, created_at, updated_at, ip_hash) " +
+        "VALUES (?, ?, ?, ?, ?, ?, ?) RETURNING id",
     )
-      .bind(token, name, fen, now, now, ipHash)
+      .bind(token, passHash, name, fen, now, now, ipHash)
       .first<{ id: number }>();
     return ok(
       { game: { id: res?.id, visitorName: name, fen, moves: "", turn: "w", status: "active", createdAt: now, updatedAt: now }, token },
       201,
     );
+  }
+
+  // Reclaim a game's token on a new device using its passphrase.
+  if (body.action === "claim") {
+    const id = Number(body.id);
+    if (!Number.isInteger(id)) return fail("Bad game id.", 400);
+    const pass = typeof body.passphrase === "string" ? body.passphrase.trim().slice(0, 64) : "";
+    if (!pass) return fail("Passphrase required.", 400);
+    // Tight limit: this is the brute-force surface.
+    if (!(await rateLimit(env.DB, ipHash, "chess-claim", 5, 10 * 60 * 1000)))
+      return fail("Too many attempts. Try again later.", 429);
+
+    const row = await env.DB.prepare(
+      "SELECT token, passphrase_hash AS ph, visitor_name AS visitorName, fen, moves, turn, status, " +
+        "created_at AS createdAt, updated_at AS updatedAt FROM chess_games WHERE id = ? AND hidden = 0",
+    )
+      .bind(id)
+      .first<Record<string, unknown> & { token: string; ph: string }>();
+    if (!row) return fail("Game not found.", 404);
+    if (!row.ph) return fail("This game has no recovery passphrase.", 403);
+    if ((await hashPassphrase(pass, env)) !== row.ph) return fail("Wrong passphrase.", 401);
+
+    const { token, ph: _ph, ...game } = row;
+    return ok({ token, game: { id, ...game } });
   }
 
   if (body.action === "move" || body.action === "ownerMove") {
@@ -146,7 +193,7 @@ export const POST: APIRoute = async (ctx) => {
     if (body.action === "move") {
       if (typeof body.token !== "string" || body.token !== row.token)
         return fail("This isn't your game.", 403);
-      if (row.turn !== "w") return fail("Not your turn — waiting on Aryan.", 409);
+      if (row.turn !== "w") return fail("Not your turn. Waiting on Aryan.", 409);
       if (!(await rateLimit(env.DB, ipHash, "chess-move", 60, 10 * 60 * 1000)))
         return fail("Slow down.", 429);
     } else {
@@ -166,7 +213,7 @@ export const POST: APIRoute = async (ctx) => {
     )
       .bind(applied.fen, applied.moves, applied.turn, applied.status, now, id, row.fen)
       .run();
-    if (!res.meta.changes) return fail("Position changed underneath you — reload and try again.", 409);
+    if (!res.meta.changes) return fail("Position changed underneath you. Reload and try again.", 409);
 
     // A visitor move that lands on Black's turn is one waiting on the owner → ping.
     if (body.action === "move" && applied.turn === "b") {
