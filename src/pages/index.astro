@@ -72,11 +72,6 @@ const photos = Object.values(photoFiles).map((file) => ({
       <RandomQuote client:load />
     </div>
 
-    <!-- Play me -->
-    <div class="home__play animate-fade-in delay-5">
-      <a href="/playground#chess">bored? play chess with me →</a>
-    </div>
-
     <!-- Keyboard hint -->
     <div class="home__hint">
       <kbd id="nav-shortcut">Ctrl+K</kbd> to navigate
@@ -236,32 +231,6 @@ const photos = Object.values(photoFiles).map((file) => ({
     color: var(--color-text-tertiary);
     margin: 0 0 var(--space-sm);
     opacity: 0.7;
-  }
-
-  .home__play {
-    margin-top: var(--space-xl);
-    margin-left: clamp(var(--space-md), 5vw, var(--space-2xl));
-  }
-
-  .home__play a {
-    font-family: var(--font-mono);
-    font-size: var(--text-xs);
-    color: var(--color-text-tertiary);
-    text-decoration: none;
-    border-bottom: 1px solid var(--color-border);
-    padding-bottom: 2px;
-  }
-
-  .home__play a:hover {
-    color: var(--color-accent-highlight);
-    border-bottom-color: var(--color-accent-highlight);
-  }
-
-  @media (max-width: 700px) {
-    .home__play {
-      margin-left: 0;
-      text-align: center;
-    }
   }
 
   /* Hint */
