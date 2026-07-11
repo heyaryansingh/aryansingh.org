@@ -7,12 +7,12 @@ github: "https://github.com/heyaryansingh/n8n-morning-briefing"
 status: "complete"
 year: "2025"
 techStack: ["n8n", "Docker", "Gmail API", "Microsoft Graph", "Obsidian", "LLM APIs"]
-problem: "Starting the day means checking email, calendar, and notes separately and manually piecing together what actually matters — a routine that's automatable but usually isn't, because setting it up across multiple providers and a fallback-safe LLM call is enough friction that people don't bother."
+problem: "Starting the day means checking email, calendar, and notes separately and manually piecing together what actually matters - a routine that's automatable but usually isn't, because setting it up across multiple providers and a fallback-safe LLM call is enough friction that people don't bother."
 solution: "Built a Dockerized, env-configurable n8n workflow suite that pulls overnight email (Gmail or Outlook via Microsoft Graph), calendar events, and Obsidian notes, and synthesizes them into a single personalized morning briefing, with LLM provider fallback (OpenAI to Anthropic to local) so the workflow keeps working if any one provider is down or rate-limited."
 learnings:
-  - "Provider fallback (OpenAI to Anthropic to local) is what makes a daily-cadence automation actually reliable — a single-provider outage shouldn't mean no briefing that morning."
+  - "Provider fallback (OpenAI to Anthropic to local) is what makes a daily-cadence automation actually reliable - a single-provider outage shouldn't mean no briefing that morning."
   - "n8n's workflow model is a good fit for this kind of multi-source aggregation: each source (Gmail, Graph, Obsidian) is an isolated node, easy to swap or extend independently."
-  - "Env-configurable, Dockerized deployment matters for something like this — it needs to run unattended and be trivial to redeploy across machines."
+  - "Env-configurable, Dockerized deployment matters for something like this - it needs to run unattended and be trivial to redeploy across machines."
 featured: false
 pinned: false
 order: 20
@@ -23,13 +23,13 @@ This is an n8n workflow suite that generates a personalized morning briefing by 
 
 ## sources
 
-- **Email** — overnight messages from Gmail or Outlook (via Microsoft Graph), filtered and summarized.
-- **Calendar** — the day's schedule, pulled alongside email so the briefing reflects both what happened and what's coming.
-- **Notes** — relevant Obsidian notes surfaced for context on ongoing projects or todos.
+- **Email** - overnight messages from Gmail or Outlook (via Microsoft Graph), filtered and summarized.
+- **Calendar** - the day's schedule, pulled alongside email so the briefing reflects both what happened and what's coming.
+- **Notes** - relevant Obsidian notes surfaced for context on ongoing projects or todos.
 
 ## LLM synthesis with fallback
 
-Aggregated content is synthesized into the final briefing by an LLM call, with a fallback chain — OpenAI first, Anthropic if that fails, a local model as the last resort — so a single provider outage or rate limit doesn't mean skipping the briefing.
+Aggregated content is synthesized into the final briefing by an LLM call, with a fallback chain - OpenAI first, Anthropic if that fails, a local model as the last resort - so a single provider outage or rate limit doesn't mean skipping the briefing.
 
 ```json
 {
@@ -40,7 +40,7 @@ Aggregated content is synthesized into the final briefing by an LLM call, with a
 
 ## deployment
 
-The whole suite runs as Docker containers, configured through environment variables — API keys, source selection, fallback order — so it's straightforward to deploy on a home server or any machine that stays on overnight.
+The whole suite runs as Docker containers, configured through environment variables - API keys, source selection, fallback order - so it's straightforward to deploy on a home server or any machine that stays on overnight.
 
 ## status
 

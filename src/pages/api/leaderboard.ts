@@ -50,7 +50,7 @@ export const POST: APIRoute = async (ctx) => {
 
   const ipHash = await hashIp(ctx, env);
   if (!(await rateLimit(env.DB, ipHash, "leaderboard", 30, 10 * 60 * 1000)))
-    return fail("Slow down — too many scores submitted. Try again later.", 429);
+    return fail("Slow down. Too many scores submitted, try again later.", 429);
 
   const now = Date.now();
   const res = await env.DB.prepare(

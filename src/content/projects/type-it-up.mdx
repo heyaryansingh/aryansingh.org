@@ -12,7 +12,7 @@ problem: "Transcribing handwritten math, chemistry notation, and diagrams into L
 solution: "Built a Next.js app that sends handwritten pages through a vision-language model (Groq) to parse math, chemistry, and diagrams into clean LaTeX, converting diagrams into TikZ, with export to PDF or a ready-to-open Overleaf archive."
 learnings:
   - "Vision-language models handle messy handwriting and mixed content (equations + diagrams on the same page) far more robustly than a specialized OCR pipeline."
-  - "Diagrams need a different output target than equations — TikZ, not just LaTeX math mode — to stay editable after export."
+  - "Diagrams need a different output target than equations - TikZ, not just LaTeX math mode - to stay editable after export."
   - "Shipping directly to an Overleaf archive removes the last bit of friction between 'recognized' and 'usable'."
 featured: false
 pinned: false
@@ -20,7 +20,7 @@ order: 20
 startDate: 2025-01-01
 ---
 
-type-it-up turns a photo of a handwritten page — equations, chemistry notation, diagrams — into clean, compilable LaTeX. Take a picture, get a document you can actually use.
+type-it-up turns a photo of a handwritten page - equations, chemistry notation, diagrams - into clean, compilable LaTeX. Take a picture, get a document you can actually use.
 
 ## the problem
 
@@ -48,4 +48,4 @@ Once parsed, the page can be exported as a rendered PDF, or as a full Overleaf-r
 
 ## why I built it
 
-I wanted the gap between "handwritten notes" and "typeset document" to be one photo wide. Vision-language models made that possible for content that used to defeat specialized OCR — diagrams and dense notation alike.
+I wanted the gap between "handwritten notes" and "typeset document" to be one photo wide. Vision-language models made that possible for content that used to defeat specialized OCR - diagrams and dense notation alike.

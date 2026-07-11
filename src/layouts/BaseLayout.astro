@@ -19,8 +19,6 @@
 import "../styles/global.css";
 import Navigation from "../components/Navigation.astro";
 import Footer from "../components/Footer.astro";
-import CustomCursor from "../components/CustomCursor.astro";
-import SmoothScroll from "../components/SmoothScroll.astro";
 import CommandPalette from "../components/CommandPalette";
 import StarField from "../components/canvas/StarField";
 import SpacetimeCursor from "../components/canvas/SpacetimeCursor";
@@ -80,11 +78,11 @@ const fullImage = image.startsWith("http")
     <meta property="twitter:description" content={description} />
     <meta property="twitter:image" content={fullImage} />
 
-    <!-- Fonts - EB Garamond (serif) + IBM Plex Sans/Mono -->
+    <!-- Fonts - Fraunces (display serif) + IBM Plex Sans/Mono -->
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link
-      href="https://fonts.googleapis.com/css2?family=EB+Garamond:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500;600&display=swap"
+      href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,500;9..144,600&family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;500&display=swap"
       rel="stylesheet"
     />
 
@@ -118,22 +116,16 @@ const fullImage = image.startsWith("http")
       client:media so the ~124kB-gzip Three.js chunk is never downloaded on
       phones / touch devices, where the faint backdrop isn't worth the cost.
     -->
-    <StarField client:media="(min-width: 768px) and (pointer: fine)" starCount={2000} />
+    <StarField client:media="(min-width: 768px) and (pointer: fine)" starCount={500} />
 
     <!--
-      Spacetime Cursor Effect (manifold lines bend toward cursor).
-      Pointer-driven, so only hydrate where there's a real cursor.
+      Spacetime manifold — kept, but dialed way down (fewer, fainter lines) so
+      it's a barely-there backdrop, not a feature.
     -->
-    <SpacetimeCursor client:media="(min-width: 768px) and (pointer: fine)" lineCount={10} />
-
-    <!-- Custom Cursor (desktop only) -->
-    <CustomCursor />
+    <SpacetimeCursor client:media="(min-width: 768px) and (pointer: fine)" lineCount={7} />
 
     <!-- Command Palette (Cmd+K navigation) -->
     <CommandPalette client:load />
-
-    <!-- Smooth Scroll -->
-    <SmoothScroll />
 
     <!-- Navigation -->
     {!hideNav && <Navigation />}

@@ -120,13 +120,13 @@ export default function ScoreBoard({
 
       {sent != null && (
         <p className="sb__done">
-          saved{rank ? ` — you're #${rank}` : ""}.
+          saved{rank ? `. you're #${rank}` : ""}.
         </p>
       )}
 
       <ol className="sb__list">
         {loading && <li className="sb__empty">loading…</li>}
-        {!loading && scores.length === 0 && <li className="sb__empty">no scores yet — be first.</li>}
+        {!loading && scores.length === 0 && <li className="sb__empty">no scores yet. be first.</li>}
         {scores.map((s, i) => (
           <li key={s.id} className="sb__item">
             <span className="sb__rank">{i + 1}</span>
@@ -139,10 +139,10 @@ export default function ScoreBoard({
       <style>{`
         .sb { font-family: var(--font-mono); font-size: var(--text-xs); border: 1px solid var(--color-border); }
         .sb__head { display: flex; justify-content: space-between; align-items: baseline;
-          padding: 8px 12px; border-bottom: 1px solid var(--color-border); }
+          padding: 9px 14px; border-bottom: 1px solid var(--color-border); }
         .sb__title { text-transform: uppercase; letter-spacing: 0.14em; color: var(--color-text-secondary); }
         .sb__game { color: var(--color-accent-highlight); }
-        .sb__submit { padding: 10px 12px; border-bottom: 1px solid var(--color-border-subtle); display: grid; gap: 8px; }
+        .sb__submit { padding: 12px 14px; border-bottom: 1px solid var(--color-border-subtle); display: grid; gap: 8px; }
         .sb__you { color: var(--color-text-secondary); }
         .sb__you strong { color: var(--color-accent-highlight); }
         .sb__row { display: flex; gap: 6px; }
@@ -155,10 +155,10 @@ export default function ScoreBoard({
         .sb__btn:hover { background: var(--color-accent-highlight); }
         .sb__btn:disabled { opacity: 0.5; cursor: default; }
         .sb__err { margin: 0; color: var(--color-error); }
-        .sb__done { margin: 0; padding: 8px 12px; color: var(--color-success); border-bottom: 1px solid var(--color-border-subtle); }
+        .sb__done { margin: 0; padding: 9px 14px; color: var(--color-success); border-bottom: 1px solid var(--color-border-subtle); }
         .sb__list { list-style: none; margin: 0; padding: 4px 0; }
         .sb__item, .sb__empty { display: grid; grid-template-columns: 24px 1fr auto; gap: 10px;
-          align-items: baseline; padding: 4px 12px; }
+          align-items: baseline; padding: 5px 14px; }
         .sb__empty { display: block; color: var(--color-text-tertiary); }
         .sb__rank { color: var(--color-text-tertiary); font-variant-numeric: tabular-nums; }
         .sb__name { color: var(--color-text-primary); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }

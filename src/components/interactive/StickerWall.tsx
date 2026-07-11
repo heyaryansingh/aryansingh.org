@@ -77,7 +77,7 @@ export default function StickerWall() {
         onClick={(e) => place(e.clientX, e.clientY)}
         role="button"
         tabIndex={0}
-        aria-label="Sticker wall — click to place the selected sticker"
+        aria-label="Sticker wall. Click to place the selected sticker"
       >
         {stickers.map((s) => (
           <span

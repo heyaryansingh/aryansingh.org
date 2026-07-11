@@ -10,39 +10,33 @@ import QuantumSnake from "../components/games/QuantumSnake";
 import FlappyBird from "../components/games/FlappyBird";
 import ChessArena from "../components/games/ChessArena";
 import StickerWall from "../components/interactive/StickerWall";
-import Guestbook from "../components/interactive/Guestbook";
-import Recommendations from "../components/interactive/Recommendations";
 ---
 
 <BaseLayout
   title="Playground"
-  description="Beat the snake and flappy leaderboards, challenge me to correspondence chess, drop a sticker, sign the guestbook."
+  description="Play me at correspondence chess, chase the snake and flappy leaderboards, drop a sticker, or recommend me something."
 >
   <div class="pg">
     <header class="pg__hero">
-      <p class="pg__eyebrow">the playground</p>
       <h1 class="pg__title">Playground</h1>
       <p class="pg__lede">
         The corner of the site that isn't trying to impress anyone. Chase a leaderboard,
-        challenge me to a game of chess — a real one, I play my own moves — or leave
-        something behind on the wall.
+        challenge me to a real game of chess, or drop a sticker on the wall.
       </p>
       <nav class="pg__jump">
         <a href="#chess">chess</a>
         <a href="#snake">snake</a>
         <a href="#flappy">flappy</a>
         <a href="#stickers">stickers</a>
-        <a href="#recommend">recommend</a>
-        <a href="#guestbook">guestbook</a>
       </nav>
     </header>
 
     <section class="pg__section pg__section--chess" id="chess">
       <div class="pg__shead">
-        <h2>Chess — play me</h2>
+        <h2>Chess</h2>
         <p>
           Correspondence chess, human vs. human. You play White; your moves are saved and I
-          answer as Black from wherever I am — no engine on either side. Every game is public
+          answer as Black from wherever I am. No engine on either side, and every game is public
           in the arena below.
         </p>
       </div>
@@ -52,7 +46,7 @@ import Recommendations from "../components/interactive/Recommendations";
     <section class="pg__section" id="arcade">
       <div class="pg__shead">
         <h2>Arcade</h2>
-        <p>Click a board to start it — keys only steer the game you're actually playing. Scores go to the shared board; log a name and hold the top spot.</p>
+        <p>Click a board to start it. Keys only steer the game you're playing. Scores go to the shared board, log a name and hold the top spot.</p>
       </div>
       <div class="pg__games">
         <div class="pg__game" id="snake">
@@ -75,31 +69,13 @@ import Recommendations from "../components/interactive/Recommendations";
       </div>
       <StickerWall client:load />
     </section>
-
-    <section class="pg__section" id="recommend">
-      <div class="pg__shead">
-        <h2>Recommend me something</h2>
-        <p>A book, paper, film, blog, journal, podcast — anything worth my time. Drop it here and I'll actually work through the list.</p>
-      </div>
-      <Recommendations client:load />
-    </section>
-
-    <section class="pg__section" id="guestbook">
-      <div class="pg__shead">
-        <h2>Guestbook</h2>
-        <p>Say hi, leave a note, tell me what you're building. I read all of them.</p>
-      </div>
-      <Guestbook client:load />
-    </section>
   </div>
 </BaseLayout>
 
 <style>
   .pg { max-width: 880px; margin: 0 auto; padding: var(--space-2xl) var(--space-lg) var(--space-4xl); }
   .pg__hero { max-width: 640px; margin: 0 0 var(--space-2xl); }
-  .pg__eyebrow { font-family: var(--font-mono); font-size: var(--text-xs); text-transform: uppercase;
-    letter-spacing: 0.24em; color: var(--color-text-tertiary); margin: 0; }
-  .pg__title { font-size: var(--text-5xl); margin: var(--space-xs) 0 0; color: var(--color-text-primary); letter-spacing: -0.02em; }
+  .pg__title { font-family: var(--font-serif); font-size: var(--text-4xl); font-weight: 500; margin: 0; color: var(--color-text-primary); letter-spacing: -0.02em; }
   .pg__lede { font-size: var(--text-base); color: var(--color-text-secondary); margin: var(--space-md) 0 0; max-width: 60ch; }
   .pg__jump { display: flex; flex-wrap: wrap; gap: 0; margin-top: var(--space-lg); border-top: 1px solid var(--color-border); }
   .pg__jump a { font-family: var(--font-mono); font-size: var(--text-xs); text-transform: lowercase; letter-spacing: 0.06em;

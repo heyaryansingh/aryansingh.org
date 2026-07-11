@@ -75,13 +75,6 @@ export default function CommandPalette() {
             action: () => navigate('/gallery'),
         },
         {
-            id: 'guestbook',
-            label: 'Guestbook',
-            description: 'Sign the wall',
-            icon: '✒️',
-            action: () => navigate('/playground#guestbook'),
-        },
-        {
             id: 'about',
             label: 'About',
             description: 'Learn about me',

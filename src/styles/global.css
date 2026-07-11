@@ -21,40 +21,27 @@
 
 :root {
   /*
-   * Color Palette - Deep Space
-   * Space is dark. No light mode.
+   * Palette — monochrome. Near-black ground, off-white ink, ONE restrained
+   * accent used only for links / interactive state. Dark is the default; the
+   * light theme swaps the same tokens below. Accent aliases all resolve to the
+   * one accent so existing components stay monochrome without renames.
    */
-  --color-bg-primary: #0A0A0C;
-  /* deep void */
-  --color-bg-secondary: #111114;
-  /* charcoal space */
-  --color-bg-tertiary: #1A1A1E;
-  /* slate nebula */
+  --color-bg-primary: #0E0E10;
+  --color-bg-secondary: #151517;
+  --color-bg-tertiary: #1C1C1F;
 
-  --color-text-primary: #E8E8EC;
-  /* stellar white */
-  --color-text-secondary: #9898A0;
-  /* nebula gray */
-  --color-text-tertiary: #828290;
-  /* dim gray — lifted from #5A5A64 to meet WCAG AA (~4.5:1) for small meta text */
+  --color-text-primary: #EAEAE6;
+  --color-text-secondary: #A0A09A;
+  --color-text-tertiary: #7C7C77;
 
-  --color-border: #2A2A30;
-  /* void edge */
-  --color-border-subtle: #1E1E22;
-  /* subtle void */
+  --color-border: #262629;
+  --color-border-subtle: #1C1C1F;
 
-  /*
-   * Accent Color - Celestial Blue-Violet
-   * Used sparingly for data highlights and interactions
-   */
-  --color-accent-primary: #4A5FBD;
-  /* celestial blue-violet */
-  --color-accent-secondary: #6B7FD4;
-  /* lighter celestial */
-  --color-accent-tertiary: #3D4F9A;
-  /* deeper celestial */
-  --color-accent-highlight: #7B8FE8;
-  /* bright highlight */
+  --color-accent: #7E8BC8;
+  --color-accent-primary: #6E7BB8;
+  --color-accent-secondary: #7E8BC8;
+  --color-accent-tertiary: #5C69A6;
+  --color-accent-highlight: #9AA6DE;
 
   /* Manifold visualization colors */
   --color-manifold: rgba(74, 95, 189, 0.12);
@@ -77,9 +64,12 @@
    * IBM Plex Sans: clean, readable body text
    * IBM Plex Mono: technical, code
    */
-  --font-serif: 'EB Garamond', Georgia, 'Times New Roman', serif;
+  --font-serif: 'Fraunces', 'EB Garamond', Georgia, 'Times New Roman', serif;
   --font-sans: 'IBM Plex Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
   --font-mono: 'IBM Plex Mono', 'Fira Code', Consolas, monospace;
+
+  /* Narrow reading measure for the minimal single-column layout. */
+  --measure: 42rem;
 
   /*
    * Font Sizes - Fluid Scale
@@ -158,27 +148,33 @@
   --z-tooltip: 500;
 }
 
-/* Light mode - inverted colors */
+/* Light theme — warm paper, near-black ink. Same monochrome system. */
 [data-theme="light"] {
-  --color-bg-primary: #FAFAFA;
-  --color-bg-secondary: #F5F5F5;
-  --color-bg-tertiary: #EBEBEB;
+  --color-bg-primary: #FAF9F6;
+  --color-bg-secondary: #F3F1EC;
+  --color-bg-tertiary: #EAE8E1;
 
-  --color-text-primary: #1A1A1E;
-  --color-text-secondary: #4A4A54;
-  --color-text-tertiary: #66666F;
+  --color-text-primary: #191917;
+  --color-text-secondary: #55534E;
+  --color-text-tertiary: #7C7A73;
 
-  --color-border: #DADADE;
-  --color-border-subtle: #E8E8EC;
+  --color-border: #E3E1DA;
+  --color-border-subtle: #ECEAE3;
 
-  --color-manifold: rgba(74, 95, 189, 0.08);
-  --color-manifold-bright: rgba(74, 95, 189, 0.15);
-  --color-particle: rgba(26, 26, 30, 0.05);
-  --color-particle-bright: rgba(26, 26, 30, 0.1);
+  --color-accent: #3B3FA0;
+  --color-accent-primary: #3B3FA0;
+  --color-accent-secondary: #4A4FB0;
+  --color-accent-tertiary: #2E3288;
+  --color-accent-highlight: #4A4FB0;
 
-  --shadow-sm: 0 1px 3px rgb(0 0 0 / 0.1);
-  --shadow-md: 0 2px 8px rgb(0 0 0 / 0.1);
-  --shadow-lg: 0 4px 20px rgb(0 0 0 / 0.15);
+  --color-manifold: rgba(59, 63, 160, 0.06);
+  --color-manifold-bright: rgba(59, 63, 160, 0.12);
+  --color-particle: rgba(25, 25, 23, 0.05);
+  --color-particle-bright: rgba(25, 25, 23, 0.1);
+
+  --shadow-sm: 0 1px 3px rgb(0 0 0 / 0.08);
+  --shadow-md: 0 2px 8px rgb(0 0 0 / 0.08);
+  --shadow-lg: 0 4px 20px rgb(0 0 0 / 0.1);
 }
 
 /* ============================================
@@ -250,19 +246,19 @@ h6 {
 }
 
 h1 {
-  font-size: var(--text-hero);
-  line-height: 1.05;
-  letter-spacing: -0.03em;
+  font-size: var(--text-4xl);
+  line-height: 1.1;
+  letter-spacing: -0.02em;
 }
 
 h2 {
-  font-size: var(--text-5xl);
-  margin-bottom: var(--space-lg);
+  font-size: var(--text-2xl);
+  margin-bottom: var(--space-md);
 }
 
 h3 {
-  font-size: var(--text-3xl);
-  margin-bottom: var(--space-md);
+  font-size: var(--text-xl);
+  margin-bottom: var(--space-sm);
 }
 
 h4 {
@@ -286,23 +282,17 @@ p {
   color: var(--color-text-secondary);
 }
 
-/* Links - Subtle underline animation */
+/* Links — plain. Inherit the surrounding colour, underline on hover. */
 a {
-  color: var(--color-text-primary);
+  color: inherit;
   text-decoration: none;
-  background-image: linear-gradient(var(--color-section-accent),
-      var(--color-section-accent));
-  background-size: 0% 1px;
-  background-position: 0 100%;
-  background-repeat: no-repeat;
-  transition:
-    background-size var(--transition-base) var(--ease-out-expo),
-    color var(--transition-fast);
+  transition: color var(--transition-fast);
 }
 
 a:hover {
-  background-size: 100% 1px;
-  color: var(--color-section-accent);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+  text-decoration-thickness: 1px;
 }
 
 strong,

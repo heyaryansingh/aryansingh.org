@@ -49,7 +49,7 @@ export const POST: APIRoute = async (ctx) => {
 
   const ipHash = await hashIp(ctx, env);
   if (!(await rateLimit(env.DB, ipHash, "reactions", 60, 10 * 60 * 1000)))
-    return fail("Too many reactions — take a breath.", 429);
+    return fail("Too many reactions. Take a breath.", 429);
 
   // Toggle: remove if present, else add.
   const existing = await env.DB.prepare(

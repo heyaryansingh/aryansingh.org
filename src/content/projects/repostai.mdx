@@ -1,17 +1,17 @@
 ---
 title: "RepostAI"
 tagline: "Blog post to a week of social content"
-description: "A SaaS tool that turns any article into a week of platform-optimized social content — X threads, LinkedIn posts, Instagram captions — with Stripe subscription billing."
+description: "A SaaS tool that turns any article into a week of platform-optimized social content - X threads, LinkedIn posts, Instagram captions - with Stripe subscription billing."
 category: "automation"
 github: "https://github.com/heyaryansingh/repostai"
 status: "complete"
 year: "2024"
 techStack: ["Node.js", "Express", "LLM APIs", "Stripe", "Rate Limiting"]
-problem: "Writers and creators produce one piece of long-form content and then have to manually re-derive it into a dozen different formats for every social platform — a tedious, repetitive task that eats more time than the writing itself."
-solution: "Built RepostAI, a service that takes any article URL and generates platform-optimized social content — X threads, LinkedIn posts, Instagram captions — with adjustable tone, wrapped in a subscription product with rate limiting, usage analytics, and Stripe billing."
+problem: "Writers and creators produce one piece of long-form content and then have to manually re-derive it into a dozen different formats for every social platform - a tedious, repetitive task that eats more time than the writing itself."
+solution: "Built RepostAI, a service that takes any article URL and generates platform-optimized social content - X threads, LinkedIn posts, Instagram captions - with adjustable tone, wrapped in a subscription product with rate limiting, usage analytics, and Stripe billing."
 learnings:
-  - "Platform-optimized doesn't just mean shorter — an X thread, a LinkedIn post, and an Instagram caption each have different structural conventions the generation prompt has to encode."
-  - "Rate limiting and usage analytics aren't afterthoughts for an LLM-backed SaaS product — API cost is the main input to pricing, so you need to measure it from day one."
+  - "Platform-optimized doesn't just mean shorter - an X thread, a LinkedIn post, and an Instagram caption each have different structural conventions the generation prompt has to encode."
+  - "Rate limiting and usage analytics aren't afterthoughts for an LLM-backed SaaS product - API cost is the main input to pricing, so you need to measure it from day one."
   - "Stripe subscription billing is the easy 80% of a SaaS product; the harder 20% is usage-based limits that map cleanly onto the pricing tiers."
 featured: false
 pinned: false
@@ -25,9 +25,9 @@ RepostAI takes a single article and turns it into a week's worth of social conte
 
 Given an article, the service generates:
 
-- **X threads** — broken into tweet-length beats with a hook-first structure.
-- **LinkedIn posts** — longer-form, professional framing.
-- **Instagram captions** — punchier, hashtag-aware.
+- **X threads** - broken into tweet-length beats with a hook-first structure.
+- **LinkedIn posts** - longer-form, professional framing.
+- **Instagram captions** - punchier, hashtag-aware.
 
 Tone is adjustable per generation, so the same article can be repurposed differently for a personal brand versus a company account.
 

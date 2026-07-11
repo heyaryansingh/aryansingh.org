@@ -1,27 +1,27 @@
 ---
 title: "Lab Link"
 tagline: "A local-first operating system for research labs"
-description: "A terminal-and-browser platform that replaces the fragmented tool stack research labs use — Outlook, Slack, Drive, spreadsheets — with one local-first data layer, an npm CLI, and a Postgres/pgvector-backed semantic search backend."
+description: "A terminal-and-browser platform that replaces the fragmented tool stack research labs use - Outlook, Slack, Drive, spreadsheets - with one local-first data layer, an npm CLI, and a Postgres/pgvector-backed semantic search backend."
 category: "devtools"
 status: "active"
 year: "2026"
 github: "https://github.com/heyaryansingh/lablink"
 npm: "https://www.npmjs.com/package/lablink-cli"
 techStack: ["TypeScript", "Node.js", "Ink", "SQLite", "PostgreSQL", "pgvector", "Drizzle ORM", "Express", "Anthropic SDK"]
-problem: "Research labs run on a fragmented stack — email, Slack, Drive, spreadsheets, sticky notes, whiteboards — where a decision made in a meeting never reliably becomes a tracked task, and nothing feeds anything else."
-solution: "Built Lab Link as one local-first data layer accessed two ways: a terminal UI (an installable CLI, invoked like `claude` opens Claude Code) for the fast in-flow case, and a browser-based web platform for richer views — with every feature feeding every other feature, so a meeting transcript can generate tasks that update a project's status automatically."
+problem: "Research labs run on a fragmented stack - email, Slack, Drive, spreadsheets, sticky notes, whiteboards - where a decision made in a meeting never reliably becomes a tracked task, and nothing feeds anything else."
+solution: "Built Lab Link as one local-first data layer accessed two ways: a terminal UI (an installable CLI, invoked like `claude` opens Claude Code) for the fast in-flow case, and a browser-based web platform for richer views - with every feature feeding every other feature, so a meeting transcript can generate tasks that update a project's status automatically."
 learnings:
   - "A local-first SQLite core (via better-sqlite3 + Drizzle) with an optional sync daemon keeps the tool usable offline and fast, while still allowing a move to a shared Postgres + pgvector backend for teams that want cross-member semantic search over lab knowledge."
-  - "Ink (React for the terminal) makes a genuinely componentized, keyboard-navigable TUI feasible without hand-rolling ANSI escape codes — the same component model as a web app, rendered to a terminal grid instead of a DOM."
-  - "Extracting tasks and priority-scoring them from raw meeting/email text is a much better fit for a small, focused LLM call per item than one large summarization pass — smaller calls are easier to validate and cheaper to get right."
+  - "Ink (React for the terminal) makes a genuinely componentized, keyboard-navigable TUI feasible without hand-rolling ANSI escape codes - the same component model as a web app, rendered to a terminal grid instead of a DOM."
+  - "Extracting tasks and priority-scoring them from raw meeting/email text is a much better fit for a small, focused LLM call per item than one large summarization pass - smaller calls are easier to validate and cheaper to get right."
 order: 20
 ---
 
-Lab Link is a local-first platform for running a research lab — personal command center, project hub, meeting intelligence, and communications — built around the idea that every feature should feed every other one, instead of living in its own silo.
+Lab Link is a local-first platform for running a research lab - personal command center, project hub, meeting intelligence, and communications - built around the idea that every feature should feed every other one, instead of living in its own silo.
 
 ## one data layer, two surfaces
 
-The core is an installable CLI (`lablink-cli` on npm, invoked as `lablink`) built on Ink — React's component model rendered to a terminal — backed by a local SQLite database via Drizzle ORM. A companion web platform reads from the same data layer for richer views: project hubs, meeting intelligence, and search.
+The core is an installable CLI (`lablink-cli` on npm, invoked as `lablink`) built on Ink - React's component model rendered to a terminal - backed by a local SQLite database via Drizzle ORM. A companion web platform reads from the same data layer for richer views: project hubs, meeting intelligence, and search.
 
 ```
 ~/.lablink/
@@ -33,7 +33,7 @@ The core is an installable CLI (`lablink-cli` on npm, invoked as `lablink`) buil
 
 ## backend: from SQLite to Postgres + pgvector
 
-The companion backend (LabHelper) is migrating from a SQLite prototype to a Postgres-backed service with pgvector for AI semantic search directly inside the database — letting a lab search "what did we decide about the antibody dilution protocol" and get back the actual meeting note, not just a keyword match, without standing up a separate vector store.
+The companion backend (LabHelper) is migrating from a SQLite prototype to a Postgres-backed service with pgvector for AI semantic search directly inside the database - letting a lab search "what did we decide about the antibody dilution protocol" and get back the actual meeting note, not just a keyword match, without standing up a separate vector store.
 
 ## AI layer
 

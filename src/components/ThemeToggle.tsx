@@ -10,9 +10,9 @@ import { useState, useEffect } from 'react';
 type Mode = 'light' | 'dark' | 'auto';
 
 const modeIcons: Record<Mode, string> = {
-  light: '☀️',
-  dark: '🌙',
-  auto: '💻',
+  light: '○',
+  dark: '●',
+  auto: '◐',
 };
 
 export default function ThemeToggle() {

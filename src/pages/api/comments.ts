@@ -52,7 +52,7 @@ export const POST: APIRoute = async (ctx) => {
 
   const ipHash = await hashIp(ctx, env);
   if (!(await rateLimit(env.DB, ipHash, "comments", 8, 10 * 60 * 1000)))
-    return fail("You're commenting quickly — try again in a bit.", 429);
+    return fail("You're commenting quickly. Try again in a bit.", 429);
 
   const now = Date.now();
   const res = await env.DB.prepare(

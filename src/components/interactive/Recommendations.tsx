@@ -163,7 +163,7 @@ export default function Recommendations() {
           </button>
         </div>
         {err && <p className="rec__err">{err}</p>}
-        {done && <p className="rec__ok">added — thank you, I'll take a look.</p>}
+        {done && <p className="rec__ok">added. thank you, I'll take a look.</p>}
       </form>
 
       <div className="rec__filters">
@@ -187,7 +187,7 @@ export default function Recommendations() {
       <ul className="rec__list">
         {loading && <li className="rec__empty">loading…</li>}
         {!loading && shown.length === 0 && (
-          <li className="rec__empty">nothing here yet — be the first to recommend something.</li>
+          <li className="rec__empty">nothing here yet. be the first to recommend something.</li>
         )}
         {shown.map((r) => (
           <li key={r.id} className="rec__item">
@@ -201,7 +201,7 @@ export default function Recommendations() {
                 ) : (
                   r.title
                 )}
-                {r.author && <span className="rec__by"> — {r.author}</span>}
+                {r.author && <span className="rec__by">, {r.author}</span>}
               </p>
               {r.note && <p className="rec__why">"{r.note}"</p>}
               <p className="rec__who">

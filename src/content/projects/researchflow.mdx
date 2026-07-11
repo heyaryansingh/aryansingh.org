@@ -7,16 +7,16 @@ status: "active"
 year: "2026"
 closedSource: true
 techStack: ["Python", "LangGraph", "LangChain", "OpenAI API", "GitHub Actions", "Flask"]
-problem: "Good research ideas worth building into products are scattered across arXiv, bioRxiv, developer pain points, and market shifts, and finding the ones actually worth a day's build effort — versus the ones that just sound impressive — is a full-time triage job most people don't have time for."
-solution: "Built a daily pipeline where a ScraperService pulls papers and signals, a ScoutAgent and AnalystAgent score them, a LangGraph-based Product Director (market scout, paper reviewer, product strategist, commercialization reviewer) brainstorms and filters ideas against a productization rubric, and an ArchitectAgent/BuilderAgent/GardenerAgent chain turns the winner into a real GitHub repo — pushed with a positioned README, PRD, launch checklist, and an optional exported product page on aryansingh.org."
+problem: "Good research ideas worth building into products are scattered across arXiv, bioRxiv, developer pain points, and market shifts, and finding the ones actually worth a day's build effort - versus the ones that just sound impressive - is a full-time triage job most people don't have time for."
+solution: "Built a daily pipeline where a ScraperService pulls papers and signals, a ScoutAgent and AnalystAgent score them, a LangGraph-based Product Director (market scout, paper reviewer, product strategist, commercialization reviewer) brainstorms and filters ideas against a productization rubric, and an ArchitectAgent/BuilderAgent/GardenerAgent chain turns the winner into a real GitHub repo - pushed with a positioned README, PRD, launch checklist, and an optional exported product page on aryansingh.org."
 learnings:
   - "A deterministic scoring fallback for every OpenAI-assisted step (paper scoring, brainstorming, planning) keeps the daily pipeline running even when the API call fails, which matters more for something meant to run unattended in GitHub Actions than for a one-off script."
   - "Splitting 'brainstorm what's worth building' from 'build it' into separate agent stages (Analyst/Brainstormer vs. Architect/Builder/Gardener) makes each stage independently testable and lets the productization rubric gate the expensive build step instead of building everything that gets discovered."
-  - "Monetization paths (Stripe hooks, pricing hypotheses) are recorded but deliberately kept manual-gated — the pipeline decides what's worth building, not what's worth charging for, which is a judgment call best left to a human reviewing the evidence."
+  - "Monetization paths (Stripe hooks, pricing hypotheses) are recorded but deliberately kept manual-gated - the pipeline decides what's worth building, not what's worth charging for, which is a judgment call best left to a human reviewing the evidence."
 order: 23
 ---
 
-ResearchFlow is a daily automation that watches recent papers, developer pain, tool shifts, and market signals, then uses an agent pipeline to decide what's actually worth building — and builds the winner into a real, shippable repo.
+ResearchFlow is a daily automation that watches recent papers, developer pain, tool shifts, and market signals, then uses an agent pipeline to decide what's actually worth building - and builds the winner into a real, shippable repo.
 
 ## pipeline
 
@@ -37,7 +37,7 @@ ScraperService -> ScoutAgent -> AnalystAgent -> Brainstormer
                                GardenerAgent -> GitHub
 ```
 
-Papers are discovered from arXiv, bioRxiv/medRxiv-style APIs, and RSS/Atom feeds, then scored with deterministic heuristics plus optional OpenAI-assisted scoring — so the pipeline degrades gracefully rather than stalling if the API is unavailable.
+Papers are discovered from arXiv, bioRxiv/medRxiv-style APIs, and RSS/Atom feeds, then scored with deterministic heuristics plus optional OpenAI-assisted scoring - so the pipeline degrades gracefully rather than stalling if the API is unavailable.
 
 ## the productization rubric
 
@@ -53,8 +53,8 @@ Credentials are read from environment/`.env` and never printed or logged; Stripe
 
 ## mission control
 
-A dashboard at `http://127.0.0.1:5000` surfaces what's running, current research and source health, cached brainstorms, the highest-potential products, and setup tasks still pending — the point being that a daily automation like this needs to be legible, not just a black box that occasionally opens a PR.
+A dashboard at `http://127.0.0.1:5000` surfaces what's running, current research and source health, cached brainstorms, the highest-potential products, and setup tasks still pending - the point being that a daily automation like this needs to be legible, not just a black box that occasionally opens a PR.
 
 ## why this shape
 
-The interesting failure mode for an automation like this isn't "it builds nothing" — it's "it builds everything, badly." Gating the expensive build step behind an explicit productization rubric, and keeping monetization manual until there's real demand, is the guardrail against that.
+The interesting failure mode for an automation like this isn't "it builds nothing" - it's "it builds everything, badly." Gating the expensive build step behind an explicit productization rubric, and keeping monetization manual until there's real demand, is the guardrail against that.

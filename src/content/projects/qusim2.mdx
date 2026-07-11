@@ -7,8 +7,8 @@ closedSource: true
 status: "active"
 year: "2025"
 techStack: ["Next.js", "React", "TypeScript", "OpenQASM", "WebGL", "Gemini AI"]
-problem: "QuSim (the from-scratch Python simulator) is a research tool, not something you can hand someone with no setup — quantum circuits and their effects need to be explorable in a browser, interactively, with visuals that make the physics legible."
-solution: "Built QuSim2, a Next.js web app where users write OpenQASM 2.0 with syntax highlighting, simulate it client-side, and see the results as an animated Bloch sphere, entanglement graphs, phase-space and measurement histograms, and circuit statistics — with algorithm templates and an AI assistant to lower the barrier further."
+problem: "QuSim (the from-scratch Python simulator) is a research tool, not something you can hand someone with no setup - quantum circuits and their effects need to be explorable in a browser, interactively, with visuals that make the physics legible."
+solution: "Built QuSim2, a Next.js web app where users write OpenQASM 2.0 with syntax highlighting, simulate it client-side, and see the results as an animated Bloch sphere, entanglement graphs, phase-space and measurement histograms, and circuit statistics - with algorithm templates and an AI assistant to lower the barrier further."
 learnings:
   - "Client-side simulation keeps the whole experience zero-install and instant, which matters far more than raw qubit-count ceiling for an interactive/educational tool."
   - "Visualizing entanglement and phase as a graph and histogram, not just numbers, is what actually builds intuition for people new to quantum computing."
@@ -23,20 +23,20 @@ QuSim2 is the interactive, browser-based counterpart to [QuSim](/projects/qusim)
 
 ## editor and simulation
 
-Users write circuits directly in OpenQASM 2.0, with syntax highlighting, and the simulator runs entirely client-side — no backend round-trip between editing a gate and seeing the result.
+Users write circuits directly in OpenQASM 2.0, with syntax highlighting, and the simulator runs entirely client-side - no backend round-trip between editing a gate and seeing the result.
 
 ## visualization
 
 Results are rendered through several complementary views:
 
-- **Animated Bloch sphere** — per-qubit state visualized in real time as gates apply.
-- **Entanglement graphs** — which qubits are entangled with which, and how strongly.
-- **Phase-space and measurement histograms** — outcome distributions across repeated shots.
-- **Circuit statistics** — depth, gate counts, and T-count, useful for reasoning about a circuit's cost.
+- **Animated Bloch sphere** - per-qubit state visualized in real time as gates apply.
+- **Entanglement graphs** - which qubits are entangled with which, and how strongly.
+- **Phase-space and measurement histograms** - outcome distributions across repeated shots.
+- **Circuit statistics** - depth, gate counts, and T-count, useful for reasoning about a circuit's cost.
 
 ## templates and AI assistant
 
-Common algorithms — Bell states, GHZ states, Grover's algorithm, the Quantum Fourier Transform — are available as one-click templates. An integrated Gemini-powered AI assistant sits next to the editor to help with circuit construction and explain what a given gate sequence does.
+Common algorithms - Bell states, GHZ states, Grover's algorithm, the Quantum Fourier Transform - are available as one-click templates. An integrated Gemini-powered AI assistant sits next to the editor to help with circuit construction and explain what a given gate sequence does.
 
 ```qasm
 // GHZ state template
@@ -53,4 +53,4 @@ measure q -> c;
 
 ## why a second simulator
 
-QuSim is built for depth — four backends, noise modeling, error correction. QuSim2 is built for reach — anyone with a browser can write a circuit and immediately see what it does, which is a different (and equally useful) goal.
+QuSim is built for depth - four backends, noise modeling, error correction. QuSim2 is built for reach - anyone with a browser can write a circuit and immediately see what it does, which is a different (and equally useful) goal.

@@ -14,9 +14,9 @@ metrics:
 problem: "CRISPR gene therapy for Alzheimer's disease needs to edit APP, BACE1, and PSEN1/2 with high specificity, but the standard off-target scoring tools (MIT score, CFD score) were built for wild-type SpCas9 and don't model the binding dynamics of Geminin-tagged Cas9 (gCas9), a variant with improved specificity for neuronal targets."
 solution: "Built gCas9-OTNet, a hybrid CNN-Transformer that encodes each sgRNA/off-target DNA pair as a 20-channel-by-20-position matrix (one-hot sequences plus 12 mismatch-substitution channels) alongside 14 hand-engineered scalar features and optional chromatin-accessibility context, then trained it with focal loss against real GUIDE-seq and CIRCLE-seq off-target data."
 learnings:
-  - "A multi-scale CNN (kernels 1/3/5) followed by a small Transformer encoder with attention pooling beats both classical heuristics and a plain CNN baseline on AUROC and AUPRC, but the model's cross-assay transfer (train on GUIDE-seq, test on CIRCLE-seq) drops sharply, from 0.876 to 0.698 AUROC — in cellulo and in vitro assays measure meaningfully different things, and a model trained on one doesn't automatically generalize to the other."
+  - "A multi-scale CNN (kernels 1/3/5) followed by a small Transformer encoder with attention pooling beats both classical heuristics and a plain CNN baseline on AUROC and AUPRC, but the model's cross-assay transfer (train on GUIDE-seq, test on CIRCLE-seq) drops sharply, from 0.876 to 0.698 AUROC - in cellulo and in vitro assays measure meaningfully different things, and a model trained on one doesn't automatically generalize to the other."
   - "Leave-one-sgRNA-out cross-validation is a much harder and more honest test than a random split for this task, since it forces the model to generalize to guide sequences it has never seen rather than memorizing sgRNA-specific patterns."
-  - "Interpretability (attention weights, gradient saliency by channel group, SHAP on the tree baselines) matters as much as raw accuracy for a therapeutic safety model — a black-box score isn't good enough when the downstream decision is which genome edits are safe to make in neurons."
+  - "Interpretability (attention weights, gradient saliency by channel group, SHAP on the tree baselines) matters as much as raw accuracy for a therapeutic safety model - a black-box score isn't good enough when the downstream decision is which genome edits are safe to make in neurons."
 featured: true
 pinned: true
 order: 3
@@ -26,7 +26,7 @@ gCas9-OTNet is a deep learning pipeline for predicting off-target cleavage of Ge
 
 ## why existing scores fall short
 
-MIT score and CFD score are the standard off-target predictors, but both were fit to wild-type SpCas9 behavior. gCas9 is a Geminin-tagged variant engineered for improved specificity in neuronal targets — a different binding profile that off-the-shelf heuristics don't capture, which matters a great deal when the therapy is editing genes directly implicated in amyloid pathology.
+MIT score and CFD score are the standard off-target predictors, but both were fit to wild-type SpCas9 behavior. gCas9 is a Geminin-tagged variant engineered for improved specificity in neuronal targets - a different binding profile that off-the-shelf heuristics don't capture, which matters a great deal when the therapy is editing genes directly implicated in amyloid pathology.
 
 ## architecture
 
@@ -42,7 +42,7 @@ Multi-Scale CNN (kernels 1,3,5) -> 64ch
   -> Classifier Head (112 -> 64 -> 1 logit)
 ```
 
-Training uses focal loss (α=0.75, γ=2.0) to handle the severe class imbalance inherent to off-target data — the overwhelming majority of candidate sites never actually cleave — with AdamW and cosine-annealed warm restarts, early-stopped on validation AUPRC.
+Training uses focal loss (α=0.75, γ=2.0) to handle the severe class imbalance inherent to off-target data - the overwhelming majority of candidate sites never actually cleave - with AdamW and cosine-annealed warm restarts, early-stopped on validation AUPRC.
 
 ## validation strategy
 
@@ -57,7 +57,7 @@ Because off-target claims feed into a therapeutic safety decision, the pipeline 
 | MIT Score (Hsu 2013) | 0.803 | 0.582 |
 | Mismatch Count (naive) | 0.724 | 0.489 |
 
-gCas9-OTNet holds up under leave-one-sgRNA-out CV (0.873 ± 0.056 AUROC) but, as expected, loses substantial ground on cross-assay transfer (0.698 AUROC, GUIDE-seq → CIRCLE-seq) — a real limitation the pipeline reports rather than hides.
+gCas9-OTNet holds up under leave-one-sgRNA-out CV (0.873 ± 0.056 AUROC) but, as expected, loses substantial ground on cross-assay transfer (0.698 AUROC, GUIDE-seq → CIRCLE-seq) - a real limitation the pipeline reports rather than hides.
 
 ## interpretability
 

@@ -1,7 +1,7 @@
 ---
 title: "QuSim"
 tagline: "Research-grade quantum circuit simulator"
-description: "A from-scratch quantum circuit simulator with four backends — statevector, density-matrix, stabilizer, and tensor-network — plus Kraus-operator noise modeling, entanglement diagnostics, and a quantum error-correction sandbox."
+description: "A from-scratch quantum circuit simulator with four backends - statevector, density-matrix, stabilizer, and tensor-network - plus Kraus-operator noise modeling, entanglement diagnostics, and a quantum error-correction sandbox."
 category: "quantum"
 status: "complete"
 year: "2025"
@@ -11,11 +11,11 @@ metrics:
   - "4 simulation backends"
   - "~25 qubits on a laptop"
   - "10–50× JIT speedup"
-problem: "Understanding quantum computing deeply is hard without hands-on experimentation, but real hardware is scarce, noisy, and expensive — and most simulators hide the physics behind an API."
+problem: "Understanding quantum computing deeply is hard without hands-on experimentation, but real hardware is scarce, noisy, and expensive - and most simulators hide the physics behind an API."
 solution: "Built a modular simulator where each backend is swappable behind one interface, with first-class noise, entanglement, and error-correction tooling so the physics is visible, measurable, and debuggable."
 learnings:
   - "Sparse representations and JIT compilation make ~25-qubit statevector simulation tractable on consumer hardware."
-  - "The gap between the math and a numerically stable implementation is where the real understanding lives — phase conventions, measurement collapse, decoherence."
+  - "The gap between the math and a numerically stable implementation is where the real understanding lives - phase conventions, measurement collapse, decoherence."
   - "A stabilizer backend turns exponential Clifford circuits into polynomial ones; picking the right backend per circuit matters more than raw speed."
 featured: true
 pinned: true
@@ -29,10 +29,10 @@ QuSim is a quantum circuit simulator I built from scratch to understand quantum 
 
 Rather than one monolithic simulator, QuSim exposes four backends behind a single `Backend` interface, each with different tradeoffs:
 
-- **Statevector** — exact evolution of pure states in a 2ⁿ-dimensional Hilbert space.
-- **Density matrix** — mixed states and open-system dynamics, the substrate for realistic noise.
-- **Stabilizer** (Gottesman–Knill) — polynomial-time simulation of Clifford circuits, scaling to hundreds of qubits.
-- **Tensor-network** — memory-efficient simulation of large, lightly-entangled systems.
+- **Statevector** - exact evolution of pure states in a 2ⁿ-dimensional Hilbert space.
+- **Density matrix** - mixed states and open-system dynamics, the substrate for realistic noise.
+- **Stabilizer** (Gottesman–Knill) - polynomial-time simulation of Clifford circuits, scaling to hundreds of qubits.
+- **Tensor-network** - memory-efficient simulation of large, lightly-entangled systems.
 
 ## noise and diagnostics
 
@@ -45,16 +45,16 @@ circuit.h(0)        # Hadamard on qubit 0
 circuit.cx(0, 1)    # CNOT: 0 -> 1
 
 result = simulator.run(circuit)          # (|00⟩ + |11⟩) / √2
-print(result.von_neumann_entropy())      # ~1.0 bit — maximally entangled
+print(result.von_neumann_entropy())      # ~1.0 bit - maximally entangled
 ```
 
 ## error correction
 
-A dedicated sandbox implements syndrome extraction and decoding, so you can watch a logical qubit survive physical errors — the payoff of everything above, made visible.
+A dedicated sandbox implements syndrome extraction and decoding, so you can watch a logical qubit survive physical errors - the payoff of everything above, made visible.
 
 ## performance
 
-Through sparse matrix representations and Numba JIT compilation (a 10–50× speedup on gate application), the statevector backend handles circuits up to ~25 qubits on a laptop — enough for most educational and many research scenarios — while the stabilizer backend goes much further for Clifford circuits.
+Through sparse matrix representations and Numba JIT compilation (a 10–50× speedup on gate application), the statevector backend handles circuits up to ~25 qubits on a laptop - enough for most educational and many research scenarios - while the stabilizer backend goes much further for Clifford circuits.
 
 ## why I built it
 

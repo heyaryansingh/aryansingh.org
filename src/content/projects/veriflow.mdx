@@ -7,10 +7,10 @@ github: "https://github.com/heyaryansingh/veriflow"
 status: "active"
 year: "2025"
 techStack: ["Python", "ML Ops", "Data Validation", "CLI", "YAML"]
-problem: "Most ML release checklists live in someone's head or a wiki page — 'check the schema, check for drift, run the eval suite' — and get skipped under deadline pressure because nothing enforces them."
+problem: "Most ML release checklists live in someone's head or a wiki page - 'check the schema, check for drift, run the eval suite' - and get skipped under deadline pressure because nothing enforces them."
 solution: "Built veriflow, a framework that encodes that checklist as executable gates defined in YAML: schema validation, distribution-drift detection against a reference dataset, regression tests against golden datasets, and eval-metric monitoring, runnable locally or wired into CI."
 learnings:
-  - "A checklist only gets followed if skipping it is harder than running it — making the gates a single CLI command was the actual adoption unlock."
+  - "A checklist only gets followed if skipping it is harder than running it - making the gates a single CLI command was the actual adoption unlock."
   - "Distribution drift needs a concrete reference dataset and threshold, not a vague 'does this look different' check, or it never fires."
   - "Golden-dataset regression tests catch the failure mode unit tests miss: the model still runs, it just quietly got worse."
 featured: false
@@ -51,7 +51,7 @@ Running `veriflow check` executes every configured gate against the current mode
 
 ## local-first, CI-friendly
 
-The same YAML config and CLI run identically on a laptop during development and inside a CI pipeline before merge — no separate "local mode" vs "CI mode" to keep in sync.
+The same YAML config and CLI run identically on a laptop during development and inside a CI pipeline before merge - no separate "local mode" vs "CI mode" to keep in sync.
 
 ## status
 

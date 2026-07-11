@@ -29,7 +29,7 @@ export const POST: APIRoute = async (ctx) => {
 
   const ipHash = await hashIp(ctx, env);
   if (!(await rateLimit(env.DB, ipHash, "stickers", 20, 10 * 60 * 1000)))
-    return fail("You've placed a lot of stickers — give it a minute.", 429);
+    return fail("You've placed a lot of stickers. Give it a minute.", 429);
 
   const now = Date.now();
   const res = await env.DB.prepare(

@@ -10,7 +10,7 @@ techStack: ["Python", "GNN", "PyTorch Geometric", "Reddit API", "Financial ML", 
 problem: "Naive sentiment-from-social-media trading treats every post as equally informative, but a post from an author with a track record of being right should count for a lot more than one from a random account."
 solution: "Built a medallion-architecture data lake (raw to bronze to silver to gold) that ingests Reddit and market data, scores author influence with a graph neural network trained on historical accuracy and trust networks, and feeds influence-weighted sentiment into a forecasting model and a backtester that accounts for realistic transaction costs."
 learnings:
-  - "Author-level signal quality varies enormously — weighting sentiment by a learned influence score beats treating all posts equally."
+  - "Author-level signal quality varies enormously - weighting sentiment by a learned influence score beats treating all posts equally."
   - "A medallion data lake (raw/bronze/silver/gold) keeps a messy, high-volume social feed reproducible and debuggable at every stage."
   - "Backtests that ignore transaction costs are close to meaningless for a strategy built on high-frequency sentiment signals."
 featured: false
@@ -25,10 +25,10 @@ imst-quant is a research pipeline for sentiment-driven trading that treats "whos
 
 Reddit and market data flow through a medallion architecture:
 
-- **Raw** — unprocessed ingestion from the Reddit API and market data feeds.
-- **Bronze** — cleaned, deduplicated, schema-validated.
-- **Silver** — joined and enriched (author history, ticker mentions, price context).
-- **Gold** — feature tables ready for modeling.
+- **Raw** - unprocessed ingestion from the Reddit API and market data feeds.
+- **Bronze** - cleaned, deduplicated, schema-validated.
+- **Silver** - joined and enriched (author history, ticker mentions, price context).
+- **Gold** - feature tables ready for modeling.
 
 ## influence scoring with GNNs
 
@@ -42,7 +42,7 @@ weighted_sentiment = raw_sentiment * influence_scores[author_id]
 
 ## forecasting and backtesting
 
-Influence-weighted sentiment feeds a forecasting model, and every strategy is evaluated through a backtester that models realistic transaction costs — slippage and fees, not idealized fills — so backtest performance isn't inflated by trading frictions that don't exist in the real market.
+Influence-weighted sentiment feeds a forecasting model, and every strategy is evaluated through a backtester that models realistic transaction costs - slippage and fees, not idealized fills - so backtest performance isn't inflated by trading frictions that don't exist in the real market.
 
 ## status
 

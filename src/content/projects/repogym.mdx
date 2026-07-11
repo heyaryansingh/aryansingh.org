@@ -7,13 +7,13 @@ github: "https://github.com/heyaryansingh/RepoGym-RL"
 status: "research"
 year: "2025"
 techStack: ["Python", "Reinforcement Learning", "Docker", "Gymnasium", "React"]
-problem: "Training agents to do real software engineering work needs an environment that looks like real engineering — isolated execution, real tools, and rewards grounded in whether the code actually works — not a static code-completion dataset."
+problem: "Training agents to do real software engineering work needs an environment that looks like real engineering - isolated execution, real tools, and rewards grounded in whether the code actually works - not a static code-completion dataset."
 solution: "Built a Gymnasium-compatible RL environment where agents interact with a real repository through structured tool actions (read, write, run tests, git), execute in Docker-isolated sandboxes, and get shaped rewards from test passage and code quality, with full trajectory telemetry surfaced in a React dashboard."
 learnings:
   - "Reward shaping matters more than reward magnitude in sparse, test-pass/fail domains."
   - "Structured tool actions (rather than raw text edits) make credit assignment tractable."
   - "Sandboxed, Dockerized execution is a hard requirement, not a nice-to-have, once agents can run arbitrary code."
-  - "Trajectory telemetry pays for itself immediately — most debugging is watching what the agent actually did."
+  - "Trajectory telemetry pays for itself immediately - most debugging is watching what the agent actually did."
 featured: false
 pinned: false
 order: 10
@@ -41,11 +41,11 @@ while not done:
 
 ## reward shaping
 
-Rewards combine test passage with code-quality signals, rather than a bare pass/fail. That shaping is what makes learning tractable in a domain where most trajectories end in failure — the agent needs partial credit for getting closer, not just a binary outcome at the end.
+Rewards combine test passage with code-quality signals, rather than a bare pass/fail. That shaping is what makes learning tractable in a domain where most trajectories end in failure - the agent needs partial credit for getting closer, not just a binary outcome at the end.
 
 ## telemetry and dashboard
 
-Every trajectory — actions taken, tool outputs, reward breakdown — is logged and surfaced through a React dashboard, which turns debugging an agent's behavior from log-scraping into something you can actually look at.
+Every trajectory - actions taken, tool outputs, reward breakdown - is logged and surfaced through a React dashboard, which turns debugging an agent's behavior from log-scraping into something you can actually look at.
 
 ## status
 

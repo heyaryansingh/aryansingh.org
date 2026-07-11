@@ -15,7 +15,7 @@ problem: "Neurodegenerative and neurological conditions are often screened late,
 solution: "As founding AI developer, built a production multimodal ML platform that analyzes speech and language for neurological biomarkers, trained on 3,000+ hours of clinical and public-health audio, and deployed it into state-level screening pipelines."
 learnings:
   - "Speech contains surprisingly rich biomarkers for neurological conditions, but only if you train on enough clinically-representative audio."
-  - "Getting a model from notebook to production pilot requires as much engineering as modeling — data pipelines, latency, and clinician trust all matter."
+  - "Getting a model from notebook to production pilot requires as much engineering as modeling - data pipelines, latency, and clinician trust all matter."
   - "Working with health-agency partners means the model has to justify itself against an existing baseline, not just beat a benchmark."
 featured: false
 pinned: false
@@ -27,7 +27,7 @@ NeuroVoice is a multimodal machine learning platform for neurological screening 
 
 ## the problem
 
-Conditions like Parkinson's, ALS, and cognitive decline show up in speech — articulation, rhythm, prosody, word-finding — often before they're caught by standard clinical screening. But cognitive screening tools that rely on in-person administration don't scale to a state health agency trying to screen tens of thousands of people a year.
+Conditions like Parkinson's, ALS, and cognitive decline show up in speech - articulation, rhythm, prosody, word-finding - often before they're caught by standard clinical screening. But cognitive screening tools that rely on in-person administration don't scale to a state health agency trying to screen tens of thousands of people a year.
 
 ## what I built
 
@@ -50,7 +50,7 @@ class NeuroVoiceModel(nn.Module):
 
 ## training data and validation
 
-The models were trained on 3,000+ hours (12TB+) of clinical and public-health audio — a scale that matters, because neurological speech biomarkers are subtle and demographically variable. Against baseline cognitive screening methods, the platform achieved a 25–30% accuracy improvement.
+The models were trained on 3,000+ hours (12TB+) of clinical and public-health audio - a scale that matters, because neurological speech biomarkers are subtle and demographically variable. Against baseline cognitive screening methods, the platform achieved a 25–30% accuracy improvement.
 
 ## deployment
 
@@ -58,4 +58,4 @@ The platform is now piloted with state health agencies across 8 US states, suppo
 
 ## what I learned
 
-Building for a health-agency pilot is a different discipline than building for a benchmark. Every model decision had to be explainable to a non-ML stakeholder, and the data pipeline had to handle real-world audio — background noise, accents, recording quality — not curated clinical recordings.
+Building for a health-agency pilot is a different discipline than building for a benchmark. Every model decision had to be explainable to a non-ML stakeholder, and the data pipeline had to handle real-world audio - background noise, accents, recording quality - not curated clinical recordings.

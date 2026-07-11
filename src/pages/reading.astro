@@ -9,6 +9,7 @@
 
 import BaseLayout from "../layouts/BaseLayout.astro";
 import { getCollection, type CollectionEntry } from "astro:content";
+import Recommendations from "../components/interactive/Recommendations";
 
 type Read = CollectionEntry<"reads">;
 
@@ -63,23 +64,18 @@ function dateLabel(b: Read) {
     return b.data.startedDate ? `Started ${fmt(b.data.startedDate)}` : "";
 }
 
-// Build a two-letter monogram for the image-free "spine"
-function monogram(title: string) {
-    const words = title.replace(/^(the|a|an)\s+/i, "").split(/\s+/);
-    return (words[0]?.[0] ?? "") + (words[1]?.[0] ?? "");
-}
 ---
 
 <BaseLayout
     title="Reading"
-    description="A personal library — books I'm reading, books I've finished, and my notes on them."
+    description="A personal library: books I'm reading, books I've finished, and my notes on them."
 >
     <div class="stacks">
         <header class="stacks__head">
             <p class="stacks__eyebrow animate-fade-in">The Stacks</p>
             <h1 class="stacks__title animate-slide-up">Reading</h1>
             <p class="stacks__subtitle animate-fade-in">
-                A working library — what I'm reading now, what I've finished, and
+                A working library: what I'm reading now, what I've finished, and
                 the thoughts each book left behind.
             </p>
 
@@ -110,111 +106,87 @@ function monogram(title: string) {
                         </span>
                     </div>
 
-                    <div
-                        class:list={[
-                            "shelf__grid",
-                            section.id === "current" && "shelf__grid--feature",
-                        ]}
-                    >
-                        {section.items.map((book, i) => (
-                            <article
-                                class:list={[
-                                    "book animate-rise",
-                                    book.data.status === "reading" &&
-                                        "book--reading",
-                                ]}
-                                style={`--spine: ${book.data.spine}; --delay: ${i * 0.06}s`}
+                    <div class="shelf__list">
+                        {section.items.map((book) => (
+                            <details
+                                class="book"
+                                style={`--spine: ${book.data.spine}`}
                             >
-                                <a
-                                    href={`/reading/${book.slug}`}
-                                    class="book__cover"
-                                    aria-hidden="true"
-                                    tabindex="-1"
-                                >
-                                    <span class="book__mono">
-                                        {monogram(book.data.title)}
+                                <summary class="book__row">
+                                    <span class="book__chip" aria-hidden="true"
+                                    ></span>
+                                    <span class="book__head">
+                                        <span class="book__title"
+                                            >{book.data.title}</span
+                                        >
+                                        <span class="book__author"
+                                            >{book.data.author}</span
+                                        >
                                     </span>
-                                    {book.data.status === "reading" && (
-                                        <span class="book__pulse" />
-                                    )}
-                                </a>
-
-                                <div class="book__body">
-                                    <div class="book__topline">
-                                        <span class="book__type">
-                                            {book.data.type}
-                                        </span>
-                                        {book.data.rating != null && (
+                                    {
+                                        book.data.rating != null && (
                                             <span
                                                 class="book__rating"
                                                 title={`${book.data.rating} / 5`}
                                             >
-                                                {"★"
-                                                    .repeat(
-                                                        Math.round(
-                                                            book.data.rating,
-                                                        ),
-                                                    )
-                                                    .padEnd(5, "☆")}
+                                                {"★".repeat(
+                                                    Math.round(
+                                                        book.data.rating,
+                                                    ),
+                                                )}
                                             </span>
-                                        )}
-                                    </div>
-
-                                    <h3 class="book__title">
-                                        <a href={`/reading/${book.slug}`}>
-                                            {book.data.title}
-                                        </a>
-                                    </h3>
-                                    <p class="book__author">
-                                        {book.data.author}
-                                    </p>
-
+                                        )
+                                    }
+                                    <span class="book__marker" aria-hidden="true"
+                                        >+</span
+                                    >
+                                </summary>
+                                <div class="book__more">
                                     <p class="book__overview">
                                         {book.data.overview}
                                     </p>
-
-                                    {book.data.tags.length > 0 && (
-                                        <ul class="book__tags">
-                                            {book.data.tags.map((t) => (
-                                                <li class="book__tag">{t}</li>
-                                            ))}
-                                        </ul>
-                                    )}
-
-                                    <div class="book__foot">
-                                        <span class="book__date">
-                                            {dateLabel(book)}
-                                        </span>
-                                        <span class="book__links">
-                                            <a
-                                                href={`/reading/${book.slug}`}
-                                                class="book__notes"
-                                            >
-                                                Read notes →
-                                            </a>
-                                            <a
-                                                href={book.data.link}
-                                                target="_blank"
-                                                rel="noopener noreferrer"
-                                                class="book__find"
-                                            >
-                                                Find online ↗
-                                            </a>
-                                        </span>
-                                    </div>
+                                    <p class="book__meta">
+                                        {book.data.tags.join(" · ")}
+                                        {dateLabel(book) && (
+                                            <span> · {dateLabel(book)}</span>
+                                        )}
+                                    </p>
+                                    <p class="book__links">
+                                        <a href={`/reading/${book.slug}`}
+                                            >my notes →</a
+                                        >
+                                        <a
+                                            href={book.data.link}
+                                            target="_blank"
+                                            rel="noopener noreferrer"
+                                            >find online ↗</a
+                                        >
+                                    </p>
                                 </div>
-                            </article>
+                            </details>
                         ))}
                     </div>
                 </section>
             ))
         }
+
+        <section class="shelf" id="recommend">
+            <div class="shelf__head">
+                <h2 class="shelf__title">Recommend me something</h2>
+                <span class="shelf__rule" />
+            </div>
+            <p class="shelf__lede">
+                A book, paper, film, blog, or podcast. Anything worth my time,
+                drop it here and I'll work through the list.
+            </p>
+            <Recommendations client:load />
+        </section>
     </div>
 </BaseLayout>
 
 <style>
     .stacks {
-        max-width: 980px;
+        max-width: 46rem;
         margin: 0 auto;
         padding: var(--space-2xl) var(--space-xl) var(--space-4xl);
     }
@@ -321,260 +293,121 @@ function monogram(title: string) {
         color: var(--color-text-tertiary);
     }
 
-    .shelf__grid {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-        gap: var(--space-lg);
-    }
-
-    .shelf__grid--feature {
-        grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
-    }
-
-    /* ---------- Book card ---------- */
-    .book {
-        position: relative;
-        display: grid;
-        grid-template-columns: 64px 1fr;
-        gap: var(--space-lg);
-        padding: var(--space-lg);
-        border: 1px solid var(--color-border);
-        border-radius: var(--radius-lg);
-        background: color-mix(in srgb, var(--color-bg-secondary) 70%, transparent);
-        overflow: hidden;
-        transition:
-            transform var(--transition-base) var(--ease-out-expo),
-            border-color var(--transition-base),
-            box-shadow var(--transition-base);
-    }
-
-    /* faint spine-coloured wash bleeding in from the left edge */
-    .book::before {
-        content: "";
-        position: absolute;
-        inset: 0;
-        background: linear-gradient(
-            90deg,
-            color-mix(in srgb, var(--spine) 22%, transparent),
-            transparent 38%
-        );
-        opacity: 0.5;
-        pointer-events: none;
-        transition: opacity var(--transition-base);
-    }
-
-    .book:hover {
-        transform: translateY(-4px);
-        border-color: color-mix(in srgb, var(--spine) 60%, var(--color-border));
-        box-shadow:
-            0 18px 40px rgba(0, 0, 0, 0.35),
-            0 0 0 1px color-mix(in srgb, var(--spine) 25%, transparent);
-    }
-
-    .book:hover::before {
-        opacity: 0.85;
-    }
-
-    /* ---------- Cover / spine ---------- */
-    .book__cover {
-        position: relative;
-        z-index: 1;
-        display: flex;
-        align-items: flex-end;
-        justify-content: center;
-        aspect-ratio: 2 / 3;
-        border-radius: 3px 5px 5px 3px;
-        background:
-            linear-gradient(
-                115deg,
-                color-mix(in srgb, var(--spine) 92%, white 8%),
-                color-mix(in srgb, var(--spine) 70%, black 30%)
-            );
-        box-shadow:
-            inset 6px 0 8px -6px rgba(0, 0, 0, 0.6),
-            inset -1px 0 0 rgba(255, 255, 255, 0.12),
-            0 4px 12px rgba(0, 0, 0, 0.35);
-        background-image: none;
-        padding: 6px;
-        text-decoration: none;
-    }
-
-    /* book "binding" line near the spine */
-    .book__cover::after {
-        content: "";
-        position: absolute;
-        top: 6%;
-        bottom: 6%;
-        left: 7px;
-        width: 1px;
-        background: rgba(255, 255, 255, 0.18);
-    }
-
-    .book__mono {
-        font-family: var(--font-serif);
-        font-size: 1.1rem;
-        font-weight: 600;
-        letter-spacing: 0.04em;
-        color: rgba(255, 255, 255, 0.92);
-        text-transform: uppercase;
-        line-height: 1;
-        padding-bottom: 2px;
-        text-shadow: 0 1px 2px rgba(0, 0, 0, 0.4);
-        background: none;
-    }
-
-    .book__pulse {
-        position: absolute;
-        top: 7px;
-        right: 7px;
-        width: 7px;
-        height: 7px;
-        border-radius: 50%;
-        background: #fff;
-        box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.7);
-        animation: pulse 2.4s ease-out infinite;
-    }
-
-    @keyframes pulse {
-        0% {
-            box-shadow: 0 0 0 0 rgba(255, 255, 255, 0.5);
-        }
-        70% {
-            box-shadow: 0 0 0 8px rgba(255, 255, 255, 0);
-        }
-        100% {
-            box-shadow: 0 0 0 0 rgba(255, 255, 255, 0);
-        }
-    }
-
-    /* ---------- Body ---------- */
-    .book__body {
-        position: relative;
-        z-index: 1;
-        min-width: 0;
-    }
-
-    .book__topline {
-        display: flex;
-        align-items: center;
-        justify-content: space-between;
-        gap: var(--space-sm);
-        margin-bottom: var(--space-xs);
-    }
-
-    .book__type {
-        font-family: var(--font-mono);
-        font-size: var(--text-xs);
-        letter-spacing: 0.1em;
-        text-transform: uppercase;
-        color: color-mix(in srgb, var(--spine) 70%, var(--color-text-tertiary));
-    }
-
-    .book__rating {
+    .shelf__lede {
+        max-width: 60ch;
+        margin: 0 0 var(--space-lg);
+        color: var(--color-text-tertiary);
         font-size: var(--text-sm);
-        letter-spacing: 0.05em;
-        color: var(--color-accent-highlight);
+        line-height: 1.7;
+    }
+
+    .shelf__list {
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* ---------- Book rows (compact, expandable) ---------- */
+    .book {
+        border-top: 1px solid var(--color-border-subtle);
+    }
+    .shelf__list .book:last-child {
+        border-bottom: 1px solid var(--color-border-subtle);
+    }
+
+    .book__row {
+        display: flex;
+        align-items: baseline;
+        gap: var(--space-md);
+        padding: var(--space-md) var(--space-xs);
+        cursor: pointer;
+        list-style: none;
+    }
+    .book__row::-webkit-details-marker {
+        display: none;
+    }
+    .book__row:hover .book__title {
+        color: var(--color-accent);
+    }
+
+    .book__chip {
+        flex: 0 0 auto;
+        width: 8px;
+        height: 8px;
+        border-radius: 2px;
+        background: var(--spine);
+        align-self: center;
+    }
+
+    .book__head {
+        flex: 1;
+        min-width: 0;
+        display: flex;
+        align-items: baseline;
+        gap: var(--space-sm);
+        flex-wrap: wrap;
     }
 
     .book__title {
         font-family: var(--font-serif);
-        font-size: var(--text-xl);
-        line-height: 1.2;
-        margin: 0;
-    }
-
-    .book__title a {
+        font-size: var(--text-lg);
         color: var(--color-text-primary);
-        background: none;
-    }
-
-    .book__title a:hover {
-        color: var(--color-accent-highlight);
-        background: none;
+        line-height: 1.3;
     }
 
     .book__author {
-        margin: 2px 0 var(--space-sm);
         font-size: var(--text-sm);
         color: var(--color-text-tertiary);
-        font-style: italic;
+    }
+
+    .book__rating {
+        flex: 0 0 auto;
+        font-size: var(--text-xs);
+        color: var(--color-text-secondary);
+        letter-spacing: 0.1em;
+    }
+
+    .book__marker {
+        flex: 0 0 auto;
+        font-family: var(--font-mono);
+        font-size: var(--text-sm);
+        color: var(--color-text-tertiary);
+        transition: transform var(--transition-fast);
+    }
+    .book[open] .book__marker {
+        transform: rotate(45deg);
+    }
+
+    .book__more {
+        padding: 0 var(--space-xs) var(--space-lg) calc(8px + var(--space-md) + var(--space-xs));
     }
 
     .book__overview {
-        margin: 0 0 var(--space-md);
+        margin: 0 0 var(--space-sm);
         font-size: var(--text-sm);
-        line-height: 1.6;
+        line-height: 1.7;
         color: var(--color-text-secondary);
-        display: -webkit-box;
-        -webkit-line-clamp: 4;
-        -webkit-box-orient: vertical;
-        overflow: hidden;
+        max-width: 60ch;
     }
 
-    .book__tags {
-        display: flex;
-        flex-wrap: wrap;
-        gap: var(--space-xs);
-        list-style: none;
-        padding: 0;
-        margin: 0 0 var(--space-md);
-    }
-
-    .book__tag {
-        font-family: var(--font-mono);
-        font-size: 0.68rem;
-        letter-spacing: 0.04em;
-        padding: 2px 8px;
-        border-radius: var(--radius-full);
-        color: var(--color-text-tertiary);
-        border: 1px solid var(--color-border);
-        text-transform: lowercase;
-    }
-
-    .book__foot {
-        display: flex;
-        flex-wrap: wrap;
-        align-items: center;
-        justify-content: space-between;
-        gap: var(--space-sm);
-        padding-top: var(--space-sm);
-        border-top: 1px solid var(--color-border-subtle);
-    }
-
-    .book__date {
+    .book__meta {
+        margin: 0 0 var(--space-sm);
         font-family: var(--font-mono);
         font-size: var(--text-xs);
         color: var(--color-text-tertiary);
     }
 
     .book__links {
-        display: inline-flex;
-        gap: var(--space-md);
+        margin: 0;
+        display: flex;
+        gap: var(--space-lg);
     }
-
-    .book__notes,
-    .book__find {
+    .book__links a {
         font-family: var(--font-mono);
         font-size: var(--text-xs);
-        background: none;
-    }
-
-    .book__notes {
-        color: var(--color-accent-primary);
-    }
-
-    .book__notes:hover {
-        color: var(--color-accent-highlight);
-        background: none;
-    }
-
-    .book__find {
-        color: var(--color-text-tertiary);
-    }
-
-    .book__find:hover {
         color: var(--color-text-secondary);
-        background: none;
+    }
+    .book__links a:hover {
+        color: var(--color-accent);
     }
 
     /* ---------- Entrance animation ---------- */
@@ -618,20 +451,6 @@ function monogram(title: string) {
             padding: var(--space-xl) var(--space-lg) var(--space-3xl);
         }
 
-        .shelf__grid,
-        .shelf__grid--feature {
-            grid-template-columns: 1fr;
-        }
-
-        .book {
-            grid-template-columns: 52px 1fr;
-            gap: var(--space-md);
-        }
-
-        .book__foot {
-            flex-direction: column;
-            align-items: flex-start;
-        }
     }
 
     @media (prefers-reduced-motion: reduce) {
@@ -642,8 +461,5 @@ function monogram(title: string) {
             opacity: 1;
         }
 
-        .book__pulse {
-            animation: none;
-        }
     }
 </style>

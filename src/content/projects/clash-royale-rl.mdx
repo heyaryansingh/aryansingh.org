@@ -7,12 +7,12 @@ status: "research"
 year: "2026"
 closedSource: true
 techStack: ["Python", "Gymnasium", "Stable-Baselines3", "PyTorch", "OpenCV", "Ultralytics YOLO", "Android Debug Bridge"]
-problem: "Training an RL agent to play Clash Royale well means solving two separate problems at once — learning a decent policy at all, in a real-time card game with partial information, and then bridging that policy from a simulator into a live game running through an actual Android runtime, where observations arrive as raw video and actions have to be executed as touch input."
+problem: "Training an RL agent to play Clash Royale well means solving two separate problems at once - learning a decent policy at all, in a real-time card game with partial information, and then bridging that policy from a simulator into a live game running through an actual Android runtime, where observations arrive as raw video and actions have to be executed as touch input."
 solution: "Split the project into a simulator side and a deployment side: a Gymnasium-wrapped Clash Royale simulator for fast CPU self-play training with Stable-Baselines3's PPO on a fixed starter deck, and a real-game runtime built on Google Play Games plus Android Debug Bridge, with Ultralytics YOLO and OpenCV handling perception (screen capture to game state) for eventual deployment against the live app."
 learnings:
-  - "Pinning torch to a specific CUDA wheel index (rather than letting the default PyPI resolution pick a CPU-only build) was necessary just to get GPU training working reliably on this box — a reminder that ML environment setup is often the actual first blocker, not the algorithm."
+  - "Pinning torch to a specific CUDA wheel index (rather than letting the default PyPI resolution pick a CPU-only build) was necessary just to get GPU training working reliably on this box - a reminder that ML environment setup is often the actual first blocker, not the algorithm."
   - "Self-play on a single fixed starter deck is a much smaller problem than full-roster Clash Royale, which is the point at this stage: get a CPU-trainable PPO loop working end-to-end on a constrained action/observation space before expanding deck variety or moving to GPU-scale training."
-  - "Bridging simulated training to a real Android runtime is its own project, not an afterthought — screen capture, YOLO-based state detection, and ADB-driven touch input all have to work before a policy trained in simulation means anything against the live game."
+  - "Bridging simulated training to a real Android runtime is its own project, not an afterthought - screen capture, YOLO-based state detection, and ADB-driven touch input all have to work before a policy trained in simulation means anything against the live game."
 order: 24
 ---
 
@@ -22,8 +22,8 @@ An early-stage reinforcement-learning project to train a Clash Royale-playing ag
 
 The project is split cleanly between training and deployment concerns:
 
-- **Simulation / training** — a Gymnasium-wrapped Clash Royale simulator, trained with Stable-Baselines3's PPO via CPU self-play on a fixed starter deck, keeping the action and observation space small enough to train without a GPU cluster.
-- **Deployment** — a real-game runtime targeting Google Play Games on desktop, using Android Debug Bridge (ADB) for input, Ultralytics YOLO and OpenCV for perception (turning screen captures into structured game state), and `imagehash` for frame comparison.
+- **Simulation / training** - a Gymnasium-wrapped Clash Royale simulator, trained with Stable-Baselines3's PPO via CPU self-play on a fixed starter deck, keeping the action and observation space small enough to train without a GPU cluster.
+- **Deployment** - a real-game runtime targeting Google Play Games on desktop, using Android Debug Bridge (ADB) for input, Ultralytics YOLO and OpenCV for perception (turning screen captures into structured game state), and `imagehash` for frame comparison.
 
 ```toml
 [project]
@@ -42,8 +42,8 @@ Full Clash Royale has a huge card pool, dozens of matchup dynamics, and partial 
 
 ## where it stands
 
-This is an early-stage, in-progress project: the simulator-side self-play loop and the Android/ADB/YOLO deployment scaffolding both exist, but the two halves — a policy trained purely in simulation and a working perception-to-action bridge against the live game — haven't yet been proven out end-to-end together.
+This is an early-stage, in-progress project: the simulator-side self-play loop and the Android/ADB/YOLO deployment scaffolding both exist, but the two halves - a policy trained purely in simulation and a working perception-to-action bridge against the live game - haven't yet been proven out end-to-end together.
 
 ## why I'm building it
 
-RL against a real-time, partially-observed commercial game is a genuinely different problem from RL in a clean simulated benchmark — the perception and deployment engineering usually dwarfs the algorithm work, and that gap is exactly what this project is meant to surface and close.
+RL against a real-time, partially-observed commercial game is a genuinely different problem from RL in a clean simulated benchmark - the perception and deployment engineering usually dwarfs the algorithm work, and that gap is exactly what this project is meant to surface and close.
