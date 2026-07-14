@@ -38,6 +38,14 @@ import resumeData from "../data/resume-data.json";
           rel="noopener">linkedin</a
         >
       </div>
+      <a class="resume__download no-print" href="/aryan-singh-resume.pdf" download>
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4" />
+          <polyline points="7 10 12 15 17 10" />
+          <line x1="12" y1="15" x2="12" y2="3" />
+        </svg>
+        Download PDF
+      </a>
     </header>
 
     <!-- Education -->
@@ -143,15 +151,14 @@ import resumeData from "../data/resume-data.json";
       </div>
     </section>
 
-    <!-- Leadership -->
-    <section class="resume__section" data-section="leadership">
-      <button class="section__toggle" aria-expanded="true">
-        <h2 class="section__title">Leadership</h2>
-        <span class="toggle-icon">−</span>
-      </button>
-      <div class="section__content">
-        {
-          resumeData.leadership.map((lead) => (
+    {resumeData.leadership.length > 0 && (
+      <section class="resume__section" data-section="leadership">
+        <button class="section__toggle" aria-expanded="true">
+          <h2 class="section__title">Leadership</h2>
+          <span class="toggle-icon">−</span>
+        </button>
+        <div class="section__content">
+          {resumeData.leadership.map((lead) => (
             <div class="leadership-item">
               <div class="item-header">
                 <strong>{lead.organization}</strong>
@@ -166,10 +173,10 @@ import resumeData from "../data/resume-data.json";
                 ))}
               </ul>
             </div>
-          ))
-        }
-      </div>
-    </section>
+          ))}
+        </div>
+      </section>
+    )}
 
     <!-- Skills -->
     <section class="resume__section" data-section="skills">
@@ -183,16 +190,16 @@ import resumeData from "../data/resume-data.json";
           <p>{resumeData.skills.languages.join(", ")}</p>
         </div>
         <div class="skill-category">
-          <h3>Full-Stack</h3>
-          <p>{resumeData.skills.fullstack.join(", ")}</p>
+          <h3>Quantitative</h3>
+          <p>{resumeData.skills.quantitative.join(", ")}</p>
         </div>
         <div class="skill-category">
           <h3>ML & Data</h3>
           <p>{resumeData.skills.ml.join(", ")}</p>
         </div>
         <div class="skill-category">
-          <h3>Systems</h3>
-          <p>{resumeData.skills.systems.join(", ")}</p>
+          <h3>Infrastructure</h3>
+          <p>{resumeData.skills.infrastructure.join(", ")}</p>
         </div>
       </div>
     </section>
@@ -241,6 +248,26 @@ import resumeData from "../data/resume-data.json";
 
   .separator {
     opacity: 0.5;
+  }
+
+  .resume__download {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-xs);
+    margin-top: var(--space-lg);
+    padding: var(--space-sm) var(--space-lg);
+    font-size: var(--text-sm);
+    color: var(--color-bg-primary);
+    background: var(--color-accent-primary);
+    border: 1px solid var(--color-accent-primary);
+    border-radius: var(--radius-md);
+    transition: transform var(--transition-fast), background var(--transition-fast);
+  }
+
+  .resume__download:hover {
+    transform: translateY(-2px);
+    background: var(--color-accent-secondary);
+    color: var(--color-bg-primary);
   }
 
   /* Sections */

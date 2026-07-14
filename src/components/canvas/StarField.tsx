@@ -85,8 +85,8 @@ export default function StarField({
             positions[i3 + 1] = r * Math.sin(phi) * Math.sin(theta);
             positions[i3 + 2] = r * Math.cos(phi) - 400; // Offset so some are behind
 
-            // Base opacity (will be modulated by twinkling)
-            opacities[i] = 0.3 + seededRandom(i * 7) * 0.7;
+            // Base opacity — kept faint so the field reads as a whisper, not a feature.
+            opacities[i] = 0.1 + seededRandom(i * 7) * 0.28;
 
             // Varying sizes - most small, few larger
             const sizeRand = seededRandom(i * 11);
@@ -222,7 +222,7 @@ export default function StarField({
                 width: '100%',
                 height: '100%',
                 pointerEvents: 'none',
-                zIndex: -1,
+                zIndex: -2,
             }}
         />
     );

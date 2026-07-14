@@ -1,0 +1,48 @@
+---
+title: "get-shit-done"
+tagline: "Meta-prompting system for AI coding"
+description: "A meta-prompting system, published on npm, that builds rich context from a codebase, maintains living feature specs, and orchestrates multi-step AI coding workflows from a single command."
+category: "devtools"
+github: "https://github.com/heyaryansingh/get-shit-done"
+status: "active"
+year: "2025"
+techStack: ["TypeScript", "Node.js", "npm", "Context Engineering"]
+problem: "AI coding assistants are only as good as the context and structure they're given - without a living spec and consistent rules, every session re-derives the same project context and drifts from what was previously decided."
+solution: "Built get-shit-done, an npm package that sets up intelligent context rules for a codebase in one command, maintains living specs for in-progress features, and orchestrates multi-step development workflows so an AI coding session picks up with full project context instead of starting cold."
+learnings:
+  - "Context engineering - what the model sees before it starts working - matters more than prompt wording for multi-step coding tasks."
+  - "Specs need to be living documents the workflow updates, not static files that go stale after the first session."
+  - "A single setup command is the difference between a tool people actually adopt and one they mean to try eventually."
+featured: false
+pinned: false
+order: 20
+startDate: 2025-05-01
+---
+
+get-shit-done is a meta-prompting system for AI-assisted coding: instead of hand-crafting context every session, it builds and maintains that context for you, and orchestrates the multi-step workflows that turn a spec into shipped code.
+
+## one command, rich context
+
+Running the setup command analyzes the codebase and installs intelligent context rules - the kind of project-specific knowledge (conventions, architecture, prior decisions) that would otherwise have to be re-explained to an AI assistant every session.
+
+```bash
+npx get-shit-done init
+# scans the repo, generates context rules,
+# sets up living spec tracking for in-progress features
+```
+
+## living specs
+
+Feature specs aren't static documents - the workflow updates them as work progresses, so a spec reflects what's actually been built, not just what was originally planned. That keeps context accurate across long-running, multi-session features.
+
+## workflow orchestration
+
+Beyond context, the system orchestrates the multi-step development loop itself: breaking a feature into steps, tracking what's done, and keeping the AI coding session anchored to the current spec rather than reinventing the plan each time.
+
+## distribution
+
+Published on npm and cross-platform, so adopting it in a new project is a single install, not a bespoke setup process per repo.
+
+## status
+
+Active: published and in use, with the core context-generation, spec-tracking, and workflow-orchestration pieces functional.

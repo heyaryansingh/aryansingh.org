@@ -74,7 +74,7 @@ function monogram(title: string) {
 ---
 
 <BaseLayout
-    title={`${book.data.title} — Reading`}
+    title={`${book.data.title} · Reading`}
     description={book.data.overview}
 >
     <article class="read" style={`--spine: ${book.data.spine}`}>
@@ -144,8 +144,8 @@ function monogram(title: string) {
                             </div>
                         ) : (
                             <p class="read__empty">
-                                I haven't written up my thoughts on this one yet —
-                                check back, or
+                                I haven't written up my thoughts on this one yet.
+                                Check back, or
                                 <a
                                     href={book.data.link}
                                     target="_blank"

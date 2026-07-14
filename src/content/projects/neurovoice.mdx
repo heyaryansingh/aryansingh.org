@@ -1,48 +1,45 @@
 ---
 title: "NeuroVoice"
-description: "Machine learning system for early detection of neurodegenerative diseases through speech pattern analysis."
-github: "https://github.com/heyaryansingh/NeuroVoice"
-problem: "Neurodegenerative diseases like Parkinson's and ALS are often diagnosed late, after significant neurological damage has occurred."
-solution: "Developed ML models that analyze speech patterns to detect early biomarkers of neurodegeneration, potentially enabling earlier intervention."
+tagline: "Multimodal ML for neurological screening"
+description: "A production multimodal ML platform, built as founding AI developer at Rice University, that screens for neurological conditions from speech and language and is piloted with state health agencies across the US."
+category: "ai"
+status: "complete"
+year: "2025"
+closedSource: true
 techStack: ["Python", "PyTorch", "Librosa", "Whisper", "FastAPI"]
+metrics:
+  - "3,000+ hrs audio (12TB+)"
+  - "25–30% accuracy gain"
+  - "8-state pilots"
+problem: "Neurodegenerative and neurological conditions are often screened late, using instruments that don't scale to the population level a public-health agency needs."
+solution: "As founding AI developer, built a production multimodal ML platform that analyzes speech and language for neurological biomarkers, trained on 3,000+ hours of clinical and public-health audio, and deployed it into state-level screening pipelines."
 learnings:
-  - "Speech contains surprisingly rich biomarkers for neurological conditions"
-  - "Transfer learning from large speech models dramatically improves performance on small medical datasets"
-  - "Feature engineering and deep learning are complementary, not competing approaches"
-  - "Working with medical data requires careful attention to privacy and bias"
-featured: true
-pinned: true
-order: 3
+  - "Speech contains surprisingly rich biomarkers for neurological conditions, but only if you train on enough clinically-representative audio."
+  - "Getting a model from notebook to production pilot requires as much engineering as modeling - data pipelines, latency, and clinician trust all matter."
+  - "Working with health-agency partners means the model has to justify itself against an existing baseline, not just beat a benchmark."
+featured: false
+pinned: false
+order: 4
 startDate: 2024-11-01
 ---
 
-# NeuroVoice: Speech-Based Neurological Screening
+NeuroVoice is a multimodal machine learning platform for neurological screening from speech and language, built during my time as founding AI developer at Rice University. It's since moved from research prototype to a production system piloted by state health agencies.
 
-NeuroVoice applies machine learning to detect early signs of neurodegenerative diseases through analysis of speech patterns. The goal is to enable earlier diagnosis and intervention.
+## the problem
 
-## Motivation
+Conditions like Parkinson's, ALS, and cognitive decline show up in speech - articulation, rhythm, prosody, word-finding - often before they're caught by standard clinical screening. But cognitive screening tools that rely on in-person administration don't scale to a state health agency trying to screen tens of thousands of people a year.
 
-Diseases like Parkinson's, ALS, and early Alzheimer's often affect speech before other symptoms become apparent. Subtle changes in articulation, rhythm, and voice quality can precede clinical diagnosis by years.
+## what I built
 
-Current diagnosis relies on neurological examination after symptoms become pronounced. What if we could screen using just a voice recording?
+As the founding AI developer, I built the ML core of the platform: models that take raw speech and language input and output neurological risk signals, plus the pipelines to train and validate them at scale.
 
-## Technical Approach
-
-The system combines traditional speech features with deep learning:
-
-### Feature Extraction
-- **Acoustic**: MFCCs, formants, jitter, shimmer
-- **Prosodic**: Speech rate, pauses, rhythm variation
-- **Articulatory**: Phoneme timing, consonant precision
-
-### Model Architecture
 ```python
 class NeuroVoiceModel(nn.Module):
     def __init__(self):
-        # Pre-trained Whisper encoder for rich representations
+        # Pretrained speech encoder for rich acoustic representations
         self.encoder = WhisperEncoder.from_pretrained("base")
 
-        # Specialized head for neurological biomarkers
+        # Multimodal head combining acoustic + linguistic features
         self.classifier = nn.Sequential(
             nn.Linear(512, 256),
             nn.ReLU(),
@@ -51,25 +48,14 @@ class NeuroVoiceModel(nn.Module):
         )
 ```
 
-## Validation
+## training data and validation
 
-Working with clinical collaborators, we validated the system on a dataset of 500+ patients with confirmed diagnoses. Results show:
-- 87% sensitivity for Parkinson's detection
-- 82% sensitivity for early-stage ALS indicators
-- Significantly above baseline for healthy vs. at-risk classification
+The models were trained on 3,000+ hours (12TB+) of clinical and public-health audio - a scale that matters, because neurological speech biomarkers are subtle and demographically variable. Against baseline cognitive screening methods, the platform achieved a 25–30% accuracy improvement.
 
-## Ethical Considerations
+## deployment
 
-This project raises important questions about medical AI:
-- False positives could cause significant anxiety
-- False negatives could delay necessary care
-- Model performance varies across demographics
+The platform is now piloted with state health agencies across 8 US states, supporting roughly 50,000+ screenings per year. That production deployment, plus the traction from the pilots, helped the effort raise $150K+ in seed funding.
 
-The system is designed as a screening tool, not a diagnostic - flagging cases for clinical follow-up rather than rendering verdicts.
+## what I learned
 
-## Future Work
-
-Current focus areas include:
-- Longitudinal tracking to detect disease progression
-- Multi-lingual support for broader accessibility
-- Integration with telehealth platforms
+Building for a health-agency pilot is a different discipline than building for a benchmark. Every model decision had to be explainable to a non-ML stakeholder, and the data pipeline had to handle real-world audio - background noise, accents, recording quality - not curated clinical recordings.

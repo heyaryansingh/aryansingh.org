@@ -1,563 +1,74 @@
 ---
 /**
- * Portfolio Page - Showcasing projects across AI, Quantum, Biotech & more
+ * Projects — a plain typographic list grouped by domain, from the `projects`
+ * content collection. Each row links to its full case study at /portfolio/[slug].
  */
-
 import BaseLayout from "../layouts/BaseLayout.astro";
+import { getSortedProjects, usedCategories, CATEGORY_META } from "../lib/projects";
 
-interface Project {
-  name: string;
-  tagline: string;
-  description: string;
-  tech: string[];
-  link?: string;
-  year: string;
-  status?: "active" | "research" | "complete";
-  note?: string;
-}
-
-interface Category {
-  name: string;
-  icon: string;
-  projects: Project[];
-}
-
-const categories: Category[] = [
-  {
-    name: "AI & Machine Learning",
-    icon: "🧠",
-    projects: [
-      {
-        name: "AI False Belief Tracking",
-        tagline: "Belief-sensitive embodied assistance",
-        description:
-          "Exploring a fascinating problem in cognitive AI: can a helper agent understand not just what a human wants, but what they mistakenly believe about the world? This research models Theory of Mind in embodied agents, enabling them to detect when a human holds a false belief (like thinking keys are in the kitchen when they're actually in the bedroom) and decide whether to physically help or simply communicate the truth. Built on VirtualHome simulation with custom belief inference modules and intervention decision networks.",
-        tech: ["Python", "VirtualHome", "Cognitive Modeling", "Theory of Mind", "RL"],
-        link: "https://github.com/heyaryansingh/AI-false-belief-tracking",
-        year: "2025",
-        status: "research",
-      },
-      {
-        name: "IMST-Quant",
-        tagline: "GNN-powered sentiment trading pipeline",
-        description:
-          "A full-stack quantitative trading research pipeline that goes beyond simple sentiment analysis. The system ingests Reddit discussions and market data, builds a medallion-architecture data lake (raw → bronze → silver → gold), then uses graph neural networks to score author influence based on historical prediction accuracy and community trust networks. The influence-weighted sentiment features feed into forecasting models and a backtesting engine with realistic transaction cost modeling. Designed for researching whether 'who says it' matters as much as 'what they say' in social sentiment trading.",
-        tech: ["Python", "GNN", "PyTorch Geometric", "Reddit API", "Financial ML", "Backtesting"],
-        link: "https://github.com/heyaryansingh/imst-quant",
-        year: "2025",
-        status: "research",
-      },
-      {
-        name: "Veriflow",
-        tagline: "ML/LLM verification harness",
-        description:
-          "Shipping ML models shouldn't feel like pushing to production with crossed fingers. Veriflow is a local-first verification framework that turns your release checklist into executable gates—data schema validation, distribution drift detection, regression tests against golden datasets, and evaluation metric monitoring. Initialize a project, define your checks in YAML, and run them as part of CI or locally before any deployment. When something breaks, you know before your users do.",
-        tech: ["Python", "ML Ops", "Data Validation", "CLI", "YAML Config"],
-        link: "https://github.com/heyaryansingh/veriflow",
-        year: "2025",
-        status: "active",
-      },
-      {
-        name: "RepoGym",
-        tagline: "RL environment for software engineering",
-        description:
-          "Evaluating AI coding agents is hard—most demos are cherry-picked and unreproducible. RepoGym provides a standardized reinforcement learning environment for software engineering tasks, complete with Docker-isolated execution, structured tool actions (read, write, run tests, git operations), shaped reward signals based on test passage and code quality metrics, and detailed telemetry for analyzing agent behavior. Includes a React dashboard for visualizing agent trajectories and comparing different approaches on the same tasks.",
-        tech: ["Python", "Reinforcement Learning", "Docker", "Gymnasium", "React Dashboard"],
-        link: "https://github.com/heyaryansingh/RepoGym-RL",
-        year: "2025",
-        status: "research",
-      },
-    ],
-  },
-  {
-    name: "Quantum Computing",
-    icon: "⚛️",
-    projects: [
-      {
-        name: "QuSim",
-        tagline: "Research-grade quantum circuit simulator",
-        description:
-          "A from-scratch quantum circuit simulator supporting 4 distinct simulation backends: statevector for pure states, density matrix for mixed states and decoherence, stabilizer (Gottesman-Knill) for efficient Clifford circuits, and tensor-network for memory-efficient large systems. Features comprehensive Kraus operator noise modeling, real-time von Neumann entropy and mutual information tracking, automatic failure diagnostics for noise-dominated circuits, parameter sensitivity analysis, and a full quantum error correction sandbox with syndrome decoding. Interactive 3D Bloch sphere visualizations and entanglement graphs make it a complete research and educational tool.",
-        tech: ["Python", "NumPy", "Linear Algebra", "Quantum Mechanics", "Visualization"],
-        year: "2025",
-        status: "complete",
-        note: "Closed source",
-      },
-      {
-        name: "QuSim2",
-        tagline: "Interactive quantum simulator web app",
-        description:
-          "A browser-based quantum computing environment built with Next.js that brings quantum simulation to the web. Write and edit OpenQASM 2.0 code with syntax highlighting and gate snippets, visualize circuits in real-time, and run simulations entirely client-side. The analysis suite includes animated Bloch sphere state evolution, dynamic entanglement network graphs, phase space visualizations, measurement probability histograms, and comprehensive circuit statistics (depth, gate counts, T-count). Includes pre-built algorithm templates (Bell states, GHZ, Grover's, QFT) and an integrated AI assistant for guided exploration. Designed to make quantum computing accessible without requiring local Python installations.",
-        tech: ["Next.js", "React", "TypeScript", "OpenQASM", "WebGL", "Gemini AI"],
-        year: "2025",
-        status: "active",
-        note: "Closed source",
-      },
-    ],
-  },
-  {
-    name: "Biotech & Healthcare",
-    icon: "🧬",
-    projects: [
-      {
-        name: "CRISPR Biobuild Pipeline",
-        tagline: "Off-target prediction with deep learning",
-        description:
-          "CRISPR gene editing is revolutionary, but off-target cuts remain a critical safety concern. This research pipeline tackles off-target prediction using transformer-based sequence models inspired by CRISPRformer architecture, benchmarked against classical ML baselines (gradient boosting, SVMs with handcrafted features). The interpretation suite provides attention weight visualization to see which nucleotide positions the model focuses on, SHAP-based feature attribution, and motif analysis. Supports both real experimental datasets and synthetic benchmarks for controlled ablation studies.",
-        tech: ["Python", "PyTorch", "Transformers", "CRISPR/Cas9", "SHAP", "Bioinformatics"],
-        year: "2025",
-        status: "research",
-      },
-      {
-        name: "CCD HealthLink Routing",
-        tagline: "Grocery list fulfillment routing",
-        description:
-          "Built for a healthcare logistics challenge: routing medically-prescribed grocery lists from HealthLink360 into fulfillment center operations. The FastAPI backend processes incoming orders through a configurable rules engine that handles allergy cross-contamination checks, dietary restriction validation (kosher, halal, diabetic-friendly), delivery time window optimization, and quantity limits. Includes a lightweight operator dashboard for manual order review and status transitions, plus export endpoints for vendor feeds and delivery manifests.",
-        tech: ["FastAPI", "Python", "Rules Engine", "REST API", "Operator Dashboard"],
-        link: "https://github.com/heyaryansingh/ccd-healthlink-routing",
-        year: "2025",
-        status: "complete",
-      },
-    ],
-  },
-  {
-    name: "Developer Tools",
-    icon: "🛠️",
-    projects: [
-      {
-        name: "Get Shit Done",
-        tagline: "Meta-prompting for Cursor IDE",
-        description:
-          "AI coding assistants are powerful but context-hungry—they work best when they deeply understand your project's architecture, conventions, and goals. GSD is a meta-prompting system that automatically builds rich context from your codebase, maintains living specifications, and orchestrates multi-step development workflows. One command sets up your project with intelligent .cursorrules, tracks feature specs as you build, and keeps the AI aligned with your actual architecture. Published on npm, works on Mac/Windows/Linux, with thousands of weekly downloads.",
-        tech: ["TypeScript", "Node.js", "Cursor IDE", "npm", "Context Engineering"],
-        link: "https://github.com/heyaryansingh/get-shit-done",
-        year: "2025",
-        status: "active",
-      },
-      {
-        name: "Type It Up",
-        tagline: "Handwritten notes to LaTeX converter",
-        description:
-          "That moment when you've filled a notebook with equations and diagrams during a lecture, then face the dread of typing it all up. Type It Up uses vision AI to parse handwritten mathematics, chemical formulas, and technical diagrams, then generates clean LaTeX with proper notation and environments. Diagrams get converted to TikZ code for native vector rendering. Export directly to PDF or download as an Overleaf-ready archive. Built with Next.js and Groq's fast vision models for near-instant processing.",
-        tech: ["Next.js", "Groq Vision AI", "KaTeX", "TikZ", "LaTeX", "PDF Generation"],
-        link: "https://github.com/heyaryansingh/type-it-up",
-        year: "2025",
-        status: "active",
-      },
-      {
-        name: "RepostAI",
-        tagline: "Blog to social media content",
-        description:
-          "Content creation shouldn't mean rewriting the same ideas five different ways for five different platforms. RepostAI takes any blog post or article and generates a full week of platform-optimized social content: Twitter/X threads with hooks and engagement patterns, LinkedIn posts with professional framing, Instagram captions with emoji and hashtag strategies. Adjustable tone (professional, casual, witty), built-in rate limiting, usage analytics, and Stripe-powered subscription billing for productization.",
-        tech: ["Node.js", "Express", "LLM APIs", "Stripe Billing", "Rate Limiting"],
-        link: "https://github.com/heyaryansingh/repostai",
-        year: "2025",
-        status: "complete",
-      },
-    ],
-  },
-  {
-    name: "Automation",
-    icon: "⚡",
-    projects: [
-      {
-        name: "n8n Morning Briefing",
-        tagline: "Daily briefing workflow automation",
-        description:
-          "Mornings are better when you start with clarity. This n8n workflow suite aggregates overnight emails (Gmail and Outlook supported), today's calendar events, and relevant notes from your Obsidian vault, then synthesizes everything into a personalized morning briefing. The orchestrator handles LLM provider fallback (OpenAI → Anthropic → local models) for reliability, and the whole stack runs in Docker for easy self-hosting. Fully configurable through environment variables—no code changes needed to adapt to your setup.",
-        tech: ["n8n", "Docker", "Gmail API", "Microsoft Graph", "Obsidian", "LLM APIs"],
-        link: "https://github.com/heyaryansingh/n8n-morning-briefing",
-        year: "2025",
-        status: "complete",
-      },
-    ],
-  },
-];
-
-const statusColors = {
-  active: { bg: "rgba(74, 159, 110, 0.15)", text: "#4A9F6E", label: "Active" },
-  research: { bg: "rgba(74, 95, 189, 0.15)", text: "#6B7FD4", label: "Research" },
-  complete: { bg: "rgba(90, 90, 100, 0.15)", text: "#9898A0", label: "Complete" },
-};
+const projects = await getSortedProjects();
+const cats = usedCategories(projects);
+const byCat = cats.map((c) => ({
+  cat: c,
+  label: CATEGORY_META[c].label,
+  items: projects.filter((p) => p.data.category === c),
+}));
 ---
 
-<BaseLayout title="Portfolio" description="Projects by Aryan Singh">
-  <div class="portfolio">
-    <header class="portfolio__header">
-      <h1 class="portfolio__title animate-slide-up">Portfolio</h1>
-      <p class="portfolio__subtitle animate-fade-in">
-        Projects across AI, quantum computing, biotech, and developer tools
+<BaseLayout title="Projects" description="Projects by Aryan Singh: AI, quantum, biotech, quant, and developer tools.">
+  <div class="pf">
+    <header class="pf__head">
+      <h1 class="pf__title">Projects</h1>
+      <p class="pf__sub">
+        {projects.length} things I've built: research prototypes, shipped products, and a few
+        experiments. Click any for the full write-up.
       </p>
-      <div class="portfolio__stats animate-fade-in">
-        <span class="stat">
-          <strong>{categories.reduce((acc, cat) => acc + cat.projects.length, 0)}</strong> projects
-        </span>
-        <span class="stat-divider">·</span>
-        <span class="stat">
-          <strong>{categories.length}</strong> categories
-        </span>
-      </div>
     </header>
 
-    <div class="categories">
-      {categories.map((category, catIndex) => (
-        <section class="category" style={`--cat-delay: ${catIndex * 0.1}s`}>
-          <div class="category__header">
-            <span class="category__icon">{category.icon}</span>
-            <h2 class="category__name">{category.name}</h2>
-            <span class="category__count">{category.projects.length}</span>
-          </div>
-
-          <div class="category__projects">
-            {category.projects.map((project, projIndex) => (
-              <article
-                class="project"
-                style={`--delay: ${0.2 + catIndex * 0.1 + projIndex * 0.05}s`}
-              >
-                <div class="project__main">
-                  <div class="project__header">
-                    <h3 class="project__name">{project.name}</h3>
-                    <div class="project__meta">
-                      {project.status && (
-                        <span
-                          class="project__status"
-                          style={`background: ${statusColors[project.status].bg}; color: ${statusColors[project.status].text}`}
-                        >
-                          {statusColors[project.status].label}
-                        </span>
-                      )}
-                      <span class="project__year">{project.year}</span>
-                    </div>
-                  </div>
-                  <p class="project__tagline">{project.tagline}</p>
-                </div>
-
-                <div class="project__details">
-                  <p class="project__description">{project.description}</p>
-
-                  <div class="project__tech">
-                    {project.tech.map((t) => (
-                      <span class="tech-tag">{t}</span>
-                    ))}
-                  </div>
-
-                  <div class="project__footer">
-                    {project.link && (
-                      <a href={project.link} target="_blank" rel="noopener noreferrer" class="project__link">
-                        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                          <path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22" />
-                        </svg>
-                        View on GitHub
-                      </a>
-                    )}
-                    {project.note && (
-                      <span class="project__note">
-                        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                          <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
-                          <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-                        </svg>
-                        {project.note}
-                      </span>
-                    )}
-                  </div>
-                </div>
-              </article>
-            ))}
-          </div>
-        </section>
-      ))}
-    </div>
+    {byCat.map((group) => (
+      <section class="pf__group">
+        <h2 class="pf__cat">{group.label}</h2>
+        <ul class="pf__list">
+          {group.items.map((p) => (
+            <li>
+              <a class="pf__row" href={`/portfolio/${p.slug}`}>
+                <span class="pf__rmain">
+                  <span class="pf__rtitle">
+                    {p.data.title}
+                    {p.data.closedSource && !p.data.github && <span class="pf__priv">private</span>}
+                  </span>
+                  <span class="pf__rtag">{p.data.tagline}</span>
+                </span>
+                {p.data.year && <span class="pf__ryear">{p.data.year}</span>}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))}
   </div>
 </BaseLayout>
 
 <style>
-  .portfolio {
-    max-width: 800px;
-    margin: 0 auto;
-    padding: var(--space-2xl) var(--space-xl);
-  }
+  .pf { max-width: 44rem; margin: 0 auto; padding: clamp(var(--space-2xl), 8vw, var(--space-4xl)) var(--space-lg) var(--space-4xl); }
+  .pf__head { margin-bottom: var(--space-2xl); }
+  .pf__title { font-family: var(--font-serif); font-size: var(--text-4xl); font-weight: 500; margin: 0; letter-spacing: -0.02em; }
+  .pf__sub { font-size: var(--text-base); color: var(--color-text-secondary); line-height: 1.7; margin: var(--space-md) 0 0; max-width: 40rem; }
 
-  .portfolio__header {
-    text-align: center;
-    margin-bottom: var(--space-3xl);
-  }
+  .pf__group { margin-top: var(--space-2xl); }
+  .pf__cat { font-family: var(--font-mono); font-size: var(--text-xs); font-weight: 500; text-transform: uppercase;
+    letter-spacing: 0.16em; color: var(--color-text-tertiary); margin: 0 0 var(--space-sm); }
+  .pf__list { list-style: none; margin: 0; padding: 0; }
 
-  .portfolio__title {
-    font-family: var(--font-serif);
-    font-size: var(--text-4xl);
-    font-weight: 400;
-    margin: 0 0 var(--space-sm);
-  }
-
-  .portfolio__subtitle {
-    font-size: var(--text-base);
-    color: var(--color-text-secondary);
-    margin: 0 0 var(--space-lg);
-    max-width: 500px;
-    margin-left: auto;
-    margin-right: auto;
-  }
-
-  .portfolio__stats {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: var(--space-md);
-    font-size: var(--text-sm);
-    color: var(--color-text-tertiary);
-  }
-
-  .portfolio__stats strong {
-    color: var(--color-accent-primary);
-    font-weight: 600;
-  }
-
-  .stat-divider {
-    opacity: 0.5;
-  }
-
-  .categories {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-2xl);
-  }
-
-  .category {
-    animation: slideUp 0.5s ease forwards;
-    animation-delay: var(--cat-delay);
-    opacity: 0;
-  }
-
-  .category__header {
-    display: flex;
-    align-items: center;
-    gap: var(--space-sm);
-    margin-bottom: var(--space-lg);
-    padding-bottom: var(--space-sm);
-    border-bottom: 1px solid var(--color-border-subtle);
-  }
-
-  .category__icon {
-    font-size: var(--text-xl);
-  }
-
-  .category__name {
-    font-family: var(--font-sans);
-    font-size: var(--text-lg);
-    font-weight: 500;
-    margin: 0;
-    color: var(--color-text-primary);
-  }
-
-  .category__count {
-    margin-left: auto;
-    font-size: var(--text-xs);
-    color: var(--color-text-tertiary);
-    background: var(--color-bg-tertiary);
-    padding: 2px 8px;
-    border-radius: var(--radius-full);
-  }
-
-  .category__projects {
-    display: flex;
-    flex-direction: column;
-    gap: var(--space-md);
-  }
-
-  .project {
-    padding: var(--space-lg);
-    border: 1px solid var(--color-border);
-    border-radius: var(--radius-lg);
-    transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-    animation: slideUp 0.5s ease forwards;
-    animation-delay: var(--delay);
-    opacity: 0;
-    background: var(--color-bg-primary);
-  }
-
-  @keyframes slideUp {
-    from {
-      opacity: 0;
-      transform: translateY(15px);
-    }
-    to {
-      opacity: 1;
-      transform: translateY(0);
-    }
-  }
-
-  .project:hover {
-    border-color: var(--color-accent-primary);
-    transform: translateX(4px);
-    box-shadow: -4px 0 0 var(--color-accent-primary);
-  }
-
-  .project__header {
-    display: flex;
-    justify-content: space-between;
-    align-items: flex-start;
-    gap: var(--space-md);
-    flex-wrap: wrap;
-  }
-
-  .project__name {
-    font-family: var(--font-sans);
-    font-size: var(--text-lg);
-    font-weight: 600;
-    margin: 0;
-    color: var(--color-text-primary);
-  }
-
-  .project__meta {
-    display: flex;
-    align-items: center;
-    gap: var(--space-sm);
-  }
-
-  .project__status {
-    font-size: var(--text-xs);
-    padding: 2px 8px;
-    border-radius: var(--radius-sm);
-    font-weight: 500;
-  }
-
-  .project__year {
-    font-family: var(--font-mono);
-    font-size: var(--text-xs);
-    color: var(--color-text-tertiary);
-  }
-
-  .project__tagline {
-    font-size: var(--text-sm);
-    color: var(--color-accent-primary);
-    margin: var(--space-xs) 0 0;
-    font-style: italic;
-  }
-
-  .project__details {
-    max-height: 0;
-    overflow: hidden;
-    opacity: 0;
-    transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-  }
-
-  .project:hover .project__details {
-    max-height: 300px;
-    opacity: 1;
-    margin-top: var(--space-md);
-    padding-top: var(--space-md);
-    border-top: 1px solid var(--color-border-subtle);
-  }
-
-  .project__description {
-    font-size: var(--text-sm);
-    color: var(--color-text-secondary);
-    line-height: 1.7;
-    margin: 0 0 var(--space-md);
-  }
-
-  .project__tech {
-    display: flex;
-    flex-wrap: wrap;
-    gap: var(--space-xs);
-    margin-bottom: var(--space-md);
-  }
-
-  .tech-tag {
-    font-size: var(--text-xs);
-    padding: 3px 10px;
-    background: var(--color-bg-tertiary);
-    border-radius: var(--radius-full);
-    color: var(--color-text-secondary);
-    border: 1px solid var(--color-border-subtle);
-    transition: all 0.2s ease;
-  }
-
-  .project:hover .tech-tag {
-    border-color: var(--color-border);
-  }
-
-  .project__link {
-    display: inline-flex;
-    align-items: center;
-    gap: var(--space-xs);
-    font-size: var(--text-sm);
-    color: var(--color-accent-primary);
-    text-decoration: none;
-    padding: var(--space-xs) var(--space-sm);
-    border: 1px solid var(--color-accent-primary);
-    border-radius: var(--radius-sm);
-    transition: all 0.2s ease;
-    background: transparent;
-  }
-
-  .project__link:hover {
-    background: var(--color-accent-primary);
-    color: var(--color-bg-primary);
-  }
-
-  .project__link svg {
-    flex-shrink: 0;
-  }
-
-  .project__footer {
-    display: flex;
-    align-items: center;
-    gap: var(--space-md);
-    flex-wrap: wrap;
-  }
-
-  .project__note {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-size: var(--text-xs);
-    color: var(--color-text-tertiary);
-    padding: var(--space-xs) var(--space-sm);
-    background: var(--color-bg-tertiary);
-    border-radius: var(--radius-sm);
-    border: 1px solid var(--color-border-subtle);
-  }
-
-  .project__note svg {
-    flex-shrink: 0;
-    opacity: 0.7;
-  }
-
-  .animate-slide-up {
-    animation: slideUp 0.5s ease forwards;
-    opacity: 0;
-  }
-
-  .animate-fade-in {
-    animation: fadeIn 0.5s ease forwards;
-    animation-delay: 0.1s;
-    opacity: 0;
-  }
-
-  @keyframes fadeIn {
-    from { opacity: 0; }
-    to { opacity: 1; }
-  }
-
-  /* Mobile adjustments */
-  @media (max-width: 600px) {
-    .portfolio {
-      padding: var(--space-xl) var(--space-md);
-    }
-
-    .project__header {
-      flex-direction: column;
-      gap: var(--space-xs);
-    }
-
-    .project__meta {
-      order: -1;
-    }
-
-    .project:hover {
-      transform: none;
-      box-shadow: 0 0 0 1px var(--color-accent-primary);
-    }
-  }
+  .pf__row { display: flex; align-items: baseline; justify-content: space-between; gap: var(--space-lg);
+    padding: var(--space-md) 0; border-top: 1px solid var(--color-border-subtle); }
+  .pf__list li:last-child .pf__row { border-bottom: 1px solid var(--color-border-subtle); }
+  .pf__rmain { min-width: 0; }
+  .pf__rtitle { font-family: var(--font-serif); font-size: var(--text-lg); color: var(--color-text-primary);
+    display: inline-flex; align-items: baseline; gap: var(--space-sm); }
+  .pf__row:hover .pf__rtitle { color: var(--color-accent); }
+  .pf__priv { font-family: var(--font-mono); font-size: 9px; text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--color-text-tertiary); border: 1px solid var(--color-border); padding: 1px 5px; }
+  .pf__rtag { display: block; font-size: var(--text-sm); color: var(--color-text-secondary); line-height: 1.5; margin-top: 2px; }
+  .pf__ryear { flex: 0 0 auto; font-family: var(--font-mono); font-size: var(--text-xs); color: var(--color-text-tertiary); font-variant-numeric: tabular-nums; }
 </style>

@@ -1,0 +1,54 @@
+---
+title: "CCD HealthLink Routing"
+tagline: "Healthcare grocery fulfillment routing"
+description: "A FastAPI backend that routes medically-prescribed grocery lists into fulfillment operations, enforcing allergy, dietary, and delivery-window constraints, with an operator dashboard and vendor-feed exports."
+category: "devtools"
+github: "https://github.com/heyaryansingh/ccd-healthlink-routing"
+status: "complete"
+year: "2025"
+techStack: ["FastAPI", "Python", "Rules Engine", "REST API"]
+problem: "When a grocery order is medically prescribed - say, for a diabetic or allergy patient - fulfillment can't just be 'pick the items,' it needs to enforce medical constraints (cross-contamination, dietary restriction, quantity limits) before anything ships."
+solution: "Built a FastAPI backend that takes a medically-prescribed grocery list and routes it through a rules engine checking allergy cross-contamination, dietary restrictions (kosher, halal, diabetic), delivery-window optimization, and quantity limits, then exposes an operator dashboard and generates vendor-feed and manifest exports for fulfillment."
+learnings:
+  - "A rules engine, not scattered if-checks, is the right shape once you have more than a couple of interacting medical constraints - allergy exclusions and dietary restrictions compose in non-obvious ways."
+  - "Fulfillment operators need a dashboard that surfaces why an order was flagged, not just that it was - the constraint that fired is the actionable information."
+  - "Vendor-feed and manifest export formats matter as much as the routing logic itself - the system is only useful if fulfillment partners can actually consume its output."
+featured: false
+pinned: false
+order: 20
+startDate: 2025-01-01
+---
+
+CCD HealthLink Routing is a backend for a specific, unglamorous problem: a grocery order that's medically prescribed has hard constraints a normal grocery order doesn't, and fulfillment has to respect all of them before the order ships.
+
+## the constraints
+
+Every order passes through a rules engine that checks:
+
+- **Allergy cross-contamination** - flags items or shared-facility risk that conflicts with a patient's allergy profile.
+- **Dietary restrictions** - kosher, halal, diabetic, and other prescribed diets.
+- **Delivery-window optimization** - schedules fulfillment within medically or logistically required windows.
+- **Quantity limits** - enforces prescribed quantity caps per item or category.
+
+```python
+@app.post("/orders/{order_id}/route")
+def route_order(order_id: str):
+    order = get_prescribed_order(order_id)
+    violations = rules_engine.evaluate(order)
+    if violations:
+        return {"status": "flagged", "violations": violations}
+    manifest = build_fulfillment_manifest(order)
+    return {"status": "routed", "manifest": manifest}
+```
+
+## operator dashboard
+
+Fulfillment operators see flagged orders with the specific constraint that triggered the flag, so resolving an order is a matter of looking at one violation, not re-deriving the medical rule from scratch.
+
+## exports
+
+Routed orders generate vendor-feed and manifest exports formatted for downstream fulfillment partners, closing the loop from "prescribed list" to "something a warehouse can actually pick and ship."
+
+## status
+
+Complete: the rules engine, routing API, dashboard, and export pipeline are all implemented and functioning end to end.

@@ -53,23 +53,44 @@ const blogCollection = defineCollection({
   }),
 });
 
-// Projects collection schema (for manual project write-ups)
+// Project categories — keys drive filtering; labels/icons live in src/lib/projects.ts
+const projectCategories = [
+  'ai',
+  'quantum',
+  'biotech',
+  'trading',
+  'devtools',
+  'automation',
+] as const;
+
+const projectStatus = ['active', 'research', 'complete'] as const;
+
+// Projects collection schema (single source of truth for the portfolio)
 const projectsCollection = defineCollection({
   type: 'content',
   schema: z.object({
     // Required fields
     title: z.string(),
     description: z.string(),
+    tagline: z.string(),
+    category: z.enum(projectCategories),
 
     // Links
     github: z.string().url().optional(),
     demo: z.string().url().optional(),
+    npm: z.string().url().optional(),
+    closedSource: z.boolean().default(false),
 
     // Project details
     problem: z.string().optional(),
     solution: z.string().optional(),
     techStack: z.array(z.string()).default([]),
+    metrics: z.array(z.string()).default([]),
     learnings: z.array(z.string()).default([]),
+
+    // Categorization / status
+    status: z.enum(projectStatus).default('active'),
+    year: z.string().optional(),
 
     // Display options
     coverImage: z.string().optional(),

@@ -1,0 +1,99 @@
+---
+/**
+ * Playground — the interactive corner of the site.
+ * Two arcade games with a shared leaderboard, correspondence chess against me
+ * (a real human — moves are stored and I reply from my end), a sticker wall,
+ * and a guestbook. Everything server-backed persists for every visitor.
+ */
+import BaseLayout from "../layouts/BaseLayout.astro";
+import QuantumSnake from "../components/games/QuantumSnake";
+import FlappyBird from "../components/games/FlappyBird";
+import ChessArena from "../components/games/ChessArena";
+import StickerWall from "../components/interactive/StickerWall";
+---
+
+<BaseLayout
+  title="Playground"
+  description="Play me at correspondence chess, chase the snake and flappy leaderboards, drop a sticker, or recommend me something."
+>
+  <div class="pg">
+    <header class="pg__hero">
+      <h1 class="pg__title">Playground</h1>
+      <p class="pg__lede">
+        The corner of the site that isn't trying to impress anyone. Chase a leaderboard,
+        challenge me to a real game of chess, or drop a sticker on the wall.
+      </p>
+      <nav class="pg__jump">
+        <a href="#chess">chess</a>
+        <a href="#snake">snake</a>
+        <a href="#flappy">flappy</a>
+        <a href="#stickers">stickers</a>
+      </nav>
+    </header>
+
+    <section class="pg__section pg__section--chess" id="chess">
+      <div class="pg__shead">
+        <h2>Chess</h2>
+        <p>
+          Correspondence chess, human vs. human. You play White; your moves are saved and I
+          answer as Black from wherever I am. No engine on either side, and every game is public
+          in the arena below.
+        </p>
+      </div>
+      <ChessArena client:load />
+    </section>
+
+    <section class="pg__section" id="arcade">
+      <div class="pg__shead">
+        <h2>Arcade</h2>
+        <p>Click a board to start it. Keys only steer the game you're playing. Scores go to the shared board, log a name and hold the top spot.</p>
+      </div>
+      <div class="pg__games">
+        <div class="pg__game" id="snake">
+          <h3 class="pg__game-title">Snake</h3>
+          <p class="pg__game-sub">Eat apples, grow, don't collapse.</p>
+          <QuantumSnake client:load />
+        </div>
+        <div class="pg__game" id="flappy">
+          <h3 class="pg__game-title">Flappy</h3>
+          <p class="pg__game-sub">One button. Thread the gaps.</p>
+          <FlappyBird client:load />
+        </div>
+      </div>
+    </section>
+
+    <section class="pg__section" id="stickers">
+      <div class="pg__shead">
+        <h2>Sticker wall</h2>
+        <p>Pick a sticker, then click anywhere to drop it. It stays for everyone.</p>
+      </div>
+      <StickerWall client:load />
+    </section>
+  </div>
+</BaseLayout>
+
+<style>
+  .pg { max-width: 880px; margin: 0 auto; padding: var(--space-2xl) var(--space-lg) var(--space-4xl); }
+  .pg__hero { max-width: 640px; margin: 0 0 var(--space-2xl); }
+  .pg__title { font-family: var(--font-serif); font-size: var(--text-4xl); font-weight: 500; margin: 0; color: var(--color-text-primary); letter-spacing: -0.02em; }
+  .pg__lede { font-size: var(--text-base); color: var(--color-text-secondary); margin: var(--space-md) 0 0; max-width: 60ch; }
+  .pg__jump { display: flex; flex-wrap: wrap; gap: 0; margin-top: var(--space-lg); border-top: 1px solid var(--color-border); }
+  .pg__jump a { font-family: var(--font-mono); font-size: var(--text-xs); text-transform: lowercase; letter-spacing: 0.06em;
+    color: var(--color-text-secondary); padding: 10px 18px 10px 0; }
+  .pg__jump a:hover { color: var(--color-accent-highlight); }
+
+  .pg__section { margin-top: var(--space-3xl); scroll-margin-top: 84px; }
+  .pg__shead { margin-bottom: var(--space-xl); border-top: 1px solid var(--color-border); padding-top: var(--space-md); }
+  .pg__shead h2 { font-size: var(--text-2xl); margin: 0; }
+  .pg__shead p { font-size: var(--text-sm); color: var(--color-text-tertiary); margin: var(--space-xs) 0 0; max-width: 62ch; }
+
+  .pg__games { display: grid; grid-template-columns: 1fr; gap: var(--space-2xl); }
+  @media (min-width: 760px) { .pg__games { grid-template-columns: 1fr 1fr; align-items: start; } }
+  .pg__game { scroll-margin-top: 84px; }
+  .pg__game-title { font-family: var(--font-mono); font-size: var(--text-sm); font-weight: 500; margin: 0;
+    text-transform: lowercase; letter-spacing: 0.08em; color: var(--color-text-primary); }
+  .pg__game-sub { font-size: var(--text-xs); color: var(--color-text-tertiary); margin: 2px 0 var(--space-lg); }
+
+  /* chess gets the full column — bigger, centred */
+  .pg__section--chess { max-width: 720px; margin-left: auto; margin-right: auto; }
+</style>

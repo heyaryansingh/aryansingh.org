@@ -1,37 +1,30 @@
 ---
 title: "RepoGym"
-description: "A reinforcement learning environment for training AI agents to write and debug code through iterative feedback."
-github: "https://github.com/heyaryansingh/RepoGym"
-problem: "Current code generation models are trained on static datasets without the iterative feedback loop that characterizes real programming."
-solution: "Created an OpenAI Gym-compatible environment where agents learn to write code through trial and error, receiving rewards based on test passage and code quality."
-techStack: ["Python", "PyTorch", "OpenAI Gym", "Tree-sitter", "Docker"]
+tagline: "RL environment for software engineering"
+description: "A standardized reinforcement learning environment for software engineering tasks, with Docker-isolated execution, structured tool actions, and shaped rewards from test passage and code quality."
+category: "ai"
+github: "https://github.com/heyaryansingh/RepoGym-RL"
+status: "research"
+year: "2025"
+techStack: ["Python", "Reinforcement Learning", "Docker", "Gymnasium", "React"]
+problem: "Training agents to do real software engineering work needs an environment that looks like real engineering - isolated execution, real tools, and rewards grounded in whether the code actually works - not a static code-completion dataset."
+solution: "Built a Gymnasium-compatible RL environment where agents interact with a real repository through structured tool actions (read, write, run tests, git), execute in Docker-isolated sandboxes, and get shaped rewards from test passage and code quality, with full trajectory telemetry surfaced in a React dashboard."
 learnings:
-  - "Reward shaping is critical for RL in sparse-reward domains"
-  - "Structured action spaces (AST transformations) dramatically improve learning"
-  - "Test feedback provides rich signal but requires careful curriculum design"
-  - "Sandboxed execution is essential for safe training"
-featured: true
-pinned: true
-order: 2
+  - "Reward shaping matters more than reward magnitude in sparse, test-pass/fail domains."
+  - "Structured tool actions (rather than raw text edits) make credit assignment tractable."
+  - "Sandboxed, Dockerized execution is a hard requirement, not a nice-to-have, once agents can run arbitrary code."
+  - "Trajectory telemetry pays for itself immediately - most debugging is watching what the agent actually did."
+featured: false
+pinned: false
+order: 10
 startDate: 2024-09-01
 ---
 
-# RepoGym: Reinforcement Learning for Code
+RepoGym is a standardized reinforcement learning environment for software engineering (SWE) tasks. It frames coding as an interactive, tool-using process instead of one-shot code generation, and gives agents a real (sandboxed) repository to work in.
 
-RepoGym is an RL environment that frames code generation as a sequential decision-making problem. Agents learn to write and debug code by receiving feedback from test execution.
+## environment design
 
-## Core Concept
-
-Traditional code generation treats programming as next-token prediction. RepoGym instead models it as an interactive process:
-
-1. Agent observes the current code and test results
-2. Agent proposes an edit (insertion, deletion, modification)
-3. Environment runs tests and provides feedback
-4. Agent iterates until all tests pass
-
-This mirrors how human programmers actually work.
-
-## Environment Design
+Agents interact with the environment through structured tool actions, not raw text diffs: reading files, writing changes, running tests, and using git. Every episode executes inside a Docker-isolated sandbox, so agent-generated code never touches the host.
 
 ```python
 import repogym
@@ -40,27 +33,20 @@ env = repogym.make("BugFix-v1")
 obs = env.reset()
 
 while not done:
-    action = agent.predict(obs)  # Propose code edit
+    action = agent.act(obs)  # read_file / write_file / run_tests / git_diff
     obs, reward, done, info = env.step(action)
-    # reward: based on test passage, syntax validity
-    # info: test results, error messages, coverage
+    # reward: shaped from test passage + code quality signals
+    # info: test results, diagnostics, trajectory metadata
 ```
 
-## Key Features
+## reward shaping
 
-- **Structured Actions**: Edits are AST-level transformations, not arbitrary strings
-- **Rich Observations**: Code, test output, error messages, and coverage information
-- **Curriculum Support**: Built-in task difficulty progression
-- **Sandboxed Execution**: Safe training with containerized code execution
+Rewards combine test passage with code-quality signals, rather than a bare pass/fail. That shaping is what makes learning tractable in a domain where most trajectories end in failure - the agent needs partial credit for getting closer, not just a binary outcome at the end.
 
-## Research Applications
+## telemetry and dashboard
 
-RepoGym enables research on:
-- Learning to debug from error messages
-- Code repair and refactoring
-- Interactive code generation
-- Transfer learning across programming tasks
+Every trajectory - actions taken, tool outputs, reward breakdown - is logged and surfaced through a React dashboard, which turns debugging an agent's behavior from log-scraping into something you can actually look at.
 
-## Current Status
+## status
 
-The environment supports Python with plans to extend to JavaScript and Rust. Benchmark results show that RL-trained agents outperform static models on iterative coding tasks.
+RepoGym is a research environment: the core loop (Docker execution, structured actions, shaped rewards, telemetry) is in place, and it's the substrate I'm using to study RL for SWE agents.

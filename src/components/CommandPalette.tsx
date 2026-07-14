@@ -47,11 +47,32 @@ export default function CommandPalette() {
             action: () => navigate('/portfolio'),
         },
         {
+            id: 'playground',
+            label: 'Playground',
+            description: 'Games, sticker wall, guestbook',
+            icon: '🎮',
+            action: () => navigate('/playground'),
+        },
+        {
             id: 'blog',
             label: 'Blog',
             description: 'Read posts',
             icon: '✍️',
             action: () => navigate('/blog'),
+        },
+        {
+            id: 'reading',
+            label: 'Reading',
+            description: 'Books & notes',
+            icon: '📚',
+            action: () => navigate('/reading'),
+        },
+        {
+            id: 'gallery',
+            label: 'Gallery',
+            description: 'Photos',
+            icon: '🖼️',
+            action: () => navigate('/gallery'),
         },
         {
             id: 'about',
@@ -180,7 +201,6 @@ export default function CommandPalette() {
                                 onClick={cmd.action}
                                 onMouseEnter={() => setSelectedIndex(index)}
                             >
-                                <span className="command-palette-icon">{cmd.icon}</span>
                                 <div className="command-palette-content">
                                     <span className="command-palette-label">{cmd.label}</span>
                                     {cmd.description && (
@@ -217,7 +237,7 @@ export default function CommandPalette() {
           max-width: 500px;
           background: var(--color-bg-primary, #F8F7F4);
           border: 1px solid var(--color-border, #D1CCC0);
-          border-radius: 12px;
+          border-radius: 2px;
           box-shadow: 0 16px 48px rgba(0, 0, 0, 0.2);
           z-index: 1000;
           overflow: hidden;

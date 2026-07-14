@@ -16,9 +16,11 @@ interface Photo {
 interface Props {
     photos: Photo[];
     defaultCaption?: string;
+    circle?: boolean;
+    size?: number;
 }
 
-export default function RandomPhoto({ photos, defaultCaption = "random photo of me" }: Props) {
+export default function RandomPhoto({ photos, defaultCaption = "random photo of me", circle = false, size = 112 }: Props) {
     const [currentPhoto, setCurrentPhoto] = useState<{
         src: string;
         width: number;
@@ -107,15 +109,20 @@ export default function RandomPhoto({ photos, defaultCaption = "random photo of 
         ? currentPhoto.width / currentPhoto.height
         : 4 / 5;
 
-    const maxWidth = 280;
-    const maxHeight = 380;
-
-    let width = maxWidth;
-    let height = width / aspectRatio;
-
-    if (height > maxHeight) {
-        height = maxHeight;
-        width = height * aspectRatio;
+    let width: number;
+    let height: number;
+    if (circle) {
+        width = size;
+        height = size;
+    } else {
+        const maxWidth = 280;
+        const maxHeight = 380;
+        width = maxWidth;
+        height = width / aspectRatio;
+        if (height > maxHeight) {
+            height = maxHeight;
+            width = height * aspectRatio;
+        }
     }
 
     const caption = photos[currentIndex]?.caption || defaultCaption;
@@ -123,7 +130,7 @@ export default function RandomPhoto({ photos, defaultCaption = "random photo of 
     return (
         <figure className="random-photo" onClick={handleClick} title="Click for another photo">
             <div
-                className="random-photo__frame"
+                className={`random-photo__frame${circle ? " is-circle" : ""}`}
                 style={{ width: `${width}px`, height: `${height}px` }}
             >
                 {/* Skeleton - shown when loading */}
@@ -137,13 +144,13 @@ export default function RandomPhoto({ photos, defaultCaption = "random photo of 
                     <img
                         src={currentPhoto.src}
                         alt={caption}
-                        className="random-photo__img"
+                        className={`random-photo__img${circle ? " is-cover" : ""}`}
                         style={{ opacity: isLoading ? 0 : 1 }}
                     />
                 )}
 
                 {/* Tap hint */}
-                {!isLoading && (
+                {!isLoading && !circle && (
                     <div className="random-photo__hint">tap to switch</div>
                 )}
             </div>
@@ -166,13 +173,15 @@ const styles = `
     position: relative;
     border-radius: 8px;
     overflow: hidden;
-    background: #111114;
-    border: 1px solid #2A2A30;
+    background: var(--color-bg-secondary);
+    border: 1px solid var(--color-border);
     transition:
-        width 0.5s cubic-bezier(0.16, 1, 0.3, 1),
-        height 0.5s cubic-bezier(0.16, 1, 0.3, 1),
         transform 0.3s ease,
         box-shadow 0.3s ease;
+}
+
+.random-photo__frame.is-circle {
+    border-radius: 50%;
 }
 
 .random-photo__frame--empty {
@@ -181,14 +190,14 @@ const styles = `
 }
 
 .random-photo:hover .random-photo__frame {
-    transform: scale(1.015);
-    box-shadow: 0 8px 32px rgba(74, 95, 189, 0.15);
+    transform: scale(1.02);
+    box-shadow: var(--shadow-md);
 }
 
 .random-photo__skeleton {
     position: absolute;
     inset: 0;
-    background: linear-gradient(135deg, #111114 0%, #1A1A1E 50%, #111114 100%);
+    background: var(--color-bg-tertiary);
     animation: shimmer 2s infinite;
     transition: opacity 0.3s ease;
 }
@@ -207,35 +216,40 @@ const styles = `
     transition: opacity 0.4s cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+.random-photo__img.is-cover {
+    object-fit: cover;
+}
+
 .random-photo__hint {
     position: absolute;
     bottom: 8px;
     left: 50%;
     transform: translateX(-50%);
     font-size: 0.65rem;
-    color: #5A5A64;
-    opacity: 0.4;
+    color: var(--color-text-tertiary);
+    opacity: 0.5;
     transition: opacity 0.4s ease;
     pointer-events: none;
-    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.5);
+    text-shadow: 0 1px 4px rgba(0, 0, 0, 0.4);
     letter-spacing: 0.05em;
+    font-family: var(--font-mono);
 }
 
 .random-photo:hover .random-photo__hint {
-    opacity: 0.7;
+    opacity: 0.8;
 }
 
 .random-photo__caption {
-    margin-top: 12px;
-    font-size: 0.875rem;
-    color: #5A5A64;
+    margin-top: 10px;
+    font-size: var(--text-xs);
+    color: var(--color-text-tertiary);
     text-align: center;
-    font-style: italic;
+    font-family: var(--font-mono);
     transition: color 0.3s ease;
 }
 
 .random-photo:hover .random-photo__caption {
-    color: #9898A0;
+    color: var(--color-text-secondary);
 }
 
 @media (hover: none) {

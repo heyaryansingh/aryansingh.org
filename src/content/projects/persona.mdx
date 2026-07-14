@@ -1,0 +1,63 @@
+---
+title: "Persona"
+tagline: "A persistent synthetic biomedical researcher"
+description: "A durable belief-graph 'self' paired with an ephemeral, read-only agent swarm that reads biomedical literature at scale, closing the loop from contradiction to hypothesis to dataset reanalysis."
+category: "ai"
+status: "research"
+year: "2026"
+closedSource: false
+github: "https://github.com/heyaryansingh/persona"
+techStack: ["Python", "Multi-Agent Systems", "Europe PMC", "Open Targets", "Belief Graphs", "Conformal Prediction"]
+problem: "Reading biomedical literature at the scale a field actually publishes requires more throughput than any single researcher - human or AI - can sustain, but throwing an LLM at more papers just produces more confident, unverified claims."
+solution: "Split the system into a small, durable 'self' (a provenance-typed belief graph - interests, beliefs, memory, taste) and a large, disposable swarm of bounded read-only agents that report back. The self owns judgment; the swarm owns scale. A contradiction flagged in the belief graph triggers a loop: form a falsifiable hypothesis, locate a public dataset, run a first-pass reanalysis, and write the result back - escalating to a human only when the answer requires wet-lab work or genuine experimental judgment."
+learnings:
+  - "Anchoring human-confirmed beliefs against later contradictory evidence retained 100% of verified beliefs under correlated poisoning, versus 71% for a naive belief-update rule - the gap between 'the model thinks X' and 'X is true' has to be a first-class type, not a convention."
+  - "Reproducing your own earlier experiment before trusting it catches confounds a single flattering run hides - the exp_memory_core to exp_memory_v2 to exp_when_protection_matters progression in this project exists because the first version gave a result that was flattering and wrong."
+  - "Keeping the swarm agents disposable and read-only, with all durable state living in one place, made the poisoning-resistance testable in isolation instead of tangled through the whole pipeline."
+featured: true
+pinned: true
+order: 2
+---
+
+Persona is a synthetic biomedical researcher built for the Claude Science hackathon at Gladstone: a system meant to stay "on" between sessions, hold a point of view, and act - not just answer questions about papers.
+
+<figure style="margin:2rem 0">
+  <div style="position:relative;width:100%;padding-bottom:56.25%;border-radius:12px;overflow:hidden;background:#000;box-shadow:0 24px 60px -30px rgba(255,122,24,0.25)">
+    <iframe src="https://www.youtube.com/embed/6XabNzA_fko?rel=0" title="Persona demo" style="position:absolute;inset:0;width:100%;height:100%;border:0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" loading="lazy" allowfullscreen></iframe>
+  </div>
+  <figcaption style="font-size:0.85rem;opacity:0.6;text-align:center;margin-top:0.6rem">Full demo — a live run of "Neuro", a persona studying neurodegeneration. — <a href="https://www.youtube.com/watch?v=6XabNzA_fko" target="_blank" rel="noopener noreferrer">Watch on YouTube</a></figcaption>
+</figure>
+
+## self vs. swarm
+
+Most literature tools are either a search box or a one-shot summarizer - no memory, no accountability for what they believed yesterday. Persona splits identity from scale:
+
+- **The self** is a small, durable belief graph: interests, beliefs, memory, and taste, persisted between runs. Every belief is provenance-typed - `READ`, `INFERRED`, `HUMAN_CONFIRMED`, or `TESTED` - so the system never confuses "the model thinks X" with "X is true."
+- **The swarm** is a large population of ephemeral, read-only agents spun up to read literature at scale (Europe PMC, Open Targets, SemMedDB, ClinicalTrials.gov, GEO) and report findings back. They carry no state of their own and can't corrupt the self directly.
+
+## the acting loop
+
+The point isn't just tracking beliefs - it's acting on them. When the swarm surfaces a contradiction against something the self believes, Persona runs a closed loop:
+
+```
+flagged contradiction
+  -> falsifiable hypothesis (a claim with a metric, not a vague hunch)
+  -> located public dataset (GEO / Open Targets / ClinicalTrials.gov)
+  -> first-pass reanalysis
+  -> belief-state updated, provenance-typed
+  -> escalate to a human only when it needs wet-lab results or judgment
+```
+
+Humans are the resolver of last resort by design, not a limitation: anchoring their answers into the belief graph is what makes the whole system trustworthy under adversarial or noisy evidence.
+
+## membrane and poisoning resistance
+
+A "membrane" gates what the swarm's findings are allowed to do to the self's beliefs - admitting support, rejecting noise, and routing genuine contradictions into the acting loop instead of silently overwriting confirmed beliefs. This was validated experimentally, not assumed: under correlated poisoning of the input stream, anchoring human-confirmed beliefs retained 100% of them, against 71% for a naive update rule that let new evidence simply overwrite old.
+
+## why the self stays small
+
+Scale lives in the swarm; identity lives in the self. Keeping the self small and provenance-typed is what makes it auditable - a user can look at Persona's living notebook and see what it currently believes, how confident it is, and why, the same way you'd read a colleague's lab notebook rather than trust a black-box verdict.
+
+## why I built it
+
+Existing tools (scite, Open Targets, PaperQA2, MedKGent, KARMA, AutoBioKG) are strong at retrieval and synthesis but stop short of the acting loop and a persistent identity. Persona exists to test whether a system that behaves more like a working scientist - holding beliefs, noticing contradictions, and following up - beats one that only answers the question it was just asked.

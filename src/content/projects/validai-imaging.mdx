@@ -1,0 +1,50 @@
+---
+title: "ValidAI Imaging"
+tagline: "Validation tooling for imaging-AI startups"
+description: "A local-first MVP for an imaging-AI validation startup: live training of an ensemble segmentation model, deterministic multisite stress testing across real scanner families, and generated validation reports."
+category: "biotech"
+status: "active"
+year: "2026"
+closedSource: true
+techStack: ["Node.js", "JavaScript", "Ensemble Learning", "Image Segmentation"]
+problem: "Imaging-AI models for clinical use need to demonstrate they hold up across sites and scanner hardware before anyone will trust them, but most validation demos fake the training and testing rather than showing it actually happen."
+solution: "Built a local-first MVP where the training, stress testing, and reporting are real: an ensemble segmentation model trains live in the browser-facing demo, deterministic stress scenarios replay the model against configured scanner and site profiles, and every run produces a generated JSON/HTML validation report rather than a canned screenshot."
+learnings:
+  - "Making the training and testing deterministic (fixed seeds, configured scanner/site profiles as data, not hardcoded) is what makes a validation demo trustworthy - a stakeholder can rerun it and get the same numbers, which a fabricated demo can't survive."
+  - "Layered visualization (image, ground truth, prediction, error, probability, uncertainty) matters more for a validation product than a single accuracy number, since the buyer's real question is where and why the model fails, not just how often."
+  - "Keeping a verify/feedback loop as first-class npm scripts (`npm run verify`, `npm run feedback`) rather than ad hoc scripts made it much easier to catch regressions in the pipeline itself, separate from the model's accuracy."
+order: 22
+---
+
+ValidAI Imaging is a local-first MVP built to demonstrate what a real imaging-AI validation product looks like, for a startup that validates AI models used on medical imaging before they ship.
+
+## what's actually real in the MVP
+
+Unlike most pitch demos, the training and testing here are not staged:
+
+- An ensemble segmentation model trains live in the demo studio.
+- Deterministic multisite stress testing replays the model against configured scanner families and site profiles - not a single held-out test set, but a matrix of conditions the model might actually face in deployment.
+- Every run produces a generated JSON and HTML validation report, not a hand-written one.
+
+## structure
+
+```
+docs/      PRD, design goals, implementation plan, progress, verification
+data/      scanner, site, and benchmark configuration
+outputs/   generated scenario reports
+scripts/   build and verification scripts
+src/       server, app pages, shared assets, validation engine
+tests/     automated tests
+```
+
+## layered visualization
+
+The demo studio renders each case across six layers - image, ground truth, prediction, error, probability, and uncertainty - because a validation buyer's real question is where and why a model fails, not a single aggregate accuracy score.
+
+## verification as a first-class loop
+
+`npm run verify` and `npm run feedback` are dedicated scripts, not afterthoughts: the goal is to catch regressions in the validation pipeline itself - the stress-testing harness, the report generator - separately from tracking the underlying model's accuracy, since a validation tool that silently breaks is worse than a model that's simply not perfect yet.
+
+## why it matters
+
+An imaging-AI validation product only has credibility if its own demo is reproducible and deterministic. ValidAI Imaging is built so a prospective buyer can rerun the exact scenario shown and get the same report, rather than trusting a screenshot.

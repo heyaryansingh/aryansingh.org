@@ -129,8 +129,8 @@ export default function SpacetimeCursor({
             const my = mouseRef.current.y;
             const time = timeRef.current;
 
-            // Base opacity increases with intensity
-            const baseOpacity = 0.05 + intensity * 0.15;
+            // Base opacity — kept very low so the grid is a faint backdrop.
+            const baseOpacity = 0.02 + intensity * 0.045;
 
             // Draw horizontal lines
             for (let i = 0; i <= lineCount; i++) {
@@ -148,18 +148,7 @@ export default function SpacetimeCursor({
                 drawBentLine(x, 0, x, canvas.height, mx, my, intensity, time + i * 0.1 + 5);
             }
 
-            // Draw glow around cursor with pulsing
-            if (mx > 0 && my > 0) {
-                const pulseSize = 150 + Math.sin(time * 2) * 20;
-                const gradient = ctx.createRadialGradient(mx, my, 0, mx, my, pulseSize);
-                gradient.addColorStop(0, `rgba(${r}, ${g}, ${b}, ${0.15 * intensity})`);
-                gradient.addColorStop(0.5, `rgba(${r}, ${g}, ${b}, ${0.08 * intensity})`);
-                gradient.addColorStop(1, `rgba(${r}, ${g}, ${b}, 0)`);
-                ctx.fillStyle = gradient;
-                ctx.beginPath();
-                ctx.arc(mx, my, pulseSize, 0, Math.PI * 2);
-                ctx.fill();
-            }
+            // (Cursor glow removed — keeping the effect as a flat, faint grid.)
         };
 
         // Pause the loop while the tab is hidden.
@@ -187,7 +176,9 @@ export default function SpacetimeCursor({
                 position: 'fixed',
                 inset: 0,
                 pointerEvents: 'none',
-                zIndex: 1,
+                // Behind page content — an ambient field, never painted over the
+                // boards/cards/text. (Was zIndex:1, which obscured everything.)
+                zIndex: -1,
             }}
         />
     );
