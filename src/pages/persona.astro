@@ -28,12 +28,25 @@ const description =
     </header>
 
     <figure id="demo" class="pna-video">
-      <video controls preload="metadata" poster="/persona-poster.jpg" playsinline>
+      <video id="persona-video" controls preload="none" poster="/persona-poster.jpg" playsinline data-src="/persona-demo.mp4">
         <source src="/persona-demo.mp4" type="video/mp4" />
         Your browser does not support embedded video. <a href="/persona-demo.mp4">Download the demo.</a>
       </video>
       <figcaption>Full demo &middot; a live run of "Neuro", a persona studying neurodegeneration.</figcaption>
     </figure>
+
+    <script is:inline>
+      /* Load the demo fully into memory (blob URL) so scrubbing and playback-speed work even when the
+         static host does not serve HTTP range requests. Falls back to the plain source if the fetch fails. */
+      (function () {
+        var v = document.getElementById("persona-video");
+        if (!v) return;
+        fetch(v.getAttribute("data-src"))
+          .then(function (r) { return r.ok ? r.blob() : Promise.reject(); })
+          .then(function (b) { v.src = URL.createObjectURL(b); })
+          .catch(function () { v.setAttribute("preload", "auto"); });
+      })();
+    </script>
 
     <section>
       <p class="pna-kicker">The problem</p>
@@ -160,7 +173,7 @@ pip install -r requirements.txt</pre>
   .pna .o{color:var(--o)}
   .pna p.pna-kicker,.pna .pna-kicker{font-family:var(--font-mono,ui-monospace,monospace);font-size:12px;letter-spacing:.16em;text-transform:uppercase;color:var(--o);margin:0 0 6px;max-width:none}
   .pna h1,.pna h2,.pna h3{font-family:var(--font-mono,ui-monospace,monospace);letter-spacing:-.01em;line-height:1.2}
-  .pna a{color:var(--o)}
+  .pna a:not(.pna-btn){color:var(--o)}
 
   .pna-hero{text-align:center;padding:56px 0 26px}
   .pna-hero h1{font-size:clamp(34px,6vw,64px);margin:0 0 14px}
