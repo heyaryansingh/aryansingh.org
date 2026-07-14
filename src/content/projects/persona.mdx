@@ -5,7 +5,8 @@ description: "A durable belief-graph 'self' paired with an ephemeral, read-only 
 category: "ai"
 status: "research"
 year: "2026"
-closedSource: true
+closedSource: false
+github: "https://github.com/heyaryansingh/persona"
 techStack: ["Python", "Multi-Agent Systems", "Europe PMC", "Open Targets", "Belief Graphs", "Conformal Prediction"]
 problem: "Reading biomedical literature at the scale a field actually publishes requires more throughput than any single researcher - human or AI - can sustain, but throwing an LLM at more papers just produces more confident, unverified claims."
 solution: "Split the system into a small, durable 'self' (a provenance-typed belief graph - interests, beliefs, memory, taste) and a large, disposable swarm of bounded read-only agents that report back. The self owns judgment; the swarm owns scale. A contradiction flagged in the belief graph triggers a loop: form a falsifiable hypothesis, locate a public dataset, run a first-pass reanalysis, and write the result back - escalating to a human only when the answer requires wet-lab work or genuine experimental judgment."
@@ -19,6 +20,14 @@ order: 2
 ---
 
 Persona is a synthetic biomedical researcher built for the Claude Science hackathon at Gladstone: a system meant to stay "on" between sessions, hold a point of view, and act - not just answer questions about papers.
+
+<figure style="margin:2rem 0">
+  <video controls preload="metadata" poster="/persona-poster.jpg" playsinline style="width:100%;display:block;border-radius:12px;background:#000;box-shadow:0 24px 60px -30px rgba(255,122,24,0.25)">
+    <source src="/persona-demo.mp4" type="video/mp4" />
+    Your browser does not support embedded video. <a href="/persona-demo.mp4">Download the demo.</a>
+  </video>
+  <figcaption style="font-size:0.85rem;opacity:0.6;text-align:center;margin-top:0.6rem">Full demo — a live run of "Neuro", a persona studying neurodegeneration. Reads at scale, believes with discipline, verifies, and compounds.</figcaption>
+</figure>
 
 ## self vs. swarm
 
